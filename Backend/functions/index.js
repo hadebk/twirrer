@@ -56,6 +56,8 @@ app.post('/addPost', (req, res) =>{
         userAvatar: req.body.userAvatar,
         postContent: req.body.postContent,
         postImage: req.body.postImage,
+        likeCount: req.body.likeCount,
+        commentCount: req.body.commentCount,
         createdAt: new Date().toISOString()
     }
 
