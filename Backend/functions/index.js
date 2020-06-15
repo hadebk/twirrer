@@ -9,6 +9,7 @@ exports.helloWorld = functions.region('europe-west3').https.onRequest((request, 
   response.send("Hello from Firebase!");
 });
 
+// get posts
 exports.get = functions.region('europe-west3').https.onRequest((req, res) =>{
     admin.firestore().collection('posts').get()
     .then(data =>{
@@ -19,5 +20,20 @@ exports.get = functions.region('europe-west3').https.onRequest((req, res) =>{
         return res.json(posts);
     })
     .catch( (e) => console.error(e));
-})
+});
 
+// add post 
+exports.add = functions.region('europe-west3').https.onRequest((req, res) =>{
+    const post = {
+        name: req.body.name
+    }
+
+    admin.firestore().collection('posts').add(post)
+    .then((doc)=>{
+        res.json({message: `post ${doc.id} added successfully!`})
+    })
+    .catch( (e) => {
+        res.status(500).json({error : 'something went wrong!'})
+        console.error(e)
+    });
+});
