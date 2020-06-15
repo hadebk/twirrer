@@ -1,16 +1,17 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-admin.initializeApp({
+admin.initializeApp();
+/*admin.initializeApp({
     credential: admin.credential.applicationDefault()
-});
+});*/
 
-exports.helloWorld = functions.region('europe-west3').https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
+// init express server
+const express = require('express');
+const app = express();
 
-// get posts
-exports.get = functions.region('europe-west3').https.onRequest((req, res) =>{
+// get all posts
+app.get('/getPosts', (req, res) =>{
     admin.firestore().collection('posts').get()
     .then(data =>{
         let posts=[];
@@ -20,10 +21,10 @@ exports.get = functions.region('europe-west3').https.onRequest((req, res) =>{
         return res.json(posts);
     })
     .catch( (e) => console.error(e));
-});
+})
 
-// add post 
-exports.add = functions.region('europe-west3').https.onRequest((req, res) =>{
+// add new post
+app.get('/addPost', (req, res) =>{
     const post = {
         name: req.body.name
     }
@@ -36,4 +37,7 @@ exports.add = functions.region('europe-west3').https.onRequest((req, res) =>{
         res.status(500).json({error : 'something went wrong!'})
         console.error(e)
     });
-});
+})
+
+// to tell firebase that app is the container of all routes
+exports.api = functions.https.onRequest(app);
