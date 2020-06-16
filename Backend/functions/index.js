@@ -3,6 +3,8 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
+const db = admin.firestore();
+
 // init express server
 const express = require('express');
 const app = express();
@@ -23,8 +25,6 @@ const firebaseConfig = {
 const firebase = require('firebase');
 firebase.initializeApp(firebaseConfig);
 
-const db = admin.firestore();
-
 // get all posts
 app.get('/getPosts', (req, res) => {
     db.collection('posts').orderBy('createdAt', 'desc').get()
@@ -38,8 +38,6 @@ app.get('/getPosts', (req, res) => {
                     postId: doc.id,
                     postContent: doc.data().postContent,
                     postImage: doc.data().postImage,
-                    likeCount: doc.data().likeCount,
-                    commentCount: doc.data().commentCount,
                     createdAt: doc.data().createdAt
                 });
             });
@@ -54,27 +52,55 @@ app.get('/getPosts', (req, res) => {
  */
 const FirebaseAuth = (req, res, next) => {
     let idToken;
-    if(req.headers.authorization && req.headers.authorization.startWith('Bearer ')){
-        // user has token => pass
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer ')
+    ) {
         idToken = req.headers.authorization.split('Bearer ')[1];
-    }else{
-        console.log('No token found');
-        res.status(403).json({  error : 'Unauthorized user!'})
+    } else {
+        console.error('No token found');
+        return res.status(403).json({
+            error: 'Unauthorized'
+        });
     }
+
+    admin
+        .auth()
+        .verifyIdToken(idToken)
+        .then((decodedToken) => {
+            req.user = decodedToken;
+            return db
+                .collection('users')
+                .where('userId', '==', req.user.uid)
+                .limit(1)
+                .get();
+        })
+        .then((data) => {
+            req.user.userName = data.docs[0].data().userName;
+            return next();
+        })
+        .catch((err) => {
+            console.error('Error while verifying token ', err);
+            return res.status(403).json(err);
+        });
 }
 
 // add new post
 // Hint: based on the retrieved value of 'FirebaseAuth', if user not authorized all this route will not work.
 app.post('/addPost', FirebaseAuth, (req, res) => {
+
+    // if you get here, that is means, that you are authorized user.
+
     const post = {
-        userId: req.body.userId,
-        userName: req.body.userName,
+        // added automatically
+        userId: req.user.uid,
+        userName: req.user.userName,
+        createdAt: new Date().toISOString(),
+
+        // received from user   
         userAvatar: req.body.userAvatar,
         postContent: req.body.postContent,
-        postImage: req.body.postImage,
-        likeCount: req.body.likeCount,
-        commentCount: req.body.commentCount,
-        createdAt: new Date().toISOString()
+        postImage: req.body.postImage
     }
 
     db.collection('posts').add(post)
@@ -112,8 +138,6 @@ app.post('/signup', (req, res) => {
         password: req.body.password,
         confirmPassword: req.body.confirmPassword
     }
-
-    //TODO: validate inputs
 
     let errors = {}
 
