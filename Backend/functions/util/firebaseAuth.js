@@ -35,7 +35,9 @@ module.exports = (req, res, next) => {
                 .get();
         })
         .then((data) => {
+            // this data will be accessible across whole project, in each time sending request to server
             req.user.userName = data.docs[0].data().userName;
+            req.user.profilePicture = data.docs[0].data().profilePicture;
             return next();
         })
         .catch((err) => {

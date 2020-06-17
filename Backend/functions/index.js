@@ -7,7 +7,9 @@ const app = express();
 // import operations of the routes
 const {
     getAllPosts,
-    addNewPost
+    addNewPost,
+    getOnePost,
+    commentOnPost
 } = require('./handlers/posts');
 const {
     signup,
@@ -27,7 +29,15 @@ const firebaseAuth = require('./util/firebaseAuth');
  */
 // posts routes
 app.get('/getAllPosts', getAllPosts)
+app.get('/post/:postId', getOnePost);
+app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+// TODO: Delete Post
+// TODO: Like a Post
+// TODO: Unlike a Post
+// DONE: Comment on Post
+// TODO: Add Friend
+// TODO: Upload Cover Image
 
 // user routes
 app.post('/signup', signup)

@@ -3,7 +3,7 @@ let db = {
       {
         userId: 'dh23ggj5h32g543j5gf43',
         email: 'user@email.com',
-        handle: 'user',
+        userName: 'user',
         createdAt: '2019-03-15T10:59:52.798Z',
         profilePicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
         coverPicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
@@ -12,7 +12,7 @@ let db = {
         location: 'Berlin, DE'
       }
     ],
-    screams: [
+    posts: [
       {
         userId: "user",
         /*postId: "H2oIs5GtVPVbqYI1YTQC",*/
@@ -25,9 +25,9 @@ let db = {
     ],
     comments: [
       {
-        userHandle: 'user',
-        screamId: 'kdjsfgdksuufhgkdsufky',
-        body: 'nice one mate!',
+        userName: 'user',
+        postId: 'kdjsfgdksuufhgkdsufky',
+        commentContent: 'nice one mate!',
         createdAt: '2019-03-15T10:59:52.798Z'
       }
     ],
@@ -48,7 +48,7 @@ let db = {
     credentials: {
       userId: 'dh23ggj5h32g543j5gf43',
       email: 'user@email.com',
-      handle: 'user',
+      userName: 'user',
       createdAt: '2019-03-15T10:59:52.798Z',
       profilePicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
       coverPicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
@@ -59,11 +59,11 @@ let db = {
     // retrieve likes that this user have made, to colored the heart of posts were liked by this user 
     likes: [
       {
-        userHandle: 'user',
+        userName: 'user',
         screamId: 'hh7O5oWfWucVzGbHH2pa'
       },
       {
-        userHandle: 'user',
+        userName: 'user',
         screamId: '3IOnFoQexRcofs5OhBXO'
       }
     ]
