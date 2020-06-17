@@ -13,7 +13,8 @@ const {
     signup,
     login,
     uploadImage,
-    addUserDetails
+    addUserDetails,
+    getAuthenticatedUser
 } = require('./handlers/users');
 
 // import middleware authentication
@@ -25,14 +26,15 @@ const firebaseAuth = require('./util/firebaseAuth');
  * ****************************************************************
  */
 // posts routes
-app.get('/getPosts', getAllPosts)
-app.post('/addPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/getAllPosts', getAllPosts)
+app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 
 // user routes
 app.post('/signup', signup)
 app.post('/login', login)
-app.post('/user/image', firebaseAuth, uploadImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/user', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/user/uploadProfileImage', firebaseAuth, uploadImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 
 /**
  * ****************************************************************

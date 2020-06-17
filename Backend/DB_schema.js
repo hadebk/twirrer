@@ -6,6 +6,7 @@ let db = {
         handle: 'user',
         createdAt: '2019-03-15T10:59:52.798Z',
         profilePicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
+        coverPicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
         bio: 'Hello, my name is user, nice to meet you',
         website: 'https://user.com',
         location: 'Berlin, DE'
@@ -13,12 +14,14 @@ let db = {
     ],
     screams: [
       {
-        userHandle: 'user',
-        body: 'This is a sample scream',
-        createdAt: '2019-03-15T10:59:52.798Z',
+        userId: "user",
+        /*postId: "H2oIs5GtVPVbqYI1YTQC",*/
+        postContent: "Hi friends!",
+        postImage: "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media",
+        createdAt: "2020-06-16T20:46:50.192Z",
         likeCount: 5,
         commentCount: 3
-      }
+    }
     ],
     comments: [
       {
@@ -39,18 +42,21 @@ let db = {
       }
     ]
   };
+  // this data will retrieved for each user, will be globally
   const userDetails = {
-    // Redux data
+    // context api data
     credentials: {
-      userId: 'N43KJ5H43KJHREW4J5H3JWMERHB',
+      userId: 'dh23ggj5h32g543j5gf43',
       email: 'user@email.com',
       handle: 'user',
       createdAt: '2019-03-15T10:59:52.798Z',
-      imageUrl: 'image/dsfsdkfghskdfgs/dgfdhfgdh',
+      profilePicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
+      coverPicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
       bio: 'Hello, my name is user, nice to meet you',
       website: 'https://user.com',
-      location: 'Lonodn, UK'
+      location: 'Berlin, DE'
     },
+    // retrieve likes that this user have made, to colored the heart of posts were liked by this user 
     likes: [
       {
         userHandle: 'user',

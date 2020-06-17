@@ -14,6 +14,7 @@ const {
     validateLoginData,
     reduceUserDetails
 } = require('../util/validators');
+const { user } = require('firebase-functions/lib/providers/auth');
 
 /**
  * ****************************************************************
@@ -234,4 +235,56 @@ exports.addUserDetails = (req, res) => {
             console.log(error);
             res.status(500).json({ error: error.code})
         })
+}
+
+/**
+ * ****************************************************************
+ * get data of current authenticated user (name, bio, pp, ets..)
+ * ****************************************************************
+ */
+exports.getAuthenticatedUser = (req, res) => {
+    let userData = {};
+  db.doc(`/users/${req.user.userName}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData.credentials = doc.data();
+        return db
+          .collection("likes")
+          .where("userName", "==", req.user.userName)
+          .get();
+      }
+    })
+    .then((data) => {
+      userData.likes = [];
+      data.forEach((doc) => {
+        userData.likes.push(doc.data());
+      });
+      return res.json(userData);
+      /*return db
+        .collection("notifications")
+        .where("recipient", "==", req.user.handle)
+        .orderBy("createdAt", "desc")
+        .limit(10)
+        .get();*/
+    })
+    /*.then((data) => {
+      userData.notifications = [];
+      data.forEach((doc) => {
+        userData.notifications.push({
+          recipient: doc.data().recipient,
+          sender: doc.data().sender,
+          createdAt: doc.data().createdAt,
+          screamId: doc.data().screamId,
+          type: doc.data().type,
+          read: doc.data().read,
+          notificationId: doc.id,
+        });
+      });
+      return res.json(userData);
+    })*/
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
 }
