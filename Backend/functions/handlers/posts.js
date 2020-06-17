@@ -13,7 +13,6 @@ exports.getAllPosts = (req, res) => {
                 posts.push({
                     userId: doc.data().userId,
                     userName: doc.data().userName,
-                    userAvatar: doc.data().userAvatar,
                     postId: doc.id,
                     postContent: doc.data().postContent,
                     postImage: doc.data().postImage,
@@ -40,8 +39,7 @@ exports.addNewPost = (req, res) => {
         userName: req.user.userName,
         createdAt: new Date().toISOString(),
 
-        // received from user   
-        userAvatar: req.body.userAvatar,
+        // received from user 
         postContent: req.body.postContent,
         postImage: req.body.postImage
     }

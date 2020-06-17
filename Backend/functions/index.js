@@ -11,7 +11,8 @@ const {
 } = require('./handlers/posts');
 const {
     signup,
-    login
+    login,
+    uploadImage
 } = require('./handlers/users');
 
 // import middleware authentication
@@ -29,6 +30,7 @@ app.post('/addPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if 
 // user routes
 app.post('/signup', signup)
 app.post('/login', login)
+app.post('/user/image', firebaseAuth, uploadImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 
 /**
  * ****************************************************************
