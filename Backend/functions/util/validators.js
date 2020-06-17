@@ -56,3 +56,25 @@ exports.validateLoginData = (data) => {
         valid: Object.keys(errors).length === 0 ? true : false
     }
 }
+
+/**
+ * ****************************************************************
+ * user extra data validation
+ * ****************************************************************
+ */
+exports.reduceUserDetails = (data) => {
+    let userDetails = {} ;
+
+    if(!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
+
+    if(!isEmpty(data.website.trim())){
+        // ex: https://website.com - it's better to convert it to http, because if the host has no ssl, the app will crash
+        if(data.website.trim().substring(0,4) !== 'http'){
+            userDetails.website = `http://${data.website.trim()}`;
+        } else userDetails.website = data.website
+    }
+
+    if(!isEmpty(data.location.trim())) userDetails.location = data.location;
+
+    return userDetails;
+}

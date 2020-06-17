@@ -11,7 +11,8 @@ firebase.initializeApp(config)
 // import validators
 const {
     validateSignupData,
-    validateLoginData
+    validateLoginData,
+    reduceUserDetails
 } = require('../util/validators');
 
 /**
@@ -132,11 +133,9 @@ exports.login = (req, res) => {
 
 /**
  * ****************************************************************
- * upload user profile picture function
+ * upload user profile picture
  * ****************************************************************
  */
-
-// Upload a profile image for user
 exports.uploadImage = (req, res) => {
     const BusBoy = require("busboy");
     const path = require("path");
@@ -216,3 +215,23 @@ exports.uploadImage = (req, res) => {
     });
     busboy.end(req.rawBody);
 };
+
+/**
+ * ****************************************************************
+ * add extra data to user record in db, (bio ,location, website)
+ * ****************************************************************
+ */
+exports.addUserDetails = (req, res) => {
+    // data validation
+    let userDetails =  reduceUserDetails(req.body);
+
+    // db query to add this extra data to that user's record in db
+    db.doc(`/users/${req.user.userName}`).update(userDetails)
+        .then(() => {
+            return res.json({ message: 'Extra user details added successfully'})
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ error: error.code})
+        })
+}

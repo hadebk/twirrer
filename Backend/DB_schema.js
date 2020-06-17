@@ -5,10 +5,10 @@ let db = {
         email: 'user@email.com',
         handle: 'user',
         createdAt: '2019-03-15T10:59:52.798Z',
-        imageUrl: 'image/dsfsdkfghskdfgs/dgfdhfgdh',
+        profilePicture: 'https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/750854615984.png?alt=media',
         bio: 'Hello, my name is user, nice to meet you',
         website: 'https://user.com',
-        location: 'Lonodn, UK'
+        location: 'Berlin, DE'
       }
     ],
     screams: [
