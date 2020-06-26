@@ -122,6 +122,8 @@ exports.deletePost = (req, res) => {
             }
         })
         .then(() => {
+            // will be fixed forward using trigger in index.js ..
+
             // delete likes and comments of this post if exist 
 
             // delete likes of this post

@@ -200,6 +200,7 @@ exports.uploadProfileImage = (req, res) => {
                 /**
                  *  TODO: delete the old profile image from firebase storage.
                  *  NOTE: but check if this old image it is default image, then do not delete it.
+                 *  will be fixed forward using trigger in index.js ..
                  * */            
             })
             .then(() => {
