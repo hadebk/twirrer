@@ -1,4 +1,6 @@
-const { db } = require('../util/admin')
+const {
+    db
+} = require('../util/admin')
 
 /**
  * **********************************************************
@@ -26,40 +28,6 @@ exports.getAllPosts = (req, res) => {
 
 /**
  * ****************************************************************
- * add new post
- * ****************************************************************
- */
-exports.addNewPost = (req, res) => {
-
-    // if you get here, that is means, that you are authorized user.
-
-    const post = {
-        // added automatically
-        userId: req.user.uid,
-        userName: req.user.userName,
-        createdAt: new Date().toISOString(),
-
-        // received from user 
-        postContent: req.body.postContent,
-        postImage: req.body.postImage
-    }
-
-    db.collection('posts').add(post)
-        .then((doc) => {
-            res.json({
-                message: `post ${doc.id} added successfully!`
-            })
-        })
-        .catch((e) => {
-            res.status(500).json({
-                error: 'something went wrong!'
-            })
-            console.error(e)
-        });
-}
-
-/**
- * ****************************************************************
  * get one post by postId
  * ****************************************************************
  */
@@ -67,8 +35,10 @@ exports.getOnePost = (req, res) => {
     let postData = {};
     db.doc(`/posts/${req.params.postId}`).get()
         .then((doc) => {
-            if(!doc.exists){
-                return res.status(404).json({ error: 'Post not found'})
+            if (!doc.exists) {
+                return res.status(404).json({
+                    error: 'Post not found'
+                })
             }
             postData = doc.data();
             postData.postId = doc.id;
@@ -83,8 +53,120 @@ exports.getOnePost = (req, res) => {
         })
         .catch((error) => {
             console.log(error);
-            return res.status(500).json({ error: error.code})
+            return res.status(500).json({
+                error: error.code
+            })
         })
+}
+
+/**
+ * ****************************************************************
+ * add new post
+ * ****************************************************************
+ */
+exports.addNewPost = (req, res) => {
+
+    // if you get here, that is means, that you are authorized user.
+
+    const post = {
+        // added automatically
+        userId: req.user.uid,
+        userName: req.user.userName,
+        profilePicture: req.user.profilePicture,
+        createdAt: new Date().toISOString(),
+        likeCount: 0,
+        commentCount: 0,
+
+        // received from user 
+        postContent: req.body.postContent,
+        postImage: req.body.postImage
+    }
+
+    db.collection('posts').add(post)
+        .then((doc) => {
+            let postedPost = post;
+            postedPost.postId = doc.id
+            res.json(postedPost)
+        })
+        .catch((e) => {
+            res.status(500).json({
+                error: 'something went wrong!'
+            })
+            console.error(e)
+        });
+}
+
+/**
+ * ****************************************************************
+ * delete a post
+ * ****************************************************************
+ */
+exports.deletePost = (req, res) => {
+    const document = db.doc(`/posts/${req.params.postId}`);
+    document
+        .get()
+        .then((doc) => {
+            if (!doc.exists) {
+                return res.status(404).json({
+                    error: 'Post not found'
+                });
+            }
+            if (doc.data().userName !== req.user.userName) {
+                // that is not your own post and you can't delete it!
+                return res.status(403).json({
+                    error: 'Unauthorized'
+                });
+            } else {
+                // that is your post and you can delete it.
+                return document.delete();
+            }
+        })
+        .then(() => {
+            // delete likes and comments of this post if exist 
+
+            // delete likes of this post
+            db.collection('likes')
+            .where('postId', '==', req.params.postId).get()
+                .then(function (querySnapshot) {
+                    // Once we get the results, begin a batch
+                    var batch = db.batch();
+
+                    querySnapshot.forEach(function (doc) {
+                        // For each doc, add a delete operation to the batch
+                        batch.delete(doc.ref);
+                    });
+
+                    // Commit the batch
+                    return batch.commit();
+                });
+
+            // delete comments of this post
+            db.collection('comments')
+            .where('postId', '==', req.params.postId).get()
+                .then(function (querySnapshot) {
+                    // Once we get the results, begin a batch
+                    var batch = db.batch();
+
+                    querySnapshot.forEach(function (doc) {
+                        // For each doc, add a delete operation to the batch
+                        batch.delete(doc.ref);
+                    });
+
+                    // Commit the batch
+                    return batch.commit();
+                });
+        })
+        .then(() => {
+            res.json({
+                message: 'Post deleted successfully'
+            });
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({
+                error: err.code
+            });
+        });
 }
 
 /**
@@ -94,27 +176,184 @@ exports.getOnePost = (req, res) => {
  */
 exports.commentOnPost = (req, res) => {
     // comment input validation
-    if(req.body.commentContent.trim() === '') return res.status(400).json({ error: 'Comment must not be empty'});
+    if (req.body.commentContent.trim() === '') return res.status(400).json({
+        error: 'Comment must not be empty'
+    });
 
     const newComment = {
+        // added automatically
         userName: req.user.userName,
-        postId: req.params.postId,
         profilePicture: req.user.profilePicture,
-        commentContent: req.body.commentContent,
         createdAt: new Date().toISOString(),
+        postId: req.params.postId,
+
+        // received from user
+        commentContent: req.body.commentContent,
     }
 
     // First, check if this post already exist or not
     db.doc(`/posts/${req.params.postId}`).get()
-        .then( (doc) => {
-            if(!doc.exists) return res.status(404).json({ error: 'Post not found'});
+        .then((doc) => {
+            if (!doc.exists) return res.status(404).json({
+                error: 'Post not found'
+            });
+            return doc.ref.update({
+                commentCount: doc.data().commentCount + 1
+            })
+        })
+        .then(() => {
             return db.collection('comments').add(newComment);
         })
-        .then( () => {
+        .then(() => {
             res.json(newComment);
-        }) 
-        .catch( (error) => {
-            console.log(error);
-            return res.status(500).json({error : 'Something went wrong!'})
         })
+        .catch((error) => {
+            console.log(error);
+            return res.status(500).json({
+                error: 'Something went wrong!'
+            })
+        })
+}
+
+/**
+ * ****************************************************************
+ * Like a post, just for authorized user.
+ *                       // logic //
+ * - check if this post, that will be liked exist or not.
+ * - then check if this user liked this post before or not.
+ * - if not liked before, the like will be added to likes collection,
+ *   and increment likeCount in this post. 
+ * ****************************************************************
+ */
+exports.likePost = (req, res) => {
+    // first, get like of this user on this post
+    const likeDocument = db
+        .collection('likes')
+        .where('userName', '==', req.user.userName)
+        .where('postId', '==', req.params.postId)
+        .limit(1);
+
+    // second, get the post, that this user want to like
+    const postDocument = db.doc(`/posts/${req.params.postId}`);
+
+    let postData;
+
+    postDocument
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                // the post that user want to like is exist, coll! go ahead 
+                // get this post
+                postData = doc.data();
+                postData.postId = doc.id;
+                return likeDocument.get();
+            } else {
+                return res.status(404).json({
+                    error: 'Post not found'
+                });
+            }
+        })
+        .then((data) => {
+            if (data.empty) {
+                // the post is exist, and the user have not liked it before
+                return db
+                    .collection('likes')
+                    .add({
+                        // add this like to likes collection in db
+                        postId: req.params.postId,
+                        userName: req.user.userName,
+                        profilePicture: req.user.profilePicture
+                    })
+                    .then(() => {
+                        // increment like count in this post record in db
+                        postData.likeCount++;
+                        return postDocument.update({
+                            likeCount: postData.likeCount
+                        });
+                    })
+                    .then(() => {
+                        return res.json(postData);
+                    });
+            } else {
+                return res.status(400).json({
+                    error: 'post already liked'
+                });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({
+                error: err.code
+            });
+        });
+}
+
+/**
+ * ****************************************************************
+ * Unlike a post, just for authorized user 
+ *                       // logic //
+ * - check if this post, that will be liked exist or not.
+ * - then check if this user liked this post before or not.
+ * - if was liked before, the like will be deleted from likes collection,
+ *   and decrement likeCount in this post.
+ * ****************************************************************
+ */
+exports.unlikePost = (req, res) => {
+    // first, get like of this user on this post
+    const likeDocument = db
+        .collection('likes')
+        .where('userName', '==', req.user.userName)
+        .where('postId', '==', req.params.postId)
+        .limit(1);
+
+    // second, get the post, that this user want to like
+    const postDocument = db.doc(`/posts/${req.params.postId}`);
+
+    let postData;
+
+    postDocument
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                // the post that user want to unlike is exist, coll! go ahead 
+                // get this post
+                postData = doc.data();
+                postData.postId = doc.id;
+                return likeDocument.get();
+            } else {
+                return res.status(404).json({
+                    error: 'Post not found'
+                });
+            }
+        })
+        .then((data) => {
+            if (data.empty) {
+                // the post is exist, and the user have not liked it before
+                return res.status(400).json({
+                    error: 'post not liked'
+                });
+
+            } else {
+                // the post is exist, and the user have liked it before
+                return db
+                    .doc(`/likes/${data.docs[0].id}`)
+                    .delete() // delete this like from likes collection in db
+                    .then(() => {
+                        // decrement like count in this post record in db
+                        postData.likeCount--;
+                        return postDocument.update({
+                            likeCount: postData.likeCount
+                        });
+                    })
+                    .then(() => {
+                        return res.json(postData);
+                    });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({
+                error: err.code
+            });
+        });
 }

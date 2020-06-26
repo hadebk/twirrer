@@ -8,13 +8,16 @@ const app = express();
 const {
     getAllPosts,
     addNewPost,
+    deletePost,
     getOnePost,
-    commentOnPost
+    commentOnPost,
+    likePost,
+    unlikePost
 } = require('./handlers/posts');
 const {
     signup,
     login,
-    uploadImage,
+    uploadProfileImage,
     addUserDetails,
     getAuthenticatedUser
 } = require('./handlers/users');
@@ -29,20 +32,20 @@ const firebaseAuth = require('./util/firebaseAuth');
  */
 // posts routes
 app.get('/getAllPosts', getAllPosts)
-app.get('/post/:postId', getOnePost);
-app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/post/:postId/get', getOnePost);
 app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-// TODO: Delete Post
-// TODO: Like a Post
-// TODO: Unlike a Post
-// DONE: Comment on Post
+app.delete('/post/:postId/delete', firebaseAuth, deletePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/post/:postId/like', firebaseAuth, likePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/post/:postId/unlike', firebaseAuth, unlikePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+
 // TODO: Add Friend
 // TODO: Upload Cover Image
 
 // user routes
 app.post('/signup', signup)
 app.post('/login', login)
-app.post('/user/uploadProfileImage', firebaseAuth, uploadImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 

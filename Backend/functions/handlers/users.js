@@ -137,7 +137,7 @@ exports.login = (req, res) => {
  * upload user profile picture
  * ****************************************************************
  */
-exports.uploadImage = (req, res) => {
+exports.uploadProfileImage = (req, res) => {
     const BusBoy = require("busboy");
     const path = require("path");
     const os = require("os");
@@ -199,7 +199,7 @@ exports.uploadImage = (req, res) => {
             .then(() => {
                 /**
                  *  TODO: delete the old profile image from firebase storage.
-                 *  NOTE: but check if this old image it is default image do not delete it.
+                 *  NOTE: but check if this old image it is default image, then do not delete it.
                  * */            
             })
             .then(() => {
