@@ -46,7 +46,6 @@ app.delete('/post/:postId/delete', firebaseAuth, deletePost) // cause 'FirebaseA
 app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/post/:postId/like', firebaseAuth, likePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/post/:postId/unlike', firebaseAuth, unlikePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-// TODO: Add Friend
 
 // user routes
 app.post('/signup', signup)
@@ -58,6 +57,12 @@ app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'Firebas
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName', getUserDetails)
 app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+// TODO: Add Friend
+
+
+
+
+
 /**
  * ****************************************************************
  * to tell firebase that app is the container of all routes
@@ -65,29 +70,31 @@ app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'Fire
  */
 exports.api = functions.region('europe-west3').https.onRequest(app);
 
+
+
+
+
 /***********************************************************************************************************************
-/***********************************************************************************************************************
+ ***********************************************************************************************************************
  *                                          // Notifications //
+ * 
  * To implement the notifications part, i use 'Firebase Database Triggers',
  * when any change occur to any collection some event will fire.
  * ex: when add like/comment to any post => notification collection will be updates automatically 'event will be fire!' 
- ***********************************************************************************************************************
- ***********************************************************************************************************************/
-
-// 1- create notification when someone like any post
-/**
  * snapshot: have data of sender
  * doc: have data of receiver's post
- * 
-   snapshot.data() = 
-        {
-            "userName": "user",
-            "profilePicture": "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/431236775041.png?alt=media",
-            "createdAt": "2020-06-27T10:34:07.671Z",
-            "postId": "ZVB7IMT19I58z5LFcfEr",
-            "commentContent": "hello!"
-        }
- */
+ * snapshot.data() = 
+    {
+        "userName": "user",
+        "profilePicture": "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/431236775041.png?alt=media",
+        "createdAt": "2020-06-27T10:34:07.671Z",
+        "postId": "ZVB7IMT19I58z5LFcfEr",
+        "commentContent": "hello!"
+    }
+***********************************************************************************************************************
+***********************************************************************************************************************/
+
+// 1- create notification when someone like any post
 exports.createNotificationOnLike = functions
     .region('europe-west3')
     .firestore.document('likes/{id}')
@@ -226,7 +233,7 @@ exports.onUserImageChange = functions
     });
 
 // 5- when delete a post delete all likes, comments and notifications on this post
-//TODO: delete image of this post from storage
+//TODO: delete image of this post from storage (by image url)
 exports.onPostDelete = functions
     .region('europe-west3')
     .firestore.document('/posts/{postId}')
