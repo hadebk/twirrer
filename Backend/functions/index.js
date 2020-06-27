@@ -23,7 +23,9 @@ const {
     login,
     uploadProfileImage,
     addUserDetails,
-    getAuthenticatedUser
+    getAuthenticatedUser,
+    getUserDetails,
+    markNotificationsAsRead
 } = require('./handlers/users');
 
 // import middleware authentication
@@ -52,7 +54,8 @@ app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage) // cause 
 // TODO: Upload Cover Image
 app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-
+app.get('/user/:userName', getUserDetails)
+app.post('/notifications', firebaseAuth, markNotificationsAsRead)// cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 /**
  * ****************************************************************
  * to tell firebase that app is the container of all routes
@@ -73,6 +76,15 @@ exports.api = functions.region('europe-west3').https.onRequest(app);
 /**
  * snapshot: have data of sender
  * doc: have data of receiver's post
+ * 
+   snapshot.data() = 
+        {
+            "userName": "user",
+            "profilePicture": "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/431236775041.png?alt=media",
+            "createdAt": "2020-06-27T10:34:07.671Z",
+            "postId": "ZVB7IMT19I58z5LFcfEr",
+            "commentContent": "hello!"
+        }
  */
 exports.createNotificationOnLike = functions
     .region('europe-west3')
@@ -135,7 +147,7 @@ exports.createNotificationOnComment = functions
                         senderProfilePicture: snapshot.data().profilePicture,
                         type: 'comment',
                         read: false,
-                        screamId: doc.id
+                        postId: doc.id
                     });
                 }
             })

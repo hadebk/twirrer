@@ -261,31 +261,97 @@ exports.getAuthenticatedUser = (req, res) => {
       data.forEach((doc) => {
         userData.likes.push(doc.data());
       });
-      return res.json(userData);
-      /*return db
+      //return res.json(userData);
+      return db
         .collection("notifications")
-        .where("recipient", "==", req.user.handle)
+        .where("recipient", "==", req.user.userName)
         .orderBy("createdAt", "desc")
         .limit(10)
-        .get();*/
+        .get();
     })
-    /*.then((data) => {
+    .then((data) => {
       userData.notifications = [];
       data.forEach((doc) => {
         userData.notifications.push({
           recipient: doc.data().recipient,
           sender: doc.data().sender,
+          senderProfilePicture: doc.data().senderProfilePicture,
           createdAt: doc.data().createdAt,
-          screamId: doc.data().screamId,
+          postId: doc.data().postId,
           type: doc.data().type,
           read: doc.data().read,
           notificationId: doc.id,
         });
       });
       return res.json(userData);
-    })*/
+    })
     .catch((err) => {
       console.error(err);
       return res.status(500).json({ error: err.code });
     });
 }
+
+/**
+ * ****************************************************************
+ * get any user details (name, bio, pp, ets.. + posts of this user)
+ * ****************************************************************
+ */
+exports.getUserDetails = (req, res) => {
+    let userData = {};
+    db.doc(`/users/${req.params.userName}`)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          userData.user = doc.data();
+          return db
+            .collection("posts")
+            .where("userName", "==", req.params.userName)
+            .orderBy("createdAt", "desc")
+            .get();
+        } else {
+          return res.status(404).json({ error: "User not found" });
+        }
+      })
+      .then((data) => {
+        userData.posts = [];
+        data.forEach((doc) => {
+          userData.posts.push({
+            postContent: doc.data().postContent,
+            postImage: doc.data().postImage,
+            createdAt: doc.data().createdAt,
+            userName: doc.data().userName,
+            profilePicture: doc.data().profilePicture,
+            likeCount: doc.data().likeCount,
+            commentCount: doc.data().commentCount,
+            postId: doc.id,
+          });
+        });
+        return res.json(userData);
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+}
+
+/**
+ * *******************************************************************
+ * when click on notifications icon => mark the notifications as read
+ * *******************************************************************
+ */
+exports.markNotificationsAsRead = (req, res) => {
+    let batch = db.batch();
+    req.body.forEach((notificationId) => {
+      const notification = db.doc(`/notifications/${notificationId}`);
+      batch.update(notification, { read: true });
+    });
+    batch
+      .commit()
+      .then(() => {
+        return res.json({ message: "Notifications marked read" });
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ error: err.code });
+      });
+  };
