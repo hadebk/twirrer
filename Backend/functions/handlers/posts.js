@@ -15,6 +15,7 @@ exports.getAllPosts = (req, res) => {
                 posts.push({
                     userId: doc.data().userId,
                     userName: doc.data().userName,
+                    profilePicture: doc.data().profilePicture,
                     postId: doc.id,
                     postContent: doc.data().postContent,
                     postImage: doc.data().postImage,
@@ -120,43 +121,6 @@ exports.deletePost = (req, res) => {
                 // that is your post and you can delete it.
                 return document.delete();
             }
-        })
-        .then(() => {
-            // will be fixed forward using trigger in index.js ..
-
-            // delete likes and comments of this post if exist 
-
-            // delete likes of this post
-            db.collection('likes')
-            .where('postId', '==', req.params.postId).get()
-                .then(function (querySnapshot) {
-                    // Once we get the results, begin a batch
-                    var batch = db.batch();
-
-                    querySnapshot.forEach(function (doc) {
-                        // For each doc, add a delete operation to the batch
-                        batch.delete(doc.ref);
-                    });
-
-                    // Commit the batch
-                    return batch.commit();
-                });
-
-            // delete comments of this post
-            db.collection('comments')
-            .where('postId', '==', req.params.postId).get()
-                .then(function (querySnapshot) {
-                    // Once we get the results, begin a batch
-                    var batch = db.batch();
-
-                    querySnapshot.forEach(function (doc) {
-                        // For each doc, add a delete operation to the batch
-                        batch.delete(doc.ref);
-                    });
-
-                    // Commit the batch
-                    return batch.commit();
-                });
         })
         .then(() => {
             res.json({

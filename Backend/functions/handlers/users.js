@@ -25,6 +25,7 @@ exports.signup = (req, res) => {
     let userIdToken, userId;
 
     let defaultProfilePicture = 'default_pp.png';
+    let defaultCoverPicture = 'default_cp.png';
 
     const newUser = {
         userName: req.body.userName,
@@ -65,6 +66,7 @@ exports.signup = (req, res) => {
                 email: newUser.email,
                 createdAt: new Date().toISOString(),
                 profilePicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultProfilePicture}?alt=media`,
+                coverPicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultCoverPicture}?alt=media`,
                 userId
             }
             // create new record to this new user in database in users table
@@ -83,9 +85,7 @@ exports.signup = (req, res) => {
                     email: 'Email is already in use'
                 })
             } else {
-                return res.status(500).json({
-                    error: error.code
-                })
+                return res.status(500).json({ general: 'Something went wrong, please try again'})
             }
         })
 }
@@ -121,16 +121,12 @@ exports.login = (req, res) => {
         })
         .catch(error => {
             console.log(error);
-            if (error.code === "auth/wrong-password") {
-                // code 403 => unauthorized user
-                return res.status(403).json({
-                    "general": "Wrong credentials, please try again."
-                })
-            } else return res.status(500).json({
-                error: error.code
-            })
-        })
-}
+            // code 403 => unauthorized user
+            // auth/wrong-password
+            // auth/user-not-found
+            return res.status(403).json({"general": "Wrong credentials, please try again."})
+        });
+};
 
 /**
  * ****************************************************************
@@ -205,7 +201,93 @@ exports.uploadProfileImage = (req, res) => {
             })
             .then(() => {
                 return res.json({
-                    message: "image uploaded successfully"
+                    message: "Profile picture uploaded successfully"
+                });
+            })
+            .catch((err) => {
+                console.error(err);
+                return res.status(500).json({
+                    error: "something went wrong"
+                });
+            });
+    });
+    busboy.end(req.rawBody);
+};
+
+/**
+ * ****************************************************************
+ * upload user cover picture
+ * ****************************************************************
+ */
+exports.uploadCoverImage = (req, res) => {
+    const BusBoy = require("busboy");
+    const path = require("path");
+    const os = require("os");
+    const fs = require("fs");
+
+    const busboy = new BusBoy({
+        headers: req.headers
+    });
+
+    let imageToBeUploaded = {};
+    let imageFileName;
+    // String for image token
+    //let generatedToken = uuid();
+
+    busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+        console.log(fieldname, file, filename, encoding, mimetype);
+        // handle upload file type, must by image format only!
+        if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
+            // wrong file format!
+          return res.status(400).json({ error: "Wrong file type submitted" });
+        }
+        // ex: my.image.png => ['my', 'image', 'png'] => imageExtension = 'png'
+        const imageExtension = filename.split(".")[filename.split(".").length - 1];
+        // ex: imageFileName = 51546132131561.png
+        imageFileName = `${Math.round(
+        Math.random() * 1000000000000
+      ).toString()}.${imageExtension}`;
+        // get file path
+        const filepath = path.join(os.tmpdir(), imageFileName);
+        imageToBeUploaded = {
+            filepath,
+            mimetype
+        };
+        file.pipe(fs.createWriteStream(filepath));
+    });
+    busboy.on("finish", () => {
+        // here will upload the file
+        admin
+            .storage()
+            .bucket()
+            .upload(imageToBeUploaded.filepath, {
+                resumable: false,
+                metadata: {
+                    metadata: {
+                        contentType: imageToBeUploaded.mimetype,
+                        //Generate token to be appended to imageUrl
+                        //firebaseStorageDownloadTokens: generatedToken,
+                    },
+                },
+            })
+            .then(() => {
+                // Append token to url
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
+                // override default profile picture with uploaded picture 'uploaded by user'
+                return db.doc(`/users/${req.user.userName}`).update({
+                    coverPicture: imageUrl
+                });
+            })
+            .then(() => {
+                /**
+                 *  TODO: delete the old cover image from firebase storage.
+                 *  NOTE: but check if this old image it is default image, then do not delete it.
+                 *  will be fixed forward using trigger in index.js ..
+                 * */            
+            })
+            .then(() => {
+                return res.json({
+                    message: "Cover picture uploaded successfully"
                 });
             })
             .catch((err) => {

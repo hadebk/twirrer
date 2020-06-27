@@ -22,6 +22,7 @@ const {
     signup,
     login,
     uploadProfileImage,
+    uploadCoverImage,
     addUserDetails,
     getAuthenticatedUser,
     getUserDetails,
@@ -51,11 +52,11 @@ app.get('/post/:postId/unlike', firebaseAuth, unlikePost) // cause 'FirebaseAuth
 app.post('/signup', signup)
 app.post('/login', login)
 app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-// TODO: Upload Cover Image
+app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName', getUserDetails)
-app.post('/notifications', firebaseAuth, markNotificationsAsRead)// cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 /**
  * ****************************************************************
  * to tell firebase that app is the container of all routes
@@ -155,4 +156,109 @@ exports.createNotificationOnComment = functions
                 console.error(err);
                 return;
             });
+    });
+
+// 4- when user update his profile image => then update it in posts, likes and comments collections
+exports.onUserImageChange = functions
+    .region('europe-west3')
+    .firestore.document('/users/{userId}')
+    .onUpdate((change) => {
+        console.log(change.before.data());
+        console.log(change.after.data());
+        if (change.before.data().profilePicture !== change.after.data().profilePicture) {
+            console.log('image has changed');
+            const batch = db.batch();
+            // update profile image in posts collection
+            return db
+                .collection('posts')
+                .where('userName', '==', change.before.data().userName)
+                .get()
+                .then((data) => {
+                    data.forEach((doc) => {
+                        const post = db.doc(`/posts/${doc.id}`);
+                        batch.update(post, {
+                            profilePicture: change.after.data().profilePicture
+                        });
+                    });
+                    return db
+                        .collection('likes')
+                        .where('userName', '==', change.before.data().userName)
+                        .get();
+                })
+                // update profile image in likes collection
+                .then((data) => {
+                    data.forEach((doc) => {
+                        const like = db.doc(`/likes/${doc.id}`);
+                        batch.update(like, {
+                            profilePicture: change.after.data().profilePicture
+                        });
+                    });
+                    return db
+                        .collection('comments')
+                        .where('userName', '==', change.before.data().userName)
+                        .get();
+                })
+                // update profile image in comments collection
+                .then((data) => {
+                    data.forEach((doc) => {
+                        const comment = db.doc(`/comments/${doc.id}`);
+                        batch.update(comment, {
+                            profilePicture: change.after.data().profilePicture
+                        });
+                    });
+                    return db
+                        .collection('notifications')
+                        .where('sender', '==', change.before.data().userName)
+                        .get();
+                })
+                // update profile image in notifications collection
+                .then((data) => {
+                    data.forEach((doc) => {
+                        const notification = db.doc(`/notifications/${doc.id}`);
+                        batch.update(notification, {
+                            senderProfilePicture: change.after.data().profilePicture
+                        });
+                    });
+                    return batch.commit();
+                })
+        } else return true;
+    });
+
+// 5- when delete a post delete all likes, comments and notifications on this post
+//TODO: delete image of this post from storage
+exports.onPostDelete = functions
+    .region('europe-west3')
+    .firestore.document('/posts/{postId}')
+    .onDelete((snapshot, context) => {
+        const postId = context.params.postId;
+        const batch = db.batch();
+        return db
+            .collection('comments')
+            .where('postId', '==', postId)
+            .get()
+            .then((data) => {
+                data.forEach((doc) => {
+                    batch.delete(db.doc(`/comments/${doc.id}`));
+                });
+                return db
+                    .collection('likes')
+                    .where('postId', '==', postId)
+                    .get();
+            })
+            .then((data) => {
+                data.forEach((doc) => {
+                    batch.delete(db.doc(`/likes/${doc.id}`));
+                });
+                return db
+                    .collection('notifications')
+                    .where('postId', '==', postId)
+                    .get();
+            })
+            .then((data) => {
+                data.forEach((doc) => {
+                    batch.delete(db.doc(`/notifications/${doc.id}`));
+                });
+                return batch.commit();
+            })
+            .catch((err) => console.error(err));
     });
