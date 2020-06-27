@@ -23,6 +23,7 @@ const {
     login,
     uploadProfileImage,
     uploadCoverImage,
+    uploadPostImage,
     addUserDetails,
     getAuthenticatedUser,
     getUserDetails,
@@ -41,7 +42,6 @@ const firebaseAuth = require('./util/firebaseAuth');
 app.get('/getAllPosts', getAllPosts)
 app.get('/post/:postId/get', getOnePost);
 app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-// TODO: Upload image with post
 app.delete('/post/:postId/delete', firebaseAuth, deletePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/post/:postId/like', firebaseAuth, likePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
@@ -53,6 +53,7 @@ app.post('/signup', signup)
 app.post('/login', login)
 app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/uploadPostImage', firebaseAuth, uploadPostImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName', getUserDetails)

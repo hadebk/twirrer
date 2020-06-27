@@ -14,7 +14,6 @@ const {
     validateLoginData,
     reduceUserDetails
 } = require('../util/validators');
-const { user } = require('firebase-functions/lib/providers/auth');
 
 /**
  * ****************************************************************
@@ -196,7 +195,6 @@ exports.uploadProfileImage = (req, res) => {
                 /**
                  *  TODO: delete the old profile image from firebase storage.
                  *  NOTE: but check if this old image it is default image, then do not delete it.
-                 *  will be fixed forward using trigger in index.js ..
                  * */            
             })
             .then(() => {
@@ -282,7 +280,6 @@ exports.uploadCoverImage = (req, res) => {
                 /**
                  *  TODO: delete the old cover image from firebase storage.
                  *  NOTE: but check if this old image it is default image, then do not delete it.
-                 *  will be fixed forward using trigger in index.js ..
                  * */            
             })
             .then(() => {
@@ -299,6 +296,78 @@ exports.uploadCoverImage = (req, res) => {
     });
     busboy.end(req.rawBody);
 };
+
+/**
+ * ****************************************************************
+ * upload image to post
+ * ****************************************************************
+ */
+exports.uploadPostImage = (req, res) => {
+    const BusBoy = require("busboy");
+    const path = require("path");
+    const os = require("os");
+    const fs = require("fs");
+
+    const busboy = new BusBoy({
+        headers: req.headers
+    });
+
+    let imageToBeUploaded = {};
+    let imageFileName;
+    // String for image token
+    //let generatedToken = uuid();
+
+    busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+        console.log(fieldname, file, filename, encoding, mimetype);
+        // handle upload file type, must by image format only!
+        if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
+            // wrong file format!
+          return res.status(400).json({ error: "Wrong file type submitted" });
+        }
+        // ex: my.image.png => ['my', 'image', 'png'] => imageExtension = 'png'
+        const imageExtension = filename.split(".")[filename.split(".").length - 1];
+        // ex: imageFileName = 51546132131561.png
+        imageFileName = `${Math.round(
+        Math.random() * 1000000000000
+      ).toString()}.${imageExtension}`;
+        // get file path
+        const filepath = path.join(os.tmpdir(), imageFileName);
+        imageToBeUploaded = {
+            filepath,
+            mimetype
+        };
+        file.pipe(fs.createWriteStream(filepath));
+    });
+    busboy.on("finish", () => {
+        // here will upload the file
+        admin
+            .storage()
+            .bucket()
+            .upload(imageToBeUploaded.filepath, {
+                resumable: false,
+                metadata: {
+                    metadata: {
+                        contentType: imageToBeUploaded.mimetype,
+                        //Generate token to be appended to imageUrl
+                        //firebaseStorageDownloadTokens: generatedToken,
+                    },
+                },
+            })
+            .then(() => {
+                // Append token to url
+                const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
+                // override default profile picture with uploaded picture 'uploaded by user'
+                return res.json({postImage: imageUrl})
+            })
+            .catch((err) => {
+                console.error(err);
+                return res.status(500).json({
+                    error: "something went wrong"
+                });
+            });
+    });
+    busboy.end(req.rawBody);
+}
 
 /**
  * ****************************************************************

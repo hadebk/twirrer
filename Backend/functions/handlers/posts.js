@@ -66,9 +66,7 @@ exports.getOnePost = (req, res) => {
  * ****************************************************************
  */
 exports.addNewPost = (req, res) => {
-
     // if you get here, that is means, that you are authorized user.
-
     const post = {
         // added automatically
         userId: req.user.uid,
@@ -80,7 +78,8 @@ exports.addNewPost = (req, res) => {
 
         // received from user 
         postContent: req.body.postContent,
-        postImage: req.body.postImage
+        // postImage will be updated from frontend if needed
+        postImage: null
     }
 
     db.collection('posts').add(post)
