@@ -84,7 +84,9 @@ exports.signup = (req, res) => {
                     email: 'Email is already in use'
                 })
             } else {
-                return res.status(500).json({ general: 'Something went wrong, please try again'})
+                return res.status(500).json({
+                    general: 'Something went wrong, please try again'
+                })
             }
         })
 }
@@ -123,7 +125,9 @@ exports.login = (req, res) => {
             // code 403 => unauthorized user
             // auth/wrong-password
             // auth/user-not-found
-            return res.status(403).json({"general": "Wrong credentials, please try again."})
+            return res.status(403).json({
+                "general": "Wrong credentials, please try again."
+            })
         });
 };
 
@@ -152,7 +156,9 @@ exports.uploadProfileImage = (req, res) => {
         // handle upload file type, must by image format only!
         if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
             // wrong file format!
-          return res.status(400).json({ error: "Wrong file type submitted" });
+            return res.status(400).json({
+                error: "Wrong file type submitted"
+            });
         }
         // ex: my.image.png => ['my', 'image', 'png'] => imageExtension = 'png'
         const imageExtension = filename.split(".")[filename.split(".").length - 1];
@@ -190,12 +196,6 @@ exports.uploadProfileImage = (req, res) => {
                 return db.doc(`/users/${req.user.userName}`).update({
                     profilePicture: imageUrl
                 });
-            })
-            .then(() => {
-                /**
-                 *  TODO: delete the old profile image from firebase storage.
-                 *  NOTE: but check if this old image it is default image, then do not delete it.
-                 * */            
             })
             .then(() => {
                 return res.json({
@@ -237,7 +237,9 @@ exports.uploadCoverImage = (req, res) => {
         // handle upload file type, must by image format only!
         if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
             // wrong file format!
-          return res.status(400).json({ error: "Wrong file type submitted" });
+            return res.status(400).json({
+                error: "Wrong file type submitted"
+            });
         }
         // ex: my.image.png => ['my', 'image', 'png'] => imageExtension = 'png'
         const imageExtension = filename.split(".")[filename.split(".").length - 1];
@@ -275,12 +277,6 @@ exports.uploadCoverImage = (req, res) => {
                 return db.doc(`/users/${req.user.userName}`).update({
                     coverPicture: imageUrl
                 });
-            })
-            .then(() => {
-                /**
-                 *  TODO: delete the old cover image from firebase storage.
-                 *  NOTE: but check if this old image it is default image, then do not delete it.
-                 * */            
             })
             .then(() => {
                 return res.json({
@@ -322,7 +318,9 @@ exports.uploadPostImage = (req, res) => {
         // handle upload file type, must by image format only!
         if (mimetype !== "image/jpeg" && mimetype !== "image/png") {
             // wrong file format!
-          return res.status(400).json({ error: "Wrong file type submitted" });
+            return res.status(400).json({
+                error: "Wrong file type submitted"
+            });
         }
         // ex: my.image.png => ['my', 'image', 'png'] => imageExtension = 'png'
         const imageExtension = filename.split(".")[filename.split(".").length - 1];
@@ -357,7 +355,9 @@ exports.uploadPostImage = (req, res) => {
                 // Append token to url
                 const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
                 // override default profile picture with uploaded picture 'uploaded by user'
-                return res.json({postImage: imageUrl})
+                return res.json({
+                    postImage: imageUrl
+                })
             })
             .catch((err) => {
                 console.error(err);
@@ -376,16 +376,20 @@ exports.uploadPostImage = (req, res) => {
  */
 exports.addUserDetails = (req, res) => {
     // data validation
-    let userDetails =  reduceUserDetails(req.body);
+    let userDetails = reduceUserDetails(req.body);
 
     // db query to add this extra data to that user's record in db
     db.doc(`/users/${req.user.userName}`).update(userDetails)
         .then(() => {
-            return res.json({ message: 'Extra user details added successfully'})
+            return res.json({
+                message: 'Extra user details added successfully'
+            })
         })
         .catch((error) => {
             console.log(error);
-            res.status(500).json({ error: error.code})
+            res.status(500).json({
+                error: error.code
+            })
         })
 }
 
@@ -396,50 +400,52 @@ exports.addUserDetails = (req, res) => {
  */
 exports.getAuthenticatedUser = (req, res) => {
     let userData = {};
-  db.doc(`/users/${req.user.userName}`)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        userData.credentials = doc.data();
-        return db
-          .collection("likes")
-          .where("userName", "==", req.user.userName)
-          .get();
-      }
-    })
-    .then((data) => {
-      userData.likes = [];
-      data.forEach((doc) => {
-        userData.likes.push(doc.data());
-      });
-      //return res.json(userData);
-      return db
-        .collection("notifications")
-        .where("recipient", "==", req.user.userName)
-        .orderBy("createdAt", "desc")
-        .limit(10)
-        .get();
-    })
-    .then((data) => {
-      userData.notifications = [];
-      data.forEach((doc) => {
-        userData.notifications.push({
-          recipient: doc.data().recipient,
-          sender: doc.data().sender,
-          senderProfilePicture: doc.data().senderProfilePicture,
-          createdAt: doc.data().createdAt,
-          postId: doc.data().postId,
-          type: doc.data().type,
-          read: doc.data().read,
-          notificationId: doc.id,
+    db.doc(`/users/${req.user.userName}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                userData.credentials = doc.data();
+                return db
+                    .collection("likes")
+                    .where("userName", "==", req.user.userName)
+                    .get();
+            }
+        })
+        .then((data) => {
+            userData.likes = [];
+            data.forEach((doc) => {
+                userData.likes.push(doc.data());
+            });
+            //return res.json(userData);
+            return db
+                .collection("notifications")
+                .where("recipient", "==", req.user.userName)
+                .orderBy("createdAt", "desc")
+                .limit(10)
+                .get();
+        })
+        .then((data) => {
+            userData.notifications = [];
+            data.forEach((doc) => {
+                userData.notifications.push({
+                    recipient: doc.data().recipient,
+                    sender: doc.data().sender,
+                    senderProfilePicture: doc.data().senderProfilePicture,
+                    createdAt: doc.data().createdAt,
+                    postId: doc.data().postId,
+                    type: doc.data().type,
+                    read: doc.data().read,
+                    notificationId: doc.id,
+                });
+            });
+            return res.json(userData);
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({
+                error: err.code
+            });
         });
-      });
-      return res.json(userData);
-    })
-    .catch((err) => {
-      console.error(err);
-      return res.status(500).json({ error: err.code });
-    });
 }
 
 /**
@@ -450,39 +456,43 @@ exports.getAuthenticatedUser = (req, res) => {
 exports.getUserDetails = (req, res) => {
     let userData = {};
     db.doc(`/users/${req.params.userName}`)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          userData.user = doc.data();
-          return db
-            .collection("posts")
-            .where("userName", "==", req.params.userName)
-            .orderBy("createdAt", "desc")
-            .get();
-        } else {
-          return res.status(404).json({ error: "User not found" });
-        }
-      })
-      .then((data) => {
-        userData.posts = [];
-        data.forEach((doc) => {
-          userData.posts.push({
-            postContent: doc.data().postContent,
-            postImage: doc.data().postImage,
-            createdAt: doc.data().createdAt,
-            userName: doc.data().userName,
-            profilePicture: doc.data().profilePicture,
-            likeCount: doc.data().likeCount,
-            commentCount: doc.data().commentCount,
-            postId: doc.id,
-          });
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                userData.user = doc.data();
+                return db
+                    .collection("posts")
+                    .where("userName", "==", req.params.userName)
+                    .orderBy("createdAt", "desc")
+                    .get();
+            } else {
+                return res.status(404).json({
+                    error: "User not found"
+                });
+            }
+        })
+        .then((data) => {
+            userData.posts = [];
+            data.forEach((doc) => {
+                userData.posts.push({
+                    postContent: doc.data().postContent,
+                    postImage: doc.data().postImage,
+                    createdAt: doc.data().createdAt,
+                    userName: doc.data().userName,
+                    profilePicture: doc.data().profilePicture,
+                    likeCount: doc.data().likeCount,
+                    commentCount: doc.data().commentCount,
+                    postId: doc.id,
+                });
+            });
+            return res.json(userData);
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({
+                error: err.code
+            });
         });
-        return res.json(userData);
-      })
-      .catch((err) => {
-        console.error(err);
-        return res.status(500).json({ error: err.code });
-      });
 }
 
 /**
@@ -493,16 +503,35 @@ exports.getUserDetails = (req, res) => {
 exports.markNotificationsAsRead = (req, res) => {
     let batch = db.batch();
     req.body.forEach((notificationId) => {
-      const notification = db.doc(`/notifications/${notificationId}`);
-      batch.update(notification, { read: true });
+        const notification = db.doc(`/notifications/${notificationId}`);
+        batch.update(notification, {
+            read: true
+        });
     });
     batch
-      .commit()
-      .then(() => {
-        return res.json({ message: "Notifications marked read" });
-      })
-      .catch((err) => {
-        console.error(err);
-        return res.status(500).json({ error: err.code });
-      });
-  };
+        .commit()
+        .then(() => {
+            return res.json({
+                message: "Notifications marked read"
+            });
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.status(500).json({
+                error: err.code
+            });
+        });
+};
+
+/**
+ * ****************************************************************
+ * Add friend , just for authorized user.
+ *                       // logic //
+ * - check if this user, that will be added as friend exist or not.
+ * - then check if this user have added this another user before or not.
+ * - if not added before, this friend will be added to friends of user in 'friends' collection.
+ * ****************************************************************
+ */
+exports.addFriend = (req, res) => {
+
+}

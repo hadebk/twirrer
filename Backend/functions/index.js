@@ -5,7 +5,8 @@ const express = require('express');
 const app = express();
 
 const {
-    db
+    db,
+    admin
 } = require('./util/admin');
 
 // import operations of the routes
@@ -27,11 +28,15 @@ const {
     addUserDetails,
     getAuthenticatedUser,
     getUserDetails,
-    markNotificationsAsRead
+    markNotificationsAsRead,
+    addFriend,
+    unFriend
 } = require('./handlers/users');
 
 // import middleware authentication
 const firebaseAuth = require('./util/firebaseAuth');
+
+const defaultStorage = admin.storage();
 
 /**
  * ****************************************************************
@@ -57,7 +62,8 @@ app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'Firebas
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName', getUserDetails)
 app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-// TODO: Add Friend
+app.post('/user/:userName/addFriend', firebaseAuth, addFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.post('/user/:userName/unFriend', firebaseAuth, unFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 
 
 
@@ -81,8 +87,9 @@ exports.api = functions.region('europe-west3').https.onRequest(app);
  * To implement the notifications part, i use 'Firebase Database Triggers',
  * when any change occur to any collection some event will fire.
  * ex: when add like/comment to any post => notification collection will be updates automatically 'event will be fire!' 
- * snapshot: have data of sender
- * doc: have data of receiver's post
+ * snapshot: have data of => firestore.document('likes/{id}' or 'comments/{id}' or ...) 
+ * doc: have data of query
+ * ex: snapshot of comments => 
  * snapshot.data() = 
     {
         "userName": "user",
@@ -175,6 +182,15 @@ exports.onUserImageChange = functions
         console.log(change.after.data());
         if (change.before.data().profilePicture !== change.after.data().profilePicture) {
             console.log('image has changed');
+            // delete old profile picture, except 'default_pp.png'
+            let imageUrl = change.before.data().profilePicture
+            let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
+            console.log(imageName)
+            if(imageName !== 'default_pp.png'){
+                let bucket = defaultStorage.bucket();
+                file = bucket.file(imageName);
+                file.delete();
+            }
             const batch = db.batch();
             // update profile image in posts collection
             return db
@@ -232,8 +248,28 @@ exports.onUserImageChange = functions
         } else return true;
     });
 
-// 5- when delete a post delete all likes, comments and notifications on this post
-//TODO: delete image of this post from storage (by image url)
+// 5- when user update his cover image => delete old cover image from storage
+exports.onUserCoverImageChange = functions
+    .region('europe-west3')
+    .firestore.document('/users/{userId}')
+    .onUpdate((change) => {
+        console.log(change.before.data());
+        console.log(change.after.data());
+        if (change.before.data().coverPicture !== change.after.data().coverPicture) {
+            console.log('cover picture has changed');
+            // delete old cover picture, except 'default_cp.png'
+            let imageUrl = change.before.data().coverPicture
+            let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
+            console.log(imageName)
+            if(imageName !== 'default_cp.png'){
+                let bucket = defaultStorage.bucket();
+                file = bucket.file(imageName);
+                return file.delete();
+            }else return true
+        } else return true;
+    });
+
+// 6- when delete a post delete all likes, comments and notifications on this post
 exports.onPostDelete = functions
     .region('europe-west3')
     .firestore.document('/posts/{postId}')
@@ -269,4 +305,16 @@ exports.onPostDelete = functions
                 return batch.commit();
             })
             .catch((err) => console.error(err));
+    });
+
+// 7- when delete a post > delete image of this post from storage
+exports.removePostImageOnPostDelete = functions.region('europe-west3').firestore
+    .document('posts/{postId}')
+    .onDelete((snap, context) => {
+        let imageUrl = snap.data().postImage;
+        let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
+        console.log(snap.data(), imageName)
+        let bucket = defaultStorage.bucket();
+        file = bucket.file(imageName);
+        return file.delete();
     });

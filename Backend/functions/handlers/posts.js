@@ -78,8 +78,12 @@ exports.addNewPost = (req, res) => {
 
         // received from user 
         postContent: req.body.postContent,
-        // postImage will be updated from frontend if needed
-        postImage: null
+        /**
+         * 'postImage' will be updated from frontend
+         * if user select image with post > postImage: imageURL
+         * else user not select image with post > PostImage: null 
+         */
+        postImage: req.body.postImage
     }
 
     db.collection('posts').add(post)
