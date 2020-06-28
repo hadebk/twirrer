@@ -455,7 +455,8 @@ exports.getAuthenticatedUser = (req, res) => {
 
 /**
  * ****************************************************************
- * get any user details (name, bio, pp, ets.. + posts of this user)
+ * get any user details (name, bio, pp, ets.. + posts of this user + friends of this user)
+ * this data will be used when open any user profile
  * ****************************************************************
  */
 exports.getUserDetails = (req, res) => {
@@ -490,6 +491,15 @@ exports.getUserDetails = (req, res) => {
                     postId: doc.id,
                 });
             });
+            return db
+                .doc(`/friends/${req.params.userName}`)
+                .get();
+        })
+        .then((doc) => {
+            userData.friends = [];
+            if(doc.exists){
+                userData.friends.push(doc.data())
+            }
             return res.json(userData);
         })
         .catch((err) => {
@@ -540,7 +550,7 @@ exports.markNotificationsAsRead = (req, res) => {
 exports.addFriend = (req, res) => {
     // first, get friend (that would be added) of this user (would be to add another user)
     // to check if that user added before by this user or not
-    const friendsOfAdderUser = db.doc(`friends/${req.user.userName}`)
+    const friendsOfAdderUser = db.doc(`/friends/${req.user.userName}`)
 
     // second, get the user, that this user want to add as friend
     // to check if this user exist or nit
@@ -597,7 +607,7 @@ exports.addFriend = (req, res) => {
                         .doc(`friends/${req.user.userName}`)
                         .set({
                             // add that user to friends of this user to friends collection in db
-                            [req.params.userName]: userToBeAddedData
+                             [req.params.userName]:userToBeAddedData
                         }, {
                             merge: true
                         })
@@ -627,7 +637,7 @@ exports.addFriend = (req, res) => {
                                         .doc(`friends/${req.params.userName}`)
                                         .set({
                                             // add this user to friends of that user to friends collection in db
-                                            [req.user.userName]: userWantToAddData
+                                            [req.user.userName]:userWantToAddData
                                         }, {
                                             merge: true
                                         })
@@ -667,7 +677,7 @@ exports.addFriend = (req, res) => {
 exports.unFriend = (req, res) => {
     // first, get friend (that would be deleted) of this user (would be to delete another user)
     // to check if that user added before by this user or not
-    const friendsOfDeleterUser = db.doc(`friends/${req.user.userName}`)
+    const friendsOfDeleterUser = db.doc(`/friends/${req.user.userName}`)
 
     // second, get the user, that this user want to delete
     // to check if this user exist or nit
@@ -744,7 +754,9 @@ exports.unFriend = (req, res) => {
                                 })
                         })
                         .then(() => {
-                            return res.json({'Done': 'user deleted successfully'});
+                            return res.json({
+                                'Done': 'user deleted successfully'
+                            });
                         });
                 } else {
                     return res.json({

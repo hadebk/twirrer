@@ -35,6 +35,7 @@ const {
 
 // import middleware authentication
 const firebaseAuth = require('./util/firebaseAuth');
+const { object } = require('firebase-functions/lib/providers/storage');
 
 const defaultStorage = admin.storage();
 
@@ -60,7 +61,7 @@ app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage) // cause 'Fir
 app.post('/uploadPostImage', firebaseAuth, uploadPostImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/user/:userName', getUserDetails)
+app.get('/user/:userName/getUserDetails', getUserDetails)
 app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName/addFriend', firebaseAuth, addFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName/unFriend', firebaseAuth, unFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
@@ -172,7 +173,51 @@ exports.createNotificationOnComment = functions
                 return;
             });
     });
+/*
+// work just when user add first user, because firebase trigger work on document change not by change on any field of that document
 
+// 1- create notification when someone like any post
+exports.createNotificationOnAddFriend1 = functions
+    .region('europe-west3')
+    .firestore.document('friends/{userName}')
+    .onCreate((snapshot, context) => { // snapshot has data of receiver (userName, profilePicture)
+        let receiverObjectKey = Object.keys(snapshot.data())
+            if (
+                //          receiver                    sender
+                context.params.userName !== snapshot.data()[receiverObjectKey].userName
+            ) {
+                return db.collection('notifications').add({
+                    createdAt: new Date().toISOString(),
+                    recipient: snapshot.data()[receiverObjectKey].userName,
+                    sender: context.params.userName,
+                    senderProfilePicture: snapshot.data()[receiverObjectKey].profilePicture,
+                    type: 'addFriend',
+                    read: false
+                });
+            }
+    });
+
+// 1- create notification when someone like any post
+exports.createNotificationOnAddFriend2 = functions
+    .region('europe-west3')
+    .firestore.document('friends/{userName}')
+    .onUpdate((snapshot, context) => { // snapshot has data of receiver (userName, profilePicture)
+        let receiverObjectKey = Object.keys(snapshot.data())
+            if (
+                //          receiver                    sender
+                context.params.userName !== snapshot.data()[receiverObjectKey].userName
+            ) {
+                return db.collection('notifications').add({
+                    createdAt: new Date().toISOString(),
+                    recipient: snapshot.data()[receiverObjectKey].userName,
+                    sender: context.params.userName,
+                    senderProfilePicture: snapshot.data()[receiverObjectKey].profilePicture,
+                    type: 'addFriend',
+                    read: false
+                });
+            }
+    });
+*/
 // 4- when user update his profile image => then update it in posts, likes and comments collections
 exports.onUserImageChange = functions
     .region('europe-west3')
@@ -248,6 +293,7 @@ exports.onUserImageChange = functions
         } else return true;
     });
 
+
 // 5- when user update his cover image => delete old cover image from storage
 exports.onUserCoverImageChange = functions
     .region('europe-west3')
@@ -261,11 +307,11 @@ exports.onUserCoverImageChange = functions
             let imageUrl = change.before.data().coverPicture
             let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
             console.log(imageName)
-            if(imageName !== 'default_cp.png'){
+            if (imageName !== 'default_cp.png') {
                 let bucket = defaultStorage.bucket();
                 file = bucket.file(imageName);
                 return file.delete();
-            }else return true
+            } else return true
         } else return true;
     });
 
