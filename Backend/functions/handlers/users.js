@@ -577,6 +577,7 @@ exports.addFriend = (req, res) => {
             }
         })
         .then((doc) => {
+            // doc hold => all friends of adder user
             /**
              * ex: user
              *        |_ userName: user
@@ -633,9 +634,12 @@ exports.addFriend = (req, res) => {
                                 })
                         })
                         .then(() => {
-                            return res.json({userToBeAddedData, userWantToAddData});
+                            return res.json({
+                                userToBeAddedData,
+                                userWantToAddData
+                            });
                         });
-                }else{
+                } else {
                     res.json({
                         error: 'You cant add yourself!'
                     });
@@ -661,5 +665,103 @@ exports.addFriend = (req, res) => {
  * ****************************************************************
  */
 exports.unFriend = (req, res) => {
+    // first, get friend (that would be deleted) of this user (would be to delete another user)
+    // to check if that user added before by this user or not
+    const friendsOfDeleterUser = db.doc(`friends/${req.user.userName}`)
 
+    // second, get the user, that this user want to delete
+    // to check if this user exist or nit
+    const userToBeDeleted = db.doc(`/users/${req.params.userName}`);
+    const userWantToDelete = db.doc(`/users/${req.user.userName}`);
+
+    // have all details of both users
+    let userToBeDeletedAllData;
+    let userWantToDeleteAllData;
+
+    let isUser = false
+
+    userToBeDeleted
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                // the user that another user want to delete is exist, coll! go ahead 
+                // get user (to be deleted) data
+                isUser = true;
+                console.log(doc.data())
+                userToBeDeletedAllData = doc.data();
+                return friendsOfDeleterUser.get();
+            } else {
+                return res.status(404).json({
+                    error: 'user to be deleted not found'
+                });
+            }
+        })
+        .then((doc) => {
+            // doc hold => all friends of deleter user
+            /**
+             * ex: user
+             *        |_ userName: user
+             *        |_ profilePicture: 'url'
+             */
+            //              user 
+            //console.log('doc------', doc.get(req.params.userName))
+            if (doc.get(req.params.userName) != null) {
+                // user already added as friend 
+                if (isUser) {
+                    // the user is exist, and the user not was added before > so delete this user from friends
+                    return db
+                        .doc(`friends/${req.user.userName}`)
+                        .update({
+                            // delete that user from friends of this user
+                            [req.params.userName]: admin.firestore.FieldValue.delete()
+                        })
+                        .then(() => {
+                            return db
+                                .doc(`friends/${req.params.userName}`)
+                                .update({
+                                    // delete this user from friends of that user
+                                    [req.user.userName]: admin.firestore.FieldValue.delete()
+                                })
+                        })
+                        .then(() => {
+                            // decrement friends count of deleted user
+                            userToBeDeletedAllData.friendsCount--;
+                            return userToBeDeleted.update({
+                                friendsCount: userToBeDeletedAllData.friendsCount
+                            });
+                        })
+                        .then(() => {
+                            // decrement friends count of deleter user
+                            userWantToDelete.get()
+                                .then((doc) => {
+                                    return userWantToDeleteAllData = doc.data()
+                                })
+                                .then(() => {
+                                    userWantToDeleteAllData.friendsCount--;
+                                    return userWantToDelete.update({
+                                        friendsCount: userWantToDeleteAllData.friendsCount
+                                    });
+                                })
+                        })
+                        .then(() => {
+                            return res.json({'Done': 'user deleted successfully'});
+                        });
+                } else {
+                    return res.json({
+                        error: 'user not found also!'
+                    });
+                }
+            } else {
+                return res.status(400).json({
+                    error: 'user not added before'
+                });
+            }
+
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({
+                error: err.code
+            });
+        });
 }
