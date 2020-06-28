@@ -364,3 +364,23 @@ exports.removePostImageOnPostDelete = functions.region('europe-west3').firestore
         file = bucket.file(imageName);
         return file.delete();
     });
+
+
+/*
+ var data = {
+    "user": {
+      "profilePicture": "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/124528307731.jpeg?alt=media",
+      "userName": "lol"
+    },
+    "master": {
+      "profilePicture": "https://firebasestorage.googleapis.com/v0/b/twirrer-app.appspot.com/o/394413876440.jpeg?alt=media",
+      "userName": "bol"
+    }
+  }
+
+for(var key in data) {
+    var value = data[key];
+  console.warn(key) // user, master
+  console.log(value.userName) // lol, bol
+}
+ */
