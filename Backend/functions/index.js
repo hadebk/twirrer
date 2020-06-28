@@ -62,8 +62,8 @@ app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'Firebas
 app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.get('/user/:userName', getUserDetails)
 app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/user/:userName/addFriend', firebaseAuth, addFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/user/:userName/unFriend', firebaseAuth, unFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/user/:userName/addFriend', firebaseAuth, addFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/user/:userName/unFriend', firebaseAuth, unFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 
 
 

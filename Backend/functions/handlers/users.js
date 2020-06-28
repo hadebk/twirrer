@@ -14,6 +14,10 @@ const {
     validateLoginData,
     reduceUserDetails
 } = require('../util/validators');
+const e = require('express');
+const {
+    user
+} = require('firebase-functions/lib/providers/auth');
 
 /**
  * ****************************************************************
@@ -64,6 +68,7 @@ exports.signup = (req, res) => {
                 userName: newUser.userName,
                 email: newUser.email,
                 createdAt: new Date().toISOString(),
+                friendsCount: 0,
                 profilePicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultProfilePicture}?alt=media`,
                 coverPicture: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${defaultCoverPicture}?alt=media`,
                 userId
@@ -529,9 +534,132 @@ exports.markNotificationsAsRead = (req, res) => {
  *                       // logic //
  * - check if this user, that will be added as friend exist or not.
  * - then check if this user have added this another user before or not.
- * - if not added before, this friend will be added to friends of user in 'friends' collection.
+ * - if not added before, this friend will be added to friends of this user in 'friends' collection.
  * ****************************************************************
  */
 exports.addFriend = (req, res) => {
+    // first, get friend (that would be added) of this user (would be to add another user)
+    // to check if that user added before by this user or not
+    const friendsOfAdderUser = db.doc(`friends/${req.user.userName}`)
+
+    // second, get the user, that this user want to add as friend
+    // to check if this user exist or nit
+    const userToBeAdded = db.doc(`/users/${req.params.userName}`);
+    const userWantToAdd = db.doc(`/users/${req.user.userName}`);
+
+    // have data that will be added to friends collection
+    let userToBeAddedData = {};
+    let userWantToAddData = {};
+
+    // have all details of both users
+    let userToBeAddedAllData;
+    let userWantToAddAllData;
+
+    let isUser = false
+
+    userToBeAdded
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                // the user that another user want to add is exist, coll! go ahead 
+                // get user (to be added) data
+                isUser = true;
+                console.log(doc.data())
+                userToBeAddedAllData = doc.data();
+                userToBeAddedData.userName = doc.data().userName;
+                userToBeAddedData.profilePicture = doc.data().profilePicture;
+                console.log(userToBeAddedData)
+                return friendsOfAdderUser.get();
+            } else {
+                return res.status(404).json({
+                    error: 'user to be added not found'
+                });
+            }
+        })
+        .then((doc) => {
+            /**
+             * ex: user
+             *        |_ userName: user
+             *        |_ profilePicture: 'url'
+             */
+            //              user 
+            console.log('doc------', doc.get(req.params.userName))
+            if (doc.get(req.params.userName) != null) {
+                // user already added as friend 
+                return res.status(400).json({
+                    error: 'user already added'
+                });
+            } else {
+                if (isUser && req.user.userName !== req.params.userName) {
+                    // the user is exist, and the user not was added before > so add this user as friend
+                    return db
+                        .doc(`friends/${req.user.userName}`)
+                        .set({
+                            // add that user to friends of this user to friends collection in db
+                            [req.params.userName]: userToBeAddedData
+                        }, {
+                            merge: true
+                        })
+                        .then(() => {
+                            // increment friends count of added user
+                            userToBeAddedAllData.friendsCount++;
+                            return userToBeAdded.update({
+                                friendsCount: userToBeAddedAllData.friendsCount
+                            });
+                        })
+                        .then(() => {
+                            // increment friends count of adder user
+                            userWantToAdd.get()
+                                .then((doc) => {
+                                    userWantToAddData.userName = doc.data().userName;
+                                    userWantToAddData.profilePicture = doc.data().profilePicture;
+                                    return userWantToAddAllData = doc.data()
+                                })
+                                .then(() => {
+                                    userWantToAddAllData.friendsCount++;
+                                    return userWantToAdd.update({
+                                        friendsCount: userWantToAddAllData.friendsCount
+                                    });
+                                })
+                                .then(() => {
+                                    return db
+                                        .doc(`friends/${req.params.userName}`)
+                                        .set({
+                                            // add this user to friends of that user to friends collection in db
+                                            [req.user.userName]: userWantToAddData
+                                        }, {
+                                            merge: true
+                                        })
+                                })
+                        })
+                        .then(() => {
+                            return res.json({userToBeAddedData, userWantToAddData});
+                        });
+                }else{
+                    res.json({
+                        error: 'You cant add yourself!'
+                    });
+                }
+            }
+
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({
+                error: err.code
+            });
+        });
+}
+
+/**
+ * ****************************************************************
+ *  Unfriend , just for authorized user.
+ *                       // logic //
+ * - check if this user, that will be unfriended exist or not. (more secure!)
+ * - then check if this user have added this another user before or not.
+ * - if added before, this friend will be removed from friends of this user in 'friends' collection.
+ * ****************************************************************
+ */
+exports.unFriend = (req, res) => {
 
 }
