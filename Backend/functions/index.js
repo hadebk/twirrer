@@ -288,6 +288,23 @@ exports.onUserImageChange = functions
                             senderProfilePicture: change.after.data().profilePicture
                         });
                     });
+                    return db.collection('friends').get()
+                })
+                // update profile image in friends collection
+                .then((data)=>{
+                    // data contain all documents, loop on all doc
+                    data.forEach(doc =>{
+                        // loop on all fields in doc
+                        for(key in doc.data()){
+                            // @value: contain parent of each field.
+                            // ex: user{userName: bla, profilePicture: bla}, so value = user
+                            var value = doc.data()[key];
+                            if(value.userName == change.before.data().userName){
+                                db.collection('friends').doc(doc.id)
+                                .update({[`${value.userName}.profilePicture`]: change.after.data().profilePicture})
+                            }
+                        }
+                    })
                     return batch.commit();
                 })
         } else return true;
