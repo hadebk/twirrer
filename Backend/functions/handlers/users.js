@@ -593,8 +593,8 @@ exports.addFriend = (req, res) => {
              *        |_ userName: user
              *        |_ profilePicture: 'url'
              */
-            //              user 
             console.log('doc------', doc.get(req.params.userName))
+            //              user 
             if (doc.get(req.params.userName) != null) {
                 // user already added as friend 
                 return res.status(400).json({
@@ -603,10 +603,11 @@ exports.addFriend = (req, res) => {
             } else {
                 if (isUser && req.user.userName !== req.params.userName) {
                     // the user is exist, and the user not was added before > so add this user as friend
+
+                    // add that user to friends of this user to friends collection in db
                     return db
                         .doc(`friends/${req.user.userName}`)
                         .set({
-                            // add that user to friends of this user to friends collection in db
                              [req.params.userName]:userToBeAddedData
                         }, {
                             merge: true
@@ -633,20 +634,32 @@ exports.addFriend = (req, res) => {
                                     });
                                 })
                                 .then(() => {
+                                    // add this user to friends of that user to friends collection in db
                                     return db
                                         .doc(`friends/${req.params.userName}`)
                                         .set({
-                                            // add this user to friends of that user to friends collection in db
                                             [req.user.userName]:userWantToAddData
                                         }, {
                                             merge: true
                                         })
-                                })
+                                }).catch((err) => {
+                                    console.error(err);
+                                });
+                        })
+                        .then(() =>{
+                            // fire notification when user add another user as friend
+                            return db.collection('notifications').add({
+                                createdAt: new Date().toISOString(),
+                                recipient: req.params.userName,
+                                sender: req.user.userName,
+                                senderProfilePicture: req.user.profilePicture,
+                                type: 'addFriend',
+                                read: false
+                            });
                         })
                         .then(() => {
                             return res.json({
-                                userToBeAddedData,
-                                userWantToAddData
+                                userToBeAddedData
                             });
                         });
                 } else {
@@ -752,6 +765,17 @@ exports.unFriend = (req, res) => {
                                         friendsCount: userWantToDeleteAllData.friendsCount
                                     });
                                 })
+                        })
+                        .then(() =>{
+                            // fire notification when user unfriend another user
+                            return db.collection('notifications').add({
+                                createdAt: new Date().toISOString(),
+                                recipient: req.params.userName,
+                                sender: req.user.userName,
+                                senderProfilePicture: req.user.profilePicture,
+                                type: 'unFriend',
+                                read: false
+                            });
                         })
                         .then(() => {
                             return res.json({
