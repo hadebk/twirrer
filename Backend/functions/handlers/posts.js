@@ -41,14 +41,21 @@ exports.getOnePost = (req, res) => {
                     error: 'Post not found'
                 })
             }
-            postData = doc.data();
             postData.postId = doc.id;
+            postData.post = doc.data();
             return db.collection('comments').orderBy('createdAt', 'desc').where('postId', '==', req.params.postId).get();
         })
         .then((data) => {
             postData.comments = [];
             data.forEach(doc => {
                 postData.comments.push(doc.data())
+            });
+            return db.collection('likes').where('postId', '==', req.params.postId).get();
+        })
+        .then((data) =>{
+            postData.likes = [];
+            data.forEach(doc => {
+                postData.likes.push(doc.data())
             });
             return res.json(postData);
         })
@@ -81,7 +88,7 @@ exports.addNewPost = (req, res) => {
         /**
          * 'postImage' will be updated from frontend
          * if user select image with post > postImage: imageURL
-         * else user not select image with post > PostImage: null 
+         * else user not select image with post > postImage: null 
          */
         postImage: req.body.postImage
     }

@@ -37,7 +37,6 @@ const {
 
 // import middleware authentication
 const firebaseAuth = require('./util/firebaseAuth');
-const { object } = require('firebase-functions/lib/providers/storage');
 
 const defaultStorage = admin.storage();
 
@@ -177,7 +176,8 @@ exports.createNotificationOnComment = functions
             });
     });
 
-// 4- when user update his profile image => then update it in posts, likes and comments collections
+// 4- when user update his profile image => delete old profile picture, 
+// then update it in posts, likes, comments, notifications and friends and  collections
 exports.onUserImageChange = functions
     .region('europe-west3')
     .firestore.document('/users/{userId}')
