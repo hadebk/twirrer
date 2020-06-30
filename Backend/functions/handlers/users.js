@@ -138,6 +138,27 @@ exports.login = (req, res) => {
 
 /**
  * ****************************************************************
+ * logout function
+ * ****************************************************************
+ */
+exports.logout = (req, res) => {
+    firebase.auth().signOut()
+        .then(() => {
+            // Sign-out successful.
+            return res.json({
+                "message": "Logout successfully"
+            })
+        })
+        .catch((error) => {
+            // An error happened
+            return res.status(500).json({
+                "error": error.code
+            })
+        });
+}
+
+/**
+ * ****************************************************************
  * upload user profile picture
  * ****************************************************************
  */
@@ -497,7 +518,7 @@ exports.getUserDetails = (req, res) => {
         })
         .then((doc) => {
             userData.friends = [];
-            if(doc.exists){
+            if (doc.exists) {
                 userData.friends.push(doc.data())
             }
             return res.json(userData);
@@ -608,7 +629,7 @@ exports.addFriend = (req, res) => {
                     return db
                         .doc(`friends/${req.user.userName}`)
                         .set({
-                             [req.params.userName]:userToBeAddedData
+                            [req.params.userName]: userToBeAddedData
                         }, {
                             merge: true
                         })
@@ -638,7 +659,7 @@ exports.addFriend = (req, res) => {
                                     return db
                                         .doc(`friends/${req.params.userName}`)
                                         .set({
-                                            [req.user.userName]:userWantToAddData
+                                            [req.user.userName]: userWantToAddData
                                         }, {
                                             merge: true
                                         })
@@ -646,7 +667,7 @@ exports.addFriend = (req, res) => {
                                     console.error(err);
                                 });
                         })
-                        .then(() =>{
+                        .then(() => {
                             // fire notification when user add another user as friend
                             return db.collection('notifications').add({
                                 createdAt: new Date().toISOString(),
@@ -766,7 +787,7 @@ exports.unFriend = (req, res) => {
                                     });
                                 })
                         })
-                        .then(() =>{
+                        .then(() => {
                             // fire notification when user unfriend another user
                             return db.collection('notifications').add({
                                 createdAt: new Date().toISOString(),
@@ -800,4 +821,45 @@ exports.unFriend = (req, res) => {
                 error: err.code
             });
         });
+}
+
+/**
+ * ****************************************************************
+ * this route will retrieve 3 or 4 random users,
+ * to show them as suggestion friend to add
+ * ****************************************************************
+ */
+exports.usersToAdd = (req, res) => {
+    let allUsers = []
+    let randomArr = [];
+    db
+        .collection('users')
+        .get()
+        .then(data => {
+            data.forEach(doc => {
+                allUsers.push({
+                    userId: doc.data().userId,
+                    userName: doc.data().userName,
+                    profilePicture: doc.data().profilePicture
+                });
+            });
+        })
+        .then(() => {
+            // generate unique random number from 0 allUsers.length
+            while (randomArr.length < 4) {
+                var r = Math.floor(Math.random() * allUsers.length);
+                if (randomArr.indexOf(r) === -1) randomArr.push(r);
+            }
+        })
+        .then(() =>{
+            let usersToAdd = []
+            for( let i=0 ; i<4 ; i++){
+                // avoid adding current user to list of suggestion people to add
+                if(allUsers[randomArr[i]].userName !== req.user.userName){
+                    usersToAdd.push(allUsers[randomArr[i]])
+                }
+            }
+            return res.json(usersToAdd)
+        })
+        .catch((e) => console.error(e));
 }

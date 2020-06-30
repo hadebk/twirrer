@@ -22,6 +22,7 @@ const {
 const {
     signup,
     login,
+    logout,
     uploadProfileImage,
     uploadCoverImage,
     uploadPostImage,
@@ -30,7 +31,8 @@ const {
     getUserDetails,
     markNotificationsAsRead,
     addFriend,
-    unFriend
+    unFriend,
+    usersToAdd
 } = require('./handlers/users');
 
 // import middleware authentication
@@ -48,24 +50,25 @@ const defaultStorage = admin.storage();
 app.get('/getAllPosts', getAllPosts)
 app.get('/post/:postId/get', getOnePost);
 app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.delete('/post/:postId/delete', firebaseAuth, deletePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/post/:postId/comment', firebaseAuth, commentOnPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/post/:postId/like', firebaseAuth, likePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/post/:postId/unlike', firebaseAuth, unlikePost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.delete('/post/:postId/delete', firebaseAuth, deletePost)
+app.post('/post/:postId/comment', firebaseAuth, commentOnPost)
+app.get('/post/:postId/like', firebaseAuth, likePost)
+app.get('/post/:postId/unlike', firebaseAuth, unlikePost)
 
 // user routes
 app.post('/signup', signup)
 app.post('/login', login)
-app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/uploadPostImage', firebaseAuth, uploadPostImage) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.post('/user/addUserDetails', firebaseAuth, addUserDetails) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.get('/logout', logout)
+app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage)
+app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage)
+app.post('/uploadPostImage', firebaseAuth, uploadPostImage)
+app.post('/user/addUserDetails', firebaseAuth, addUserDetails)
+app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser)
 app.get('/user/:userName/getUserDetails', getUserDetails)
-app.post('/notifications', firebaseAuth, markNotificationsAsRead) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/user/:userName/addFriend', firebaseAuth, addFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.get('/user/:userName/unFriend', firebaseAuth, unFriend) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-
+app.post('/notifications', firebaseAuth, markNotificationsAsRead)
+app.get('/user/:userName/addFriend', firebaseAuth, addFriend)
+app.get('/user/:userName/unFriend', firebaseAuth, unFriend)
+app.get('/usersToAdd',firebaseAuth, usersToAdd);
 
 
 
