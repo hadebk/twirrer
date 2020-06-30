@@ -140,7 +140,7 @@ exports.deleteNotificationOnUnLike = functions
         return db
             .doc(`/notifications/${snapshot.id}`)
             .delete()
-            .catch((err) => {
+            .catch((err) => { 
                 console.error(err);
                 return;
             });

@@ -469,7 +469,7 @@ exports.getAuthenticatedUser = (req, res) => {
         .then((doc) => {
             userData.friends = []
             // loop on all fields in doc
-            for(key in doc.data()){
+            for (key in doc.data()) {
                 // @value: contain data of each field.
                 var value = doc.data()[key];
                 userData.friends.push(value)
@@ -530,7 +530,7 @@ exports.getUserDetails = (req, res) => {
             userData.friends = [];
             if (doc.exists) {
                 // loop on all fields in doc
-                for(key in doc.data()){
+                for (key in doc.data()) {
                     // @value: contain data of each field.
                     var value = doc.data()[key];
                     userData.friends.push(value)
@@ -594,12 +594,12 @@ exports.addFriend = (req, res) => {
     const userWantToAdd = db.doc(`/users/${req.user.userName}`);
 
     // have data that will be added to friends collection
-    let userToBeAddedData = {};
-    let userWantToAddData = {};
+    let userToBeAdded_Data = {};
+    let userWantToAdd_Data = {};
 
     // have all details of both users
-    let userToBeAddedAllData;
-    let userWantToAddAllData;
+    let userToBeAdded_AllData;
+    let userWantToAdd_AllData;
 
     let isUser = false
 
@@ -611,10 +611,10 @@ exports.addFriend = (req, res) => {
                 // get user (to be added) data
                 isUser = true;
                 console.log(doc.data())
-                userToBeAddedAllData = doc.data();
-                userToBeAddedData.userName = doc.data().userName;
-                userToBeAddedData.profilePicture = doc.data().profilePicture;
-                console.log(userToBeAddedData)
+                userToBeAdded_AllData = doc.data();
+                userToBeAdded_Data.userName = doc.data().userName;
+                userToBeAdded_Data.profilePicture = doc.data().profilePicture;
+                console.log(userToBeAdded_Data)
                 return friendsOfAdderUser.get();
             } else {
                 return res.status(404).json({
@@ -644,29 +644,29 @@ exports.addFriend = (req, res) => {
                     return db
                         .doc(`friends/${req.user.userName}`)
                         .set({
-                            [req.params.userName]: userToBeAddedData
+                            [req.params.userName]: userToBeAdded_Data
                         }, {
                             merge: true
                         })
                         .then(() => {
                             // increment friends count of added user
-                            userToBeAddedAllData.friendsCount++;
+                            userToBeAdded_AllData.friendsCount++;
                             return userToBeAdded.update({
-                                friendsCount: userToBeAddedAllData.friendsCount
+                                friendsCount: userToBeAdded_AllData.friendsCount
                             });
                         })
                         .then(() => {
                             // increment friends count of adder user
                             userWantToAdd.get()
                                 .then((doc) => {
-                                    userWantToAddData.userName = doc.data().userName;
-                                    userWantToAddData.profilePicture = doc.data().profilePicture;
-                                    return userWantToAddAllData = doc.data()
+                                    userWantToAdd_Data.userName = doc.data().userName;
+                                    userWantToAdd_Data.profilePicture = doc.data().profilePicture;
+                                    return userWantToAdd_AllData = doc.data()
                                 })
                                 .then(() => {
-                                    userWantToAddAllData.friendsCount++;
+                                    userWantToAdd_AllData.friendsCount++;
                                     return userWantToAdd.update({
-                                        friendsCount: userWantToAddAllData.friendsCount
+                                        friendsCount: userWantToAdd_AllData.friendsCount
                                     });
                                 })
                                 .then(() => {
@@ -674,7 +674,7 @@ exports.addFriend = (req, res) => {
                                     return db
                                         .doc(`friends/${req.params.userName}`)
                                         .set({
-                                            [req.user.userName]: userWantToAddData
+                                            [req.user.userName]: userWantToAdd_Data
                                         }, {
                                             merge: true
                                         })
@@ -695,7 +695,7 @@ exports.addFriend = (req, res) => {
                         })
                         .then(() => {
                             return res.json({
-                                userToBeAddedData
+                                userToBeAdded_Data
                             });
                         });
                 } else {
@@ -734,8 +734,8 @@ exports.unFriend = (req, res) => {
     const userWantToDelete = db.doc(`/users/${req.user.userName}`);
 
     // have all details of both users
-    let userToBeDeletedAllData;
-    let userWantToDeleteAllData;
+    let userToBeDeleted_AllData;
+    let userWantToDelete_AllData;
 
     let isUser = false
 
@@ -747,7 +747,8 @@ exports.unFriend = (req, res) => {
                 // get user (to be deleted) data
                 isUser = true;
                 console.log(doc.data())
-                userToBeDeletedAllData = doc.data();
+                userToBeDeleted_AllData = doc.data();
+                // after verifying that user (to be deleted) is exist, get all friend of user (who want to delete a friend)
                 return friendsOfDeleterUser.get();
             } else {
                 return res.status(404).json({
@@ -756,51 +757,57 @@ exports.unFriend = (req, res) => {
             }
         })
         .then((doc) => {
-            // doc hold => all friends of deleter user
+            // doc hold => all friends of deleter user (who want to delete a friend)
             /**
              * ex: user
              *        |_ userName: user
              *        |_ profilePicture: 'url'
              */
             //              user 
-            //console.log('doc------', doc.get(req.params.userName))
+            // check if user (to be deleted), already was added by this user (who want to delete a friend)
             if (doc.get(req.params.userName) != null) {
                 // user already added as friend 
+                // more verifying that user (to be deleted) is exist, cool go ahead!
                 if (isUser) {
-                    // the user is exist, and the user not was added before > so delete this user from friends
+                    // the user (to be deleted) is exist, and was added before as friend > so delete this user from friends
                     return db
                         .doc(`friends/${req.user.userName}`)
                         .update({
-                            // delete that user from friends of this user
+                            // delete that user (to be deleted) from friends of this user (who want to delete a friend)
                             [req.params.userName]: admin.firestore.FieldValue.delete()
                         })
                         .then(() => {
                             return db
                                 .doc(`friends/${req.params.userName}`)
                                 .update({
-                                    // delete this user from friends of that user
+                                    // delete this user (who want to delete a friend) from friends of that user (to be deleted)
                                     [req.user.userName]: admin.firestore.FieldValue.delete()
                                 })
                         })
                         .then(() => {
-                            // decrement friends count of deleted user
-                            userToBeDeletedAllData.friendsCount--;
+                            // decrement friends count of deleted user (to be deleted)
+                            userToBeDeleted_AllData.friendsCount--;
                             return userToBeDeleted.update({
-                                friendsCount: userToBeDeletedAllData.friendsCount
+                                friendsCount: userToBeDeleted_AllData.friendsCount
                             });
                         })
                         .then(() => {
-                            // decrement friends count of deleter user
+                            // first access user (who want to delete a friend)
+                            //then decrement friends count of deleter user (who want to delete a friend) 
                             userWantToDelete.get()
                                 .then((doc) => {
-                                    return userWantToDeleteAllData = doc.data()
+                                    return userWantToDelete_AllData = doc.data()
                                 })
                                 .then(() => {
-                                    userWantToDeleteAllData.friendsCount--;
+                                    userWantToDelete_AllData.friendsCount--;
                                     return userWantToDelete.update({
-                                        friendsCount: userWantToDeleteAllData.friendsCount
+                                        friendsCount: userWantToDelete_AllData.friendsCount
                                     });
                                 })
+                        })
+                        // delete notification of add friend, when this user click unfriend 
+                        .then(() => {
+                            deleteNotificationOnUnFriend(req, res)
                         })
                         .then(() => {
                             return res.json({
@@ -824,6 +831,26 @@ exports.unFriend = (req, res) => {
             res.status(500).json({
                 error: err.code
             });
+        });
+}
+
+deleteNotificationOnUnFriend = (req, res) => {
+    return db
+        .collection('notifications').get()
+        .then((data) => {
+            data.forEach((doc) => {
+                if (doc.data().sender == req.user.userName && doc.data().recipient == req.params.userName &&
+                    doc.data().type == 'addFriend') {
+                    console.log(doc.data())
+                    db.doc(`/notifications/${doc.id}`).delete()
+                }
+            })
+        })
+        .catch((err) => {
+            console.error(err);
+            return res.json({
+                'error': 'Something went wrong while delete notification!'
+            })
         });
 }
 
@@ -855,11 +882,11 @@ exports.usersToAdd = (req, res) => {
                 if (randomArr.indexOf(r) === -1) randomArr.push(r);
             }
         })
-        .then(() =>{
+        .then(() => {
             let usersToAdd = []
-            for( let i=0 ; i<4 ; i++){
+            for (let i = 0; i < 4; i++) {
                 // avoid adding current user to list of suggestion people to add
-                if(allUsers[randomArr[i]].userName !== req.user.userName){
+                if (allUsers[randomArr[i]].userName !== req.user.userName) {
                     usersToAdd.push(allUsers[randomArr[i]])
                 }
             }
