@@ -464,6 +464,16 @@ exports.getAuthenticatedUser = (req, res) => {
                     notificationId: doc.id,
                 });
             });
+            return db.doc(`/friends/${req.user.userName}`).get()
+        })
+        .then((doc) => {
+            userData.friends = []
+            // loop on all fields in doc
+            for(key in doc.data()){
+                // @value: contain data of each field.
+                var value = doc.data()[key];
+                userData.friends.push(value)
+            }
             return res.json(userData);
         })
         .catch((err) => {
@@ -519,7 +529,12 @@ exports.getUserDetails = (req, res) => {
         .then((doc) => {
             userData.friends = [];
             if (doc.exists) {
-                userData.friends.push(doc.data())
+                // loop on all fields in doc
+                for(key in doc.data()){
+                    // @value: contain data of each field.
+                    var value = doc.data()[key];
+                    userData.friends.push(value)
+                }
             }
             return res.json(userData);
         })
@@ -786,17 +801,6 @@ exports.unFriend = (req, res) => {
                                         friendsCount: userWantToDeleteAllData.friendsCount
                                     });
                                 })
-                        })
-                        .then(() => {
-                            // fire notification when user unfriend another user
-                            return db.collection('notifications').add({
-                                createdAt: new Date().toISOString(),
-                                recipient: req.params.userName,
-                                sender: req.user.userName,
-                                senderProfilePicture: req.user.profilePicture,
-                                type: 'unFriend',
-                                read: false
-                            });
                         })
                         .then(() => {
                             return res.json({

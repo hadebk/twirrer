@@ -176,51 +176,7 @@ exports.createNotificationOnComment = functions
                 return;
             });
     });
-/*
-// work just when user add first user, because firebase trigger work on document change not by change on any field of that document
 
-// 1- create notification when someone like any post
-exports.createNotificationOnAddFriend1 = functions
-    .region('europe-west3')
-    .firestore.document('friends/{userName}')
-    .onCreate((snapshot, context) => { // snapshot has data of receiver (userName, profilePicture)
-        let receiverObjectKey = Object.keys(snapshot.data())
-            if (
-                //          receiver                    sender
-                context.params.userName !== snapshot.data()[receiverObjectKey].userName
-            ) {
-                return db.collection('notifications').add({
-                    createdAt: new Date().toISOString(),
-                    recipient: snapshot.data()[receiverObjectKey].userName,
-                    sender: context.params.userName,
-                    senderProfilePicture: snapshot.data()[receiverObjectKey].profilePicture,
-                    type: 'addFriend',
-                    read: false
-                });
-            }
-    });
-
-// 1- create notification when someone like any post
-exports.createNotificationOnAddFriend2 = functions
-    .region('europe-west3')
-    .firestore.document('friends/{userName}')
-    .onUpdate((snapshot, context) => { // snapshot has data of receiver (userName, profilePicture)
-        let receiverObjectKey = Object.keys(snapshot.data())
-            if (
-                //          receiver                    sender
-                context.params.userName !== snapshot.data()[receiverObjectKey].userName
-            ) {
-                return db.collection('notifications').add({
-                    createdAt: new Date().toISOString(),
-                    recipient: snapshot.data()[receiverObjectKey].userName,
-                    sender: context.params.userName,
-                    senderProfilePicture: snapshot.data()[receiverObjectKey].profilePicture,
-                    type: 'addFriend',
-                    read: false
-                });
-            }
-    });
-*/
 // 4- when user update his profile image => then update it in posts, likes and comments collections
 exports.onUserImageChange = functions
     .region('europe-west3')
@@ -299,8 +255,7 @@ exports.onUserImageChange = functions
                     data.forEach(doc =>{
                         // loop on all fields in doc
                         for(key in doc.data()){
-                            // @value: contain parent of each field.
-                            // ex: user{userName: bla, profilePicture: bla}, so value = user
+                            // @value: contain data of each field.
                             var value = doc.data()[key];
                             if(value.userName == change.before.data().userName){
                                 db.collection('friends').doc(doc.id)
