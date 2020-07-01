@@ -58,16 +58,16 @@ app.get('/post/:postId/unlike', firebaseAuth, unlikePost)
 app.post('/signup', signup)
 app.post('/login', login)
 app.get('/logout', logout)
-app.post('/user/uploadProfileImage', firebaseAuth, uploadProfileImage)
-app.post('/user/uploadCoverImage', firebaseAuth, uploadCoverImage)
+app.post('/uploadProfileImage', firebaseAuth, uploadProfileImage)
+app.post('/uploadCoverImage', firebaseAuth, uploadCoverImage)
 app.post('/uploadPostImage', firebaseAuth, uploadPostImage)
-app.post('/user/addUserDetails', firebaseAuth, addUserDetails)
-app.get('/user/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser)
+app.post('/addUserDetails', firebaseAuth, addUserDetails)
+app.get('/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser)
 app.get('/user/:userName/getUserDetails', getUserDetails)
-app.post('/notifications', firebaseAuth, markNotificationsAsRead)
 app.get('/user/:userName/addFriend', firebaseAuth, addFriend)
 app.get('/user/:userName/unFriend', firebaseAuth, unFriend)
 app.get('/usersToAdd',firebaseAuth, usersToAdd);
+app.post('/markNotificationsAsRead', firebaseAuth, markNotificationsAsRead)
 
 
 
