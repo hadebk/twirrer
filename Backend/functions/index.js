@@ -55,9 +55,9 @@ app.get('/post/:postId/like', firebaseAuth, likePost)
 app.get('/post/:postId/unlike', firebaseAuth, unlikePost)
 
 // user routes
-app.post('/signup', signup)
-app.post('/login', login)
-app.get('/logout', logout)
+app.post('/signup', signup)//
+app.post('/login', login)//
+app.get('/logout', logout)//
 app.post('/uploadProfileImage', firebaseAuth, uploadProfileImage)
 app.post('/uploadCoverImage', firebaseAuth, uploadCoverImage)
 app.post('/uploadPostImage', firebaseAuth, uploadPostImage)
