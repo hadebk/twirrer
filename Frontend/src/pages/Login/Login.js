@@ -1,23 +1,31 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.scss";
+
+// context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
+
+// api service
 import UserService from "../../services/UserService";
 
 const Login = () => {
+
+  // consume them/user context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+  const { setUserData } = useContext(UserContext);
 
+  // local state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
+  // util
   const history = useHistory();
   let userToken = "";
 
-  const { userData, setUserData } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +34,7 @@ const Login = () => {
 
     setPassword("");
 
+    // login user
     UserService.loginUser({ email, password })
       .then((res) => {
         console.log(res.data);
@@ -36,6 +45,7 @@ const Login = () => {
       })
       .then(() => {
         if (userToken) {
+          // get data of logged in user, and pass it to global state
           UserService.getAuthenticatedUser(userToken)
             .then((res) => {
               setUserData({
@@ -54,10 +64,6 @@ const Login = () => {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    console.log("login", userData);
-  }, []);
 
   return (
     <div

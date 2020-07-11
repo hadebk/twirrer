@@ -1,22 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./Signup.scss";
+
+// context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
+
+// api service
 import UserService from "../../services/UserService";
 
 const Signup = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  // consume theme/user context
+  const { setUserData } = useContext(UserContext);
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
+  // local state
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
+  // util
   const history = useHistory();
   let userToken = "";
 
@@ -28,6 +35,7 @@ const Signup = () => {
     setPassword("");
     setConfirmPassword("");
 
+    // sign up user
     UserService.signupUser({ userName, email, password, confirmPassword })
       .then((res) => {
         console.log(res.data);
@@ -38,6 +46,7 @@ const Signup = () => {
       })
       .then(() => {
         if (userToken) {
+          // get data of signed up user, and pass it to global state
           UserService.getAuthenticatedUser(userToken)
             .then((res) => {
               setUserData({ token: userToken, user: res.data, isAuth: true });
@@ -52,10 +61,6 @@ const Signup = () => {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    console.log("signup", userData);
-  }, []);
 
   return (
     <div
@@ -257,9 +262,9 @@ const Signup = () => {
               style={{
                 background: theme.mainColor,
               }}
-              disabled={loading}
+              disabled={isLoading}
             >
-              {loading ? "Loading..." : "Sign up"}
+              {isLoading ? "Loading..." : "Sign up"}
             </button>
           </form>
         </div>

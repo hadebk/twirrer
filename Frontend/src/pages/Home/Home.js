@@ -1,24 +1,21 @@
-import React, {useState, useEffect, useRef, useCallback, useContext} from 'react';
-import axios from 'axios'
+import React, { useContext } from 'react';
+
+// context (global state)
 import UserContext from "../../context/UserContext";
 
 const Home = () => {
   const {userData} = useContext(UserContext);
 
-  useEffect(() => {
-    console.log("home", userData)
-  }, [])
-
   return (<> {
     userData.isAuth
       ? (
         <h1 className='title'>
-          true
+          Some user logged in
         </h1>
       )
       : (
         <h1 className='title'>
-          false
+          No user logged in
         </h1>
       )
   }
