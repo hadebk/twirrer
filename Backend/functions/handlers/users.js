@@ -14,10 +14,6 @@ const {
     validateLoginData,
     reduceUserDetails
 } = require('../util/validators');
-const e = require('express');
-const {
-    user
-} = require('firebase-functions/lib/providers/auth');
 
 /**
  * ****************************************************************
@@ -50,7 +46,7 @@ exports.signup = (req, res) => {
             if (doc.exists) {
                 // code 400 => client error
                 return res.status(400).json({
-                    userName: 'this user name is already taken'
+                    userName: 'This user name is already taken!'
                 })
             } else {
                 return firebase.auth().createUserWithEmailAndPassword(newUser.email, newUser.password)

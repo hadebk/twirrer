@@ -17,7 +17,20 @@
   .title {
     text-align: center;
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+  }
+
+  #general-error{
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .logo{
+    text-align: center;
+    margin-bottom: 40px;
+    &__svg{
+      width: 35px;
+    }
   }
 
   .signUp {
@@ -83,5 +96,9 @@
     &:not(:disabled):not(.disabled):active {
       border-color: transparent;
     }
+  }
+
+  small{
+    margin-bottom: .25rem;
   }
 }
