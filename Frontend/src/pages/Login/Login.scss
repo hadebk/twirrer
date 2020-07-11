@@ -1,87 +1,87 @@
-@import '../../style/CssVariables';
+@import "../../style/CssVariables";
 
 .main-box {
-    height: 100vh;
-    max-height: 100vh;
-    min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  min-height: 100vh;
 }
 
 .main {
-    max-width: 600px;
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 20px;
-    padding-left: 15px;
-    padding-right: 15px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
 
-    .title {
-        text-align: center;
-        font-weight: 700;
-        margin-bottom: 30px;
+  .title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  .signUp {
+    text-align: center;
+
+    .signUp__link:hover {
+      text-decoration: underline;
     }
-
-    .signUp {
-        text-align: center;
-
-        .signUp__link:hover{
-            text-decoration: underline;
-        }
-    }
+  }
 }
 
 .form {
-    padding: 0 15px;
+  padding: 0 15px;
 
-    .form__inputBox {
-        border-radius: 3px;
-        padding: 0 10px;
-        padding-top: 3px;
+  .form__inputBox {
+    border-radius: 3px;
+    padding: 0 10px;
+    padding-top: 3px;
+  }
+
+  .form__inputBox__label {
+    margin-bottom: 0;
+  }
+
+  .form__inputBox__input {
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    height: 30px;
+
+    &:focus {
+      background-color: transparent;
+      border-color: transparent;
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+
+  .form__button {
+    width: 100%;
+    height: 47px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    border-radius: $radius;
+    border-color: transparent;
+
+    &:hover {
+      border-color: transparent;
+    }
+    &:focus {
+      border-color: transparent;
+      box-shadow: none;
     }
 
-    .form__inputBox__label {
-        margin-bottom: 0;
+    &:active {
+      box-shadow: none;
     }
 
-    .form__inputBox__input {
-        background-color: transparent;
-        padding: 0;
-        border: 0;
-        height: 30px;
-
-        &:focus {
-            background-color: transparent;
-            border-color: transparent;
-            outline: 0;
-            box-shadow: none;
-        }
+    &:not(:disabled):not(.disabled):active:focus {
+      box-shadow: none;
     }
 
-    .form__button{
-        width: 100%;
-        height: 47px;
-        font-weight: 700;
-        margin-bottom: 30px;
-        border-radius: $radius;
-        border-color: transparent;
-
-&:hover{
-    border-color: transparent
-}
-        &:focus{
-                border-color: transparent;
-    box-shadow: none;
-        }
-
-        &:active{
-            box-shadow: none
-        }
-
-        &:not(:disabled):not(.disabled):active:focus{
-box-shadow: none
-        }
-
-        &:not(:disabled):not(.disabled):active{
-            border-color: transparent
-        }
+    &:not(:disabled):not(.disabled):active {
+      border-color: transparent;
     }
+  }
 }
