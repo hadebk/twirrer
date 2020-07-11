@@ -8,9 +8,11 @@ import Signup from "./pages/Signup/Signup";
 import Page404 from "./pages/Page404/Page404";
 
 // util
-import History from "./History";
-import jwtDecode from "jwt-decode";
+import History from "./util/History";
 import AuthRoute from "./util/AuthRoute";
+
+// libraries
+import jwtDecode from "jwt-decode";
 
 // context (global state)
 import ThemeContextProvider from "./context/ThemeContext";
