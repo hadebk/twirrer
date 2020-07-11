@@ -18,11 +18,12 @@
     text-align: center;
     font-weight: 700;
     margin-bottom: 30px;
+    font-size: 23px;
   }
 
   .logo {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     &__svg {
       width: 35px;
     }
@@ -30,6 +31,7 @@
 
   .login {
     text-align: center;
+    font-size: 15px;
 
     .login__link:hover {
       text-decoration: underline;
@@ -48,6 +50,7 @@
 
   .form__inputBox__label {
     margin-bottom: 0;
+    font-size: 15px;
   }
 
   .form__inputBox__input {

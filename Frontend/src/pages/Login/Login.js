@@ -34,8 +34,6 @@ const Login = () => {
 
     setLoading(true);
 
-    setPassword("");
-
     // login user
     UserService.loginUser({ email, password })
       .then((res) => {
@@ -44,6 +42,7 @@ const Login = () => {
         localStorage.setItem("auth-token", userToken);
         setErrors({});
         setLoading(false);
+        setPassword("");
       })
       .then(() => {
         if (userToken) {
@@ -64,6 +63,7 @@ const Login = () => {
         console.error("Error while login", err.response.data);
         setErrors(err.response.data);
         setLoading(false);
+        setPassword("");
       });
   };
 
@@ -85,7 +85,7 @@ const Login = () => {
             viewBox='0 0 24 24'
             className='logo__svg'
             style={{
-              fill: theme.mainColor,
+              fill: theme.logo,
             }}
           >
             <g>
@@ -215,7 +215,7 @@ const Login = () => {
               color: theme.mainColor,
             }}
           >
-            You don't have an account?
+            You don't have an account?{" · "}
             <Link
               to='/signup'
               className='signUp__link'
@@ -223,7 +223,6 @@ const Login = () => {
                 color: theme.mainColor,
               }}
             >
-              {" "}
               Sign up for Twirrer
             </Link>
           </span>

@@ -18,6 +18,7 @@
     text-align: center;
     font-weight: 700;
     margin-bottom: 20px;
+    font-size: 23px;
   }
 
   #general-error{
@@ -27,7 +28,7 @@
 
   .logo{
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     &__svg{
       width: 35px;
     }
@@ -35,6 +36,7 @@
 
   .signUp {
     text-align: center;
+    font-size: 15px;
 
     .signUp__link:hover {
       text-decoration: underline;
@@ -53,6 +55,7 @@
 
   .form__inputBox__label {
     margin-bottom: 0;
+    font-size: 15px;
   }
 
   .form__inputBox__input {

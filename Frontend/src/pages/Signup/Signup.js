@@ -82,7 +82,7 @@ const Signup = () => {
             viewBox='0 0 24 24'
             className='logo__svg'
             style={{
-              fill: theme.mainColor,
+              fill: theme.logo,
             }}
           >
             <g>
@@ -276,7 +276,7 @@ const Signup = () => {
               color: theme.mainColor,
             }}
           >
-            Already have an account?
+            Already have an account?{" · "}
             <Link
               to='/login'
               className='login__link'
@@ -284,7 +284,6 @@ const Signup = () => {
                 color: theme.mainColor,
               }}
             >
-              {" "}
               login to Twirrer
             </Link>
           </span>
