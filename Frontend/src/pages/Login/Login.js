@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -16,21 +16,22 @@ const Login = () => {
   // ******* start consume contexts ******* //
 
   // theme context
-  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
   // language context
   const { isEnglish, english, german, toggleLanguage } = useContext(
     LanguageContext
   );
-  const language = isEnglish ? english : german;
+  var language = isEnglish ? english : german;
+
   // user context
   const { setUserData } = useContext(UserContext);
 
   // ******* end consume contexts ******* //
 
   // local state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("eman@gmail.com");
+  const [password, setPassword] = useState("eman123");
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
@@ -49,9 +50,6 @@ const Login = () => {
         console.log(res.data);
         userToken = res.data.userToken;
         localStorage.setItem("auth-token", userToken);
-        setErrors({});
-        setLoading(false);
-        setPassword("");
       })
       .then(() => {
         if (userToken) {
@@ -64,9 +62,17 @@ const Login = () => {
                 isAuth: true,
               });
             })
-            .then(() => history.push("/"))
+            .then(() => {
+              history.push("/");
+            })
             .catch((err) => console.error("Error while get user data", err));
         }
+      })
+      .then(() => {
+        // everything done, so reset our states
+        setErrors({});
+        setLoading(false);
+        setPassword("");
       })
       .catch((err) => {
         console.error("Error while login", err.response.data);
@@ -75,6 +81,15 @@ const Login = () => {
         setPassword("");
       });
   };
+
+  /*useEffect(() => {
+    console.log('login', isEnglish);
+    let j = isEnglish ? english : german
+    console.log('login', j);
+    console.log('login', localStorage.getItem("isEnglish") !== null
+      ? localStorage.getItem("isEnglish")
+      : true);
+  }, [isEnglish, english, german]);*/
 
   return (
     <div
@@ -239,9 +254,15 @@ const Login = () => {
         </div>
         <button
           onClick={toggleLanguage}
-          style={{ color: "#fff", background: "#333" }}
+          style={{ color: "#fff", background: "#333", padding: "10px" }}
         >
-          lan
+          language
+        </button>
+        <button
+          onClick={toggleTheme}
+          style={{ color: "#fff", background: "#999", padding: "10px" }}
+        >
+          theme
         </button>
       </div>
     </div>

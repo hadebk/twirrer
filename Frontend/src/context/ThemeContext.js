@@ -1,36 +1,51 @@
 import React, { createContext, Component } from "react";
 
+// import data files
+import Dark from "../util/Theme/Dark";
+import Light from "../util/Theme/Light";
+
 export const ThemeContext = createContext();
 
 class ThemeContextProvider extends Component {
   state = {
     isLightTheme: false,
-    dark: {
-      mainColor: "#1DA1F2",
-      secondaryColor: "rgba(29, 161, 242, 0.1)",
-      background: "#15202B",
-      error: "#E0245E",
-      foreground: "#192734",
-      typoMain: "#ffffff",
-      typoSecondary: "#8899A6",
-      logo: "#ffffff",
-    },
-
-    light: {
-      mainColor: "#1DA1F2",
-      secondaryColor: "rgba(29, 161, 242, 0.1)",
-      background: "#ffffff",
-      error: "#E0245E",
-      foreground: "#F5F8FA",
-      typoMain: "#14171A",
-      typoSecondary: "#657786",
-      logo: "#1DA1F2",
-    },
+    dark: Dark,
+    light: Light,
   };
 
+  componentDidMount() {
+    /**
+     * before render the component, check first if user have selected theme before?
+     * if yes, update the state according to localStorage value
+     */
+    const _isLightTheme = window.localStorage.getItem("isLightTheme");
+    if (_isLightTheme === "false") {
+      this.setState({
+        isLightTheme: false,
+      });
+    }
+    if (_isLightTheme === "true") {
+      this.setState({
+        isLightTheme: true,
+      });
+    }
+  }
+
+  // toggle current theme
   toggleTheme = () => {
-    this.setState({ isLightTheme: !this.state.isLightTheme });
+    if (this.state.isLightTheme === false) {
+      window.localStorage.setItem("isLightTheme", true);
+      this.setState({
+        isLightTheme: true,
+      });
+    } else {
+      window.localStorage.setItem("isLightTheme", false);
+      this.setState({
+        isLightTheme: false,
+      });
+    }
   };
+
   render() {
     return (
       // pass state and fun to whole app

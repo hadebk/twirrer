@@ -43,17 +43,12 @@ const Signup = () => {
 
     setLoading(true);
 
-    setPassword("");
-    setConfirmPassword("");
-
     // sign up user
     UserService.signupUser({ userName, email, password, confirmPassword })
       .then((res) => {
         console.log(res.data);
         userToken = res.data.userToken;
         localStorage.setItem("auth-token", userToken);
-        setErrors({});
-        setLoading(false);
       })
       .then(() => {
         if (userToken) {
@@ -65,6 +60,13 @@ const Signup = () => {
             .then(() => history.push("/"))
             .catch((err) => console.error("Error while get user data", err));
         }
+      })
+      .then(() => {
+        // everything done, so reset our states
+        setErrors({});
+        setLoading(false);
+        setPassword("");
+        setConfirmPassword("");
       })
       .catch((err) => {
         console.error("Error while sign up", err.response.data);
