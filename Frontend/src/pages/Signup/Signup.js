@@ -275,7 +275,9 @@ const Signup = () => {
               }}
               disabled={isLoading}
             >
-              {isLoading ? language.signup.loading : language.signup.signupButton}
+              {isLoading
+                ? language.signup.loading
+                : language.signup.signupButton}
             </button>
           </form>
         </div>
@@ -285,7 +287,8 @@ const Signup = () => {
               color: theme.mainColor,
             }}
           >
-            {language.signup.question}{"  "}
+            {language.signup.question}
+            {"  "}
             <Link
               to='/login'
               className='login__link'

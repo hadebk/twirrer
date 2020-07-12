@@ -30,7 +30,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   // util
   const history = useHistory();
@@ -210,9 +210,9 @@ const Login = () => {
               style={{
                 background: theme.mainColor,
               }}
-              disabled={loading}
+              disabled={isLoading}
             >
-              {loading ? language.login.loading : language.login.logInButton}
+              {isLoading ? language.login.loading : language.login.logInButton}
             </button>
           </form>
         </div>
