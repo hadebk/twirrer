@@ -1,3 +1,4 @@
+
 {
   "name": "twirrer",
   "version": "0.1.0",
@@ -36,5 +37,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://europe-west3-twirrer-app.cloudfunctions.net/api"
+  "proxy": "https://europe-west3-twirrer-app.cloudfunctions.net/api" 
 }

@@ -16,6 +16,7 @@ import jwtDecode from "jwt-decode";
 
 // context (global state)
 import ThemeContextProvider from "./context/ThemeContext";
+import LanguageContextProvider from "./context/LanguageContext";
 import UserContext from "./context/UserContext";
 
 // api services
@@ -80,15 +81,17 @@ function App() {
     <Router history={History}>
       <UserContext.Provider value={{ userData, setUserData }}>
         <ThemeContextProvider>
-          <div className='App'>
-            {/* let one Route invoked at a time */}
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <AuthRoute exact path='/login' component={Login} />
-              <AuthRoute exact path='/signup' component={Signup} />
-              <Route component={Page404} />
-            </Switch>
-          </div>
+          <LanguageContextProvider>
+            <div className='App'>
+              {/* let one Route invoked at a time */}
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <AuthRoute exact path='/login' component={Login} />
+                <AuthRoute exact path='/signup' component={Signup} />
+                <Route component={Page404} />
+              </Switch>
+            </div>
+          </LanguageContextProvider>
         </ThemeContextProvider>
       </UserContext.Provider>
     </Router>

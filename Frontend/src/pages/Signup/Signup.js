@@ -6,16 +6,25 @@ import "./Signup.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
+import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
 // api service
 import UserService from "../../services/UserService";
 
 const Signup = () => {
-  // consume theme/user context
-  const { setUserData } = useContext(UserContext);
+  // ******* start consume contexts ******* //
+
+  // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+  // language context
+  const { isEnglish, english, german } = useContext(LanguageContext);
+  const language = isEnglish ? english : german;
+  // user context
+  const { setUserData } = useContext(UserContext);
+
+  // ******* end consume contexts ******* //
 
   // local state
   const [userName, setUserName] = useState("");
@@ -96,7 +105,7 @@ const Signup = () => {
             color: theme.typoMain,
           }}
         >
-          Sign up for Twirrer
+          {language.signup.header}
         </h4>
         <div className='form'>
           <form onSubmit={handleSubmit}>
@@ -116,7 +125,7 @@ const Signup = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                User name
+                {language.signup.userNameLabel}
               </label>
               <input
                 type='text'
@@ -156,7 +165,7 @@ const Signup = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                Email address
+                {language.signup.emailLabel}
               </label>
               <input
                 type='email'
@@ -196,7 +205,7 @@ const Signup = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                Password
+                {language.signup.passwordLabel}
               </label>
               <input
                 type='password'
@@ -235,7 +244,7 @@ const Signup = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                Confirm password
+                {language.signup.confirmPasswordLabel}
               </label>
               <input
                 type='password'
@@ -266,7 +275,7 @@ const Signup = () => {
               }}
               disabled={isLoading}
             >
-              {isLoading ? "Loading..." : "Sign up"}
+              {isLoading ? language.signup.loading : language.signup.signupButton}
             </button>
           </form>
         </div>
@@ -276,7 +285,7 @@ const Signup = () => {
               color: theme.mainColor,
             }}
           >
-            Already have an account?{" · "}
+            {language.signup.question}{"  "}
             <Link
               to='/login'
               className='login__link'
@@ -284,7 +293,7 @@ const Signup = () => {
                 color: theme.mainColor,
               }}
             >
-              login to Twirrer
+              {language.signup.link}
             </Link>
           </span>
         </div>

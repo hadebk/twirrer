@@ -6,17 +6,25 @@ import "./Login.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
+import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
 // api service
 import UserService from "../../services/UserService";
 
 const Login = () => {
+  // ******* start consume contexts ******* //
 
-  // consume them/user context
+  // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+  // language context
+  const { isEnglish, english, german } = useContext(LanguageContext);
+  const language = isEnglish ? english : german;
+  // user context
   const { setUserData } = useContext(UserContext);
+
+  // ******* end consume contexts ******* //
 
   // local state
   const [email, setEmail] = useState("");
@@ -27,7 +35,6 @@ const Login = () => {
   // util
   const history = useHistory();
   let userToken = "";
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,7 +106,7 @@ const Login = () => {
             color: theme.typoMain,
           }}
         >
-          Log in to Twirrer
+          {language.login.header}
         </h4>
         {errors.general && (
           <small
@@ -130,7 +137,7 @@ const Login = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                Email address
+                {language.login.emailLabel}
               </label>
               <input
                 type='email'
@@ -172,7 +179,7 @@ const Login = () => {
                   color: theme.typoSecondary,
                 }}
               >
-                Password
+                {language.login.passwordLabel}
               </label>
               <input
                 type='password'
@@ -205,7 +212,7 @@ const Login = () => {
               }}
               disabled={loading}
             >
-              {loading ? "Loading..." : "Log in"}
+              {loading ? language.login.loading : language.login.logInButton}
             </button>
           </form>
         </div>
@@ -215,7 +222,8 @@ const Login = () => {
               color: theme.mainColor,
             }}
           >
-            You don't have an account?{" · "}
+            {language.login.question}
+            {"  "}
             <Link
               to='/signup'
               className='signUp__link'
@@ -223,7 +231,7 @@ const Login = () => {
                 color: theme.mainColor,
               }}
             >
-              Sign up for Twirrer
+              {language.login.link}
             </Link>
           </span>
         </div>
