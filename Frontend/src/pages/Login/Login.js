@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -19,7 +19,9 @@ const Login = () => {
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
   // language context
-  const { isEnglish, english, german } = useContext(LanguageContext);
+  const { isEnglish, english, german, toggleLanguage } = useContext(
+    LanguageContext
+  );
   const language = isEnglish ? english : german;
   // user context
   const { setUserData } = useContext(UserContext);
@@ -235,6 +237,12 @@ const Login = () => {
             </Link>
           </span>
         </div>
+        <button
+          onClick={toggleLanguage}
+          style={{ color: "#fff", background: "#333" }}
+        >
+          lan
+        </button>
       </div>
     </div>
   );
