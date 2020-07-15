@@ -9,28 +9,43 @@ import PostService from "../../services/PostService";
 const Home = () => {
   const { userData, setUserData } = useContext(UserContext);
   const [lastKey, setKey] = useState("");
+  const [posts, setPosts] = useState([]);
+  const [posts_loading, setPostsLoading] = useState(false);
+  const [nextPosts_loading, setNextPostsLoading] = useState(false);
 
   useEffect(() => {
+    setPostsLoading(true);
     PostService.postsFirstFetch()
       .then((res) => {
         console.log(res.data);
         setKey(res.data.lastKey);
+        setPosts(res.data.posts);
+        setPostsLoading(false);
       })
       .catch((err) => {
         console.log(err.response.data);
+        setPostsLoading(false);
       });
   }, []);
 
   const fetchMorePosts = (key) => {
-    PostService.postsNextFetch({ lastKey: key })
-      .then((res) => {
-        setKey(res.data.lastKey);
-        console.log(res.data);
-        console.log("key", lastKey);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    if (key.length > 0) {
+      setNextPostsLoading(true);
+      PostService.postsNextFetch({ lastKey: key })
+        .then((res) => {
+          setKey(res.data.lastKey);
+          // add new posts to old posts, rather than delete old posts and show new posts,
+          // of course we need all posts to be shown.
+          setPosts(posts.concat(res.data.posts));
+          setNextPostsLoading(false);
+          console.log(res.data);
+          console.log("key", lastKey);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          setNextPostsLoading(false);
+        });
+    }
   };
 
   const logOut = () => {
@@ -41,6 +56,17 @@ const Home = () => {
       isAuth: false,
     });
   };
+
+  const firstPosts =
+    (!posts_loading) ? (
+      <ul>
+        {posts.map((post) => {
+          return <li key={post.postId}>{post.postContent}</li>;
+        })}
+      </ul>
+    ) : (
+      <p>Loading...</p>
+    );
 
   return (
     <>
@@ -57,6 +83,8 @@ const Home = () => {
             onClick={() => fetchMorePosts(lastKey)}
             value='fetch More'
           />
+          <div>{firstPosts}</div>
+          <div>{nextPosts_loading && <p>Loading Next...</p>}</div>
         </>
       )}
     </>
