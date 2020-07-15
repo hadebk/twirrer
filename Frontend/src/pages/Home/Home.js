@@ -12,6 +12,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
+  const [note, setNote] = useState('');
 
   useEffect(() => {
     setPostsLoading(true);
@@ -45,6 +46,8 @@ const Home = () => {
           console.log(err.response.data);
           setNextPostsLoading(false);
         });
+    } else {
+      setNote("Super! you are up to date :)");
     }
   };
 
@@ -57,16 +60,17 @@ const Home = () => {
     });
   };
 
-  const firstPosts =
-    (!posts_loading) ? (
-      <ul>
-        {posts.map((post) => {
-          return <li key={post.postId}>{post.postContent}</li>;
-        })}
-      </ul>
-    ) : (
-      <p>Loading...</p>
-    );
+  const firstPosts = !posts_loading ? (
+    <ul>
+      {posts.map((post) => {
+        return <li key={post.postId}>{post.postContent}</li>;
+      })}
+    </ul>
+  ) : (
+    <p>Loading...</p>
+  );
+
+  const message = note.length > 0 ? <p>{note}</p> : <p></p>;
 
   return (
     <>
@@ -85,6 +89,7 @@ const Home = () => {
           />
           <div>{firstPosts}</div>
           <div>{nextPosts_loading && <p>Loading Next...</p>}</div>
+          <div className="note">{message}</div>
         </>
       )}
     </>
