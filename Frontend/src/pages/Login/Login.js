@@ -256,13 +256,13 @@ const Login = () => {
           onClick={toggleLanguage}
           style={{ color: "#fff", background: "#333", padding: "10px" }}
         >
-          language
+          {isEnglish ? 'DE' : 'EN'}
         </button>
         <button
           onClick={toggleTheme}
           style={{ color: "#fff", background: "#999", padding: "10px" }}
         >
-          theme
+          {isLightTheme ? 'Dark' : 'Light'}
         </button>
       </div>
     </div>

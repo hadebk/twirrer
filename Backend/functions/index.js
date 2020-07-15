@@ -1,42 +1,40 @@
-const functions = require('firebase-functions');
+const functions = require("firebase-functions");
 
 // init express server
-const express = require('express');
+const express = require("express");
 const app = express();
 
-const {
-    db,
-    admin
-} = require('./util/admin');
+const { db, admin } = require("./util/admin");
 
 // import operations of the routes
 const {
-    getAllPosts,
-    addNewPost,
-    deletePost,
-    getOnePost,
-    commentOnPost,
-    likePost,
-    unlikePost
-} = require('./handlers/posts');
+  postsFirstFetch,
+  postsNextFetch,
+  addNewPost,
+  deletePost,
+  getOnePost,
+  commentOnPost,
+  likePost,
+  unlikePost,
+} = require("./handlers/posts");
 const {
-    signup,
-    login,
-    logout,
-    uploadProfileImage,
-    uploadCoverImage,
-    uploadPostImage,
-    addUserDetails,
-    getAuthenticatedUser,
-    getUserDetails,
-    markNotificationsAsRead,
-    addFriend,
-    unFriend,
-    usersToAdd
-} = require('./handlers/users');
+  signup,
+  login,
+  logout,
+  uploadProfileImage,
+  uploadCoverImage,
+  uploadPostImage,
+  addUserDetails,
+  getAuthenticatedUser,
+  getUserDetails,
+  markNotificationsAsRead,
+  addFriend,
+  unFriend,
+  usersToAdd,
+} = require("./handlers/users");
 
 // import middleware authentication
-const firebaseAuth = require('./util/firebaseAuth');
+const firebaseAuth = require("./util/firebaseAuth");
 
 const defaultStorage = admin.storage();
 
@@ -46,42 +44,36 @@ const defaultStorage = admin.storage();
  * ****************************************************************
  */
 // posts routes
-app.get('/getAllPosts', getAllPosts)
-app.get('/post/:postId/get', getOnePost);
-app.post('/addNewPost', firebaseAuth, addNewPost) // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.delete('/post/:postId/delete', firebaseAuth, deletePost)
-app.post('/post/:postId/comment', firebaseAuth, commentOnPost)
-app.get('/post/:postId/like', firebaseAuth, likePost)
-app.get('/post/:postId/unlike', firebaseAuth, unlikePost)
+app.get("/postsFirstFetch", postsFirstFetch);
+app.post("/postsNextFetch", postsNextFetch);
+app.get("/post/:postId/get", getOnePost);
+app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
+app.delete("/post/:postId/delete", firebaseAuth, deletePost);
+app.post("/post/:postId/comment", firebaseAuth, commentOnPost);
+app.get("/post/:postId/like", firebaseAuth, likePost);
+app.get("/post/:postId/unlike", firebaseAuth, unlikePost);
 
 // user routes
-app.post('/signup', signup)//
-app.post('/login', login)//
-app.get('/logout', logout)//
-app.post('/uploadProfileImage', firebaseAuth, uploadProfileImage)
-app.post('/uploadCoverImage', firebaseAuth, uploadCoverImage)
-app.post('/uploadPostImage', firebaseAuth, uploadPostImage)
-app.post('/addUserDetails', firebaseAuth, addUserDetails)
-app.get('/getAuthenticatedUser', firebaseAuth, getAuthenticatedUser)
-app.get('/user/:userName/getUserDetails', getUserDetails)
-app.get('/user/:userName/addFriend', firebaseAuth, addFriend)
-app.get('/user/:userName/unFriend', firebaseAuth, unFriend)
-app.get('/usersToAdd',firebaseAuth, usersToAdd);
-app.post('/markNotificationsAsRead', firebaseAuth, markNotificationsAsRead)
-
-
-
+app.post("/signup", signup); //
+app.post("/login", login); //
+app.get("/logout", logout); //
+app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage);
+app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
+app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
+app.post("/addUserDetails", firebaseAuth, addUserDetails);
+app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
+app.get("/user/:userName/getUserDetails", getUserDetails);
+app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
+app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
+app.get("/usersToAdd", firebaseAuth, usersToAdd);
+app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
 
 /**
  * ****************************************************************
  * to tell firebase that app is the container of all routes
  * ****************************************************************
  */
-exports.api = functions.region('europe-west3').https.onRequest(app);
-
-
-
-
+exports.api = functions.region("europe-west3").https.onRequest(app);
 
 /***********************************************************************************************************************
  ***********************************************************************************************************************
@@ -106,240 +98,252 @@ exports.api = functions.region('europe-west3').https.onRequest(app);
 
 // 1- create notification when someone like any post
 exports.createNotificationOnLike = functions
-    .region('europe-west3')
-    .firestore.document('likes/{id}')
-    .onCreate((snapshot) => {
-        return db
-            .doc(`/posts/${snapshot.data().postId}`)
-            .get()
-            .then((doc) => {
-                if (
-                    doc.exists &&
-                    //          receiver                    sender
-                    doc.data().userName !== snapshot.data().userName
-                ) {
-                    return db.doc(`/notifications/${snapshot.id}`).set({
-                        createdAt: new Date().toISOString(),
-                        recipient: doc.data().userName,
-                        sender: snapshot.data().userName,
-                        senderProfilePicture: snapshot.data().profilePicture,
-                        type: 'like',
-                        read: false,
-                        postId: doc.id
-                    });
-                }
-            })
-            .catch((err) => console.error(err));
-    });
+  .region("europe-west3")
+  .firestore.document("likes/{id}")
+  .onCreate((snapshot) => {
+    return db
+      .doc(`/posts/${snapshot.data().postId}`)
+      .get()
+      .then((doc) => {
+        if (
+          doc.exists &&
+          //          receiver                    sender
+          doc.data().userName !== snapshot.data().userName
+        ) {
+          return db.doc(`/notifications/${snapshot.id}`).set({
+            createdAt: new Date().toISOString(),
+            recipient: doc.data().userName,
+            sender: snapshot.data().userName,
+            senderProfilePicture: snapshot.data().profilePicture,
+            type: "like",
+            read: false,
+            postId: doc.id,
+          });
+        }
+      })
+      .catch((err) => console.error(err));
+  });
 
 // 2- delete notification when someone unlike any post
 exports.deleteNotificationOnUnLike = functions
-    .region('europe-west3')
-    .firestore.document('likes/{id}')
-    .onDelete((snapshot) => {
-        return db
-            .doc(`/notifications/${snapshot.id}`)
-            .delete()
-            .catch((err) => { 
-                console.error(err);
-                return;
-            });
-    });
+  .region("europe-west3")
+  .firestore.document("likes/{id}")
+  .onDelete((snapshot) => {
+    return db
+      .doc(`/notifications/${snapshot.id}`)
+      .delete()
+      .catch((err) => {
+        console.error(err);
+        return;
+      });
+  });
 
 // 3- create notification when someone comment on any post
 exports.createNotificationOnComment = functions
-    .region('europe-west3')
-    .firestore.document('comments/{id}')
-    .onCreate((snapshot) => {
-        return db
-            .doc(`/posts/${snapshot.data().postId}`)
-            .get()
-            .then((doc) => {
-                if (
-                    doc.exists &&
-                    doc.data().userName !== snapshot.data().userName
-                ) {
-                    return db.doc(`/notifications/${snapshot.id}`).set({
-                        createdAt: new Date().toISOString(),
-                        recipient: doc.data().userName,
-                        sender: snapshot.data().userName,
-                        senderProfilePicture: snapshot.data().profilePicture,
-                        type: 'comment',
-                        read: false,
-                        postId: doc.id
-                    });
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-                return;
-            });
-    });
+  .region("europe-west3")
+  .firestore.document("comments/{id}")
+  .onCreate((snapshot) => {
+    return db
+      .doc(`/posts/${snapshot.data().postId}`)
+      .get()
+      .then((doc) => {
+        if (doc.exists && doc.data().userName !== snapshot.data().userName) {
+          return db.doc(`/notifications/${snapshot.id}`).set({
+            createdAt: new Date().toISOString(),
+            recipient: doc.data().userName,
+            sender: snapshot.data().userName,
+            senderProfilePicture: snapshot.data().profilePicture,
+            type: "comment",
+            read: false,
+            postId: doc.id,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return;
+      });
+  });
 
-// 4- when user update his profile image => delete old profile picture, 
+// 4- when user update his profile image => delete old profile picture,
 // then update it in posts, likes, comments, notifications and friends and  collections
 exports.onUserImageChange = functions
-    .region('europe-west3')
-    .firestore.document('/users/{userId}')
-    .onUpdate((change) => {
-        console.log(change.before.data());
-        console.log(change.after.data());
-        if (change.before.data().profilePicture !== change.after.data().profilePicture) {
-            console.log('image has changed');
-            // delete old profile picture, except 'default_pp.png'
-            let imageUrl = change.before.data().profilePicture
-            let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
-            console.log(imageName)
-            if(imageName !== 'default_pp.png'){
-                let bucket = defaultStorage.bucket();
-                file = bucket.file(imageName);
-                file.delete();
-            }
-            const batch = db.batch();
-            // update profile image in posts collection
+  .region("europe-west3")
+  .firestore.document("/users/{userId}")
+  .onUpdate((change) => {
+    console.log(change.before.data());
+    console.log(change.after.data());
+    if (
+      change.before.data().profilePicture !== change.after.data().profilePicture
+    ) {
+      console.log("image has changed");
+      // delete old profile picture, except 'default_pp.png'
+      let imageUrl = change.before.data().profilePicture;
+      let imageName = imageUrl.substr(
+        imageUrl.indexOf("/o/") + 3,
+        imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)
+      );
+      console.log(imageName);
+      if (imageName !== "default_pp.png") {
+        let bucket = defaultStorage.bucket();
+        file = bucket.file(imageName);
+        file.delete();
+      }
+      const batch = db.batch();
+      // update profile image in posts collection
+      return (
+        db
+          .collection("posts")
+          .where("userName", "==", change.before.data().userName)
+          .get()
+          .then((data) => {
+            data.forEach((doc) => {
+              const post = db.doc(`/posts/${doc.id}`);
+              batch.update(post, {
+                profilePicture: change.after.data().profilePicture,
+              });
+            });
             return db
-                .collection('posts')
-                .where('userName', '==', change.before.data().userName)
-                .get()
-                .then((data) => {
-                    data.forEach((doc) => {
-                        const post = db.doc(`/posts/${doc.id}`);
-                        batch.update(post, {
-                            profilePicture: change.after.data().profilePicture
-                        });
+              .collection("likes")
+              .where("userName", "==", change.before.data().userName)
+              .get();
+          })
+          // update profile image in likes collection
+          .then((data) => {
+            data.forEach((doc) => {
+              const like = db.doc(`/likes/${doc.id}`);
+              batch.update(like, {
+                profilePicture: change.after.data().profilePicture,
+              });
+            });
+            return db
+              .collection("comments")
+              .where("userName", "==", change.before.data().userName)
+              .get();
+          })
+          // update profile image in comments collection
+          .then((data) => {
+            data.forEach((doc) => {
+              const comment = db.doc(`/comments/${doc.id}`);
+              batch.update(comment, {
+                profilePicture: change.after.data().profilePicture,
+              });
+            });
+            return db
+              .collection("notifications")
+              .where("sender", "==", change.before.data().userName)
+              .get();
+          })
+          // update profile image in notifications collection
+          .then((data) => {
+            data.forEach((doc) => {
+              const notification = db.doc(`/notifications/${doc.id}`);
+              batch.update(notification, {
+                senderProfilePicture: change.after.data().profilePicture,
+              });
+            });
+            return db.collection("friends").get();
+          })
+          // update profile image in friends collection
+          .then((data) => {
+            // data contain all documents, loop on all doc
+            data.forEach((doc) => {
+              // loop on all fields in doc
+              for (key in doc.data()) {
+                // @value: contain data of each field.
+                var value = doc.data()[key];
+                if (value.userName == change.before.data().userName) {
+                  db.collection("friends")
+                    .doc(doc.id)
+                    .update({
+                      [`${value.userName}.profilePicture`]: change.after.data()
+                        .profilePicture,
                     });
-                    return db
-                        .collection('likes')
-                        .where('userName', '==', change.before.data().userName)
-                        .get();
-                })
-                // update profile image in likes collection
-                .then((data) => {
-                    data.forEach((doc) => {
-                        const like = db.doc(`/likes/${doc.id}`);
-                        batch.update(like, {
-                            profilePicture: change.after.data().profilePicture
-                        });
-                    });
-                    return db
-                        .collection('comments')
-                        .where('userName', '==', change.before.data().userName)
-                        .get();
-                })
-                // update profile image in comments collection
-                .then((data) => {
-                    data.forEach((doc) => {
-                        const comment = db.doc(`/comments/${doc.id}`);
-                        batch.update(comment, {
-                            profilePicture: change.after.data().profilePicture
-                        });
-                    });
-                    return db
-                        .collection('notifications')
-                        .where('sender', '==', change.before.data().userName)
-                        .get();
-                })
-                // update profile image in notifications collection
-                .then((data) => {
-                    data.forEach((doc) => {
-                        const notification = db.doc(`/notifications/${doc.id}`);
-                        batch.update(notification, {
-                            senderProfilePicture: change.after.data().profilePicture
-                        });
-                    });
-                    return db.collection('friends').get()
-                })
-                // update profile image in friends collection
-                .then((data)=>{
-                    // data contain all documents, loop on all doc
-                    data.forEach(doc =>{
-                        // loop on all fields in doc
-                        for(key in doc.data()){
-                            // @value: contain data of each field.
-                            var value = doc.data()[key];
-                            if(value.userName == change.before.data().userName){
-                                db.collection('friends').doc(doc.id)
-                                .update({[`${value.userName}.profilePicture`]: change.after.data().profilePicture})
-                            }
-                        }
-                    })
-                    return batch.commit();
-                })
-        } else return true;
-    });
-
+                }
+              }
+            });
+            return batch.commit();
+          })
+      );
+    } else return true;
+  });
 
 // 5- when user update his cover image => delete old cover image from storage
 exports.onUserCoverImageChange = functions
-    .region('europe-west3')
-    .firestore.document('/users/{userId}')
-    .onUpdate((change) => {
-        console.log(change.before.data());
-        console.log(change.after.data());
-        if (change.before.data().coverPicture !== change.after.data().coverPicture) {
-            console.log('cover picture has changed');
-            // delete old cover picture, except 'default_cp.png'
-            let imageUrl = change.before.data().coverPicture
-            let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
-            console.log(imageName)
-            if (imageName !== 'default_cp.png') {
-                let bucket = defaultStorage.bucket();
-                file = bucket.file(imageName);
-                return file.delete();
-            } else return true
-        } else return true;
-    });
-
-// 6- when delete a post delete all likes, comments and notifications on this post
-exports.onPostDelete = functions
-    .region('europe-west3')
-    .firestore.document('/posts/{postId}')
-    .onDelete((snapshot, context) => {
-        const postId = context.params.postId;
-        const batch = db.batch();
-        return db
-            .collection('comments')
-            .where('postId', '==', postId)
-            .get()
-            .then((data) => {
-                data.forEach((doc) => {
-                    batch.delete(db.doc(`/comments/${doc.id}`));
-                });
-                return db
-                    .collection('likes')
-                    .where('postId', '==', postId)
-                    .get();
-            })
-            .then((data) => {
-                data.forEach((doc) => {
-                    batch.delete(db.doc(`/likes/${doc.id}`));
-                });
-                return db
-                    .collection('notifications')
-                    .where('postId', '==', postId)
-                    .get();
-            })
-            .then((data) => {
-                data.forEach((doc) => {
-                    batch.delete(db.doc(`/notifications/${doc.id}`));
-                });
-                return batch.commit();
-            })
-            .catch((err) => console.error(err));
-    });
-
-// 7- when delete a post > delete image of this post from storage
-exports.removePostImageOnPostDelete = functions.region('europe-west3').firestore
-    .document('posts/{postId}')
-    .onDelete((snap, context) => {
-        let imageUrl = snap.data().postImage;
-        let imageName = imageUrl.substr(imageUrl.indexOf('/o/') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('/o/') + 3));
-        console.log(snap.data(), imageName)
+  .region("europe-west3")
+  .firestore.document("/users/{userId}")
+  .onUpdate((change) => {
+    console.log(change.before.data());
+    console.log(change.after.data());
+    if (
+      change.before.data().coverPicture !== change.after.data().coverPicture
+    ) {
+      console.log("cover picture has changed");
+      // delete old cover picture, except 'default_cp.png'
+      let imageUrl = change.before.data().coverPicture;
+      let imageName = imageUrl.substr(
+        imageUrl.indexOf("/o/") + 3,
+        imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)
+      );
+      console.log(imageName);
+      if (imageName !== "default_cp.png") {
         let bucket = defaultStorage.bucket();
         file = bucket.file(imageName);
         return file.delete();
-    });
+      } else return true;
+    } else return true;
+  });
 
+// 6- when delete a post delete all likes, comments and notifications on this post
+exports.onPostDelete = functions
+  .region("europe-west3")
+  .firestore.document("/posts/{postId}")
+  .onDelete((snapshot, context) => {
+    const postId = context.params.postId;
+    const batch = db.batch();
+    return db
+      .collection("comments")
+      .where("postId", "==", postId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/comments/${doc.id}`));
+        });
+        return db.collection("likes").where("postId", "==", postId).get();
+      })
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/likes/${doc.id}`));
+        });
+        return db
+          .collection("notifications")
+          .where("postId", "==", postId)
+          .get();
+      })
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(db.doc(`/notifications/${doc.id}`));
+        });
+        return batch.commit();
+      })
+      .catch((err) => console.error(err));
+  });
+
+// 7- when delete a post > delete image of this post from storage
+exports.removePostImageOnPostDelete = functions
+  .region("europe-west3")
+  .firestore.document("posts/{postId}")
+  .onDelete((snap, context) => {
+    let imageUrl = snap.data().postImage;
+    let imageName = imageUrl.substr(
+      imageUrl.indexOf("/o/") + 3,
+      imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)
+    );
+    console.log(snap.data(), imageName);
+    let bucket = defaultStorage.bucket();
+    file = bucket.file(imageName);
+    return file.delete();
+  });
 
 /*
  var data = {
