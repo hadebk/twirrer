@@ -12,7 +12,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     setPostsLoading(true);
@@ -82,16 +82,16 @@ const Home = () => {
       ) : (
         <>
           <h1 className='title'>No user logged in</h1>
-          <input
-            type='button'
-            onClick={() => fetchMorePosts(lastKey)}
-            value='fetch More'
-          />
-          <div>{firstPosts}</div>
-          <div>{nextPosts_loading && <p>Loading Next...</p>}</div>
-          <div className="note">{message}</div>
         </>
-      )}
+        )}
+      <input
+        type='button'
+        onClick={() => fetchMorePosts(lastKey)}
+        value='fetch More'
+      />
+      <div>{firstPosts}</div>
+      <div>{nextPosts_loading && <p>Loading Next...</p>}</div>
+      <div className='note'>{message}</div>
     </>
   );
 };
