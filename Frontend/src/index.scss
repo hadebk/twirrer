@@ -2,3 +2,8 @@
 @import "./style/css_resets/normalize.scss";
 @import "./style/css_resets/reset.local.scss";
 @import "./style/css_resets/typography.scss";
+
+.App{
+    display: flex;
+    flex-direction: row;
+}

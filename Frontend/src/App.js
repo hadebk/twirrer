@@ -7,6 +7,10 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Page404 from "./pages/Page404/Page404";
 
+// parts
+import Navbar from './parts/Navbar/Navbar';
+import RightSide from './parts/RightSide/RightSide';
+
 // util
 import History from "./util/History";
 import AuthRoute from "./util/AuthRoute";
@@ -83,6 +87,7 @@ function App() {
         <ThemeContextProvider>
           <LanguageContextProvider>
             <div className='App'>
+              <Navbar/>
               {/* let one Route invoked at a time */}
               <Switch>
                 <Route exact path='/' component={Home} />
@@ -90,6 +95,7 @@ function App() {
                 <AuthRoute exact path='/signup' component={Signup} />
                 <Route component={Page404} />
               </Switch>
+              <RightSide/>
             </div>
           </LanguageContextProvider>
         </ThemeContextProvider>
