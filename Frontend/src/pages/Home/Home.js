@@ -83,7 +83,7 @@ const Home = () => {
         <>
           <h1 className='title'>No user logged in</h1>
         </>
-        )}
+      )}
       <input
         type='button'
         onClick={() => fetchMorePosts(lastKey)}

@@ -21,15 +21,15 @@
     font-size: 23px;
   }
 
-  #general-error{
+  #general-error {
     text-align: center;
     margin-bottom: 20px;
   }
 
-  .logo{
+  .logo {
     text-align: center;
     margin-bottom: 35px;
-    &__svg{
+    &__svg {
       width: 35px;
     }
   }
@@ -48,9 +48,11 @@
   padding: 0 15px;
 
   .form__inputBox {
-    border-radius: 3px;
     padding: 0 10px;
     padding-top: 3px;
+    border-radius: 2px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
   }
 
   .form__inputBox__label {
@@ -101,7 +103,7 @@
     }
   }
 
-  small{
-    margin-bottom: .25rem;
+  small {
+    margin-bottom: 0.25rem;
   }
 }

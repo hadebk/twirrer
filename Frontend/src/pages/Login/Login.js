@@ -142,7 +142,7 @@ const Login = () => {
               className='form-group form__inputBox'
               style={{
                 background: theme.foreground,
-                borderBottom: `2px solid ${
+                borderBottomColor: `${
                   errors.email ? theme.error : theme.mainColor
                 }`,
               }}
@@ -184,7 +184,7 @@ const Login = () => {
               className='form-group form__inputBox'
               style={{
                 background: theme.foreground,
-                borderBottom: `2px solid ${
+                borderBottomColor: `${
                   errors.password ? theme.error : theme.mainColor
                 }`,
               }}
