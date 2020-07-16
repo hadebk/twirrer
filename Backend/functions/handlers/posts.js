@@ -39,7 +39,7 @@ exports.postsFirstFetch = (req, res) => {
 
   db.collection("posts")
     .orderBy("createdAt", "desc")
-    .limit(5)
+    .limit(10)
     .get()
     .then((data) => {
       let posts = [];
@@ -53,6 +53,8 @@ exports.postsFirstFetch = (req, res) => {
           postContent: doc.data().postContent,
           postImage: doc.data().postImage,
           createdAt: doc.data().createdAt,
+          likeCount: doc.data().likeCount,
+          commentCount: doc.data().commentCount,
         });
         lastKey = doc.data().createdAt;
       });
@@ -76,7 +78,7 @@ exports.postsNextFetch = (req, res) => {
     db.collection("posts")
       .orderBy("createdAt", "desc")
       .startAfter(req.body.lastKey)
-      .limit(5)
+      .limit(10)
       .get()
       .then((data) => {
         let posts = [];
@@ -90,6 +92,8 @@ exports.postsNextFetch = (req, res) => {
             postContent: doc.data().postContent,
             postImage: doc.data().postImage,
             createdAt: doc.data().createdAt,
+            likeCount: doc.data().likeCount,
+            commentCount: doc.data().commentCount,
           });
           lastKey = doc.data().createdAt;
         });
@@ -163,7 +167,7 @@ exports.addNewPost = (req, res) => {
     profilePicture: req.user.profilePicture,
     createdAt: new Date().toISOString(),
     likeCount: 0,
-    commentCount: 0,
+    commentCount: 0, 
 
     // received from user
     postContent: req.body.postContent,

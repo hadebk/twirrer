@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import debounce from "lodash.debounce";
 
 // style
 import "./Home.scss";
@@ -15,9 +16,9 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
-  const [note, setNote] = useState("");
 
   useEffect(() => {
+    // get posts
     setPostsLoading(true);
     PostService.postsFirstFetch()
       .then((res) => {
@@ -49,8 +50,6 @@ const Home = () => {
           console.log(err.response.data);
           setNextPostsLoading(false);
         });
-    } else {
-      setNote("Super! you are up to date :)");
     }
   };
 
@@ -68,17 +67,31 @@ const Home = () => {
       {posts.map((post) => {
         return (
           <li key={post.postId}>
-            <br></br>
             <div className='card'>
-              <img className='card-img-top' src={post.profilePicture} alt='Card image cap' />
+              <img
+                className='card-img-top'
+                src={post.profilePicture}
+                alt='Card image cap'
+              />
               <div className='card-body'>
-                <h5 className='card-title' style={{ 'color': '#333' }}>{post.userName}</h5>
-                <p className='card-text' style={{ 'color': '#333' }}>
+                <h2 className='card-title' style={{ color: "#333" }}>
+                  {post.userName}
+                </h2>
+                <p className='card-text' style={{ color: "#333" }}>
                   {post.postContent}
                 </p>
+                <p className='card-text' style={{ color: "#333" }}>
+                  {post.likeCount}
+                </p>
+                <p className='card-text' style={{ color: "#333" }}>
+                  {post.commentCount}
+                </p>
+                <a className='card-text' style={{ color: "#333" }}>
+                  {post.createdAt}
+                </a>
               </div>
             </div>
-            <br></br>
+            <hr />
           </li>
         );
       })}
@@ -86,8 +99,6 @@ const Home = () => {
   ) : (
     <p>Loading...</p>
   );
-
-  const message = note.length > 0 ? <p>{note}</p> : <p></p>;
 
   return (
     <div className='home-box'>
@@ -101,15 +112,25 @@ const Home = () => {
           <h1 className='title'>No user logged in</h1>
         </>
       )}
-      
-      <div>{firstPosts}</div>
-      <div>{nextPosts_loading && <p>Loading Next...</p>}</div>
-      <input
-        type='button'
-        onClick={() => fetchMorePosts(lastKey)}
-        value='fetch More'
-      />
-      <div className='note'>{message}</div>
+
+      <div className='posts'>{firstPosts}</div>
+      <div>people you may know</div>
+      <div>
+        {nextPosts_loading ? (
+          <p>Loading Next...</p>
+        ) : lastKey.length > 0 ? (
+          <input
+            type='button'
+            onClick={() => fetchMorePosts(lastKey)}
+            value='fetch More'
+          />
+        ) : (
+          ""
+        )}
+      </div>
+      <div className='note'>
+        {!nextPosts_loading && lastKey.length == 0 && !posts_loading ? "Super! you are up to date :D" : ''}
+      </div>
     </div>
   );
 };
