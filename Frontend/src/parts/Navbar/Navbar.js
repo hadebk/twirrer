@@ -157,28 +157,30 @@ const Navbar = () => {
               </div>
               {/* More Tab */}
               <div className='Navbar__box__tab'>
-                <span className='Navbar__box__tab__icon'>
-                  <i
-                    className='fal fa-ellipsis-h-alt'
+                <Link>
+                  <span className='Navbar__box__tab__icon'>
+                    <i
+                      className='fal fa-ellipsis-h-alt'
+                      style={{
+                        color: theme.typoMain,
+                      }}
+                    ></i>
+                  </span>
+                  <span
+                    className='Navbar__box__tab__text'
                     style={{
                       color: theme.typoMain,
                     }}
-                  ></i>
-                </span>
-                <span
-                  className='Navbar__box__tab__text'
-                  style={{
-                    color: theme.typoMain,
-                  }}
-                >
-                  {language.navbar.more}
-                </span>
+                  >
+                    {language.navbar.more}
+                  </span>
+                </Link>
               </div>
             </div>
             {/* -------------- End Tabs -------------- */}
           </div>
         ) : (
-          <div className="buttons__box">
+          <div className='buttons__box'>
             <LoginButton />
             <SignupButton />
           </div>
