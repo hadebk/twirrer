@@ -8,6 +8,8 @@ import "./Navbar.scss";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import LoginButton from "../../components/Buttons/LoginButton";
+import SignupButton from "../../components/Buttons/SignupButton";
 
 const Navbar = () => {
   // ******* start consume contexts ******* //
@@ -44,7 +46,13 @@ const Navbar = () => {
 
   return (
     <div className='Navbar'>
-      <div className='Navbar__main'>
+      <div
+        className='Navbar__main'
+        style={{
+          backgroundColor: `${theme.background}`,
+          borderRight: `1px solid ${theme.border}`,
+        }}
+      >
         {userData.isAuth ? (
           <div className='Navbar__box'>
             <div className='Navbar__box__logo'>
@@ -67,7 +75,9 @@ const Navbar = () => {
                 <Link to='/' onClick={() => handleHomeClick()}>
                   <span className='Navbar__box__tab__icon'>
                     <i
-                      className='fal fa-home-alt'
+                      className={
+                        isActive.home ? "fas fa-home-alt" : "fal fa-home-alt"
+                      }
                       style={{
                         color: `${
                           isActive.home ? theme.mainColor : theme.typoMain
@@ -92,7 +102,9 @@ const Navbar = () => {
                 <Link to='/' onClick={() => handleNotificationsClick()}>
                   <span className='Navbar__box__tab__icon'>
                     <i
-                      className='fal fa-bell'
+                      className={
+                        isActive.notifications ? "fas fa-bell" : "fal fa-bell"
+                      }
                       style={{
                         color: `${
                           isActive.notifications
@@ -121,7 +133,9 @@ const Navbar = () => {
                 <Link to='/' onClick={() => handleProfileClick()}>
                   <span className='Navbar__box__tab__icon'>
                     <i
-                      className='fal fa-user'
+                      className={
+                        isActive.profile ? "fas fa-user" : "fal fa-user"
+                      }
                       style={{
                         color: `${
                           isActive.profile ? theme.mainColor : theme.typoMain
@@ -164,7 +178,10 @@ const Navbar = () => {
             {/* -------------- End Tabs -------------- */}
           </div>
         ) : (
-          <div>Not Auth</div>
+          <div className="buttons__box">
+            <LoginButton />
+            <SignupButton />
+          </div>
         )}
       </div>
     </div>

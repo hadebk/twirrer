@@ -9,6 +9,7 @@ import Page404 from "./pages/Page404/Page404";
 
 // parts
 import Navbar from './parts/Navbar/Navbar';
+import MobileNavbar from "./parts/MobileNavbar/MobileNavbar";
 import RightSide from './parts/RightSide/RightSide';
 
 // util
@@ -87,7 +88,8 @@ function App() {
         <ThemeContextProvider>
           <LanguageContextProvider>
             <div className='App'>
-              <Navbar/>
+              <Navbar />
+              <MobileNavbar/>
               {/* let one Route invoked at a time */}
               <Switch>
                 <Route exact path='/' component={Home} />

@@ -3,15 +3,31 @@ import debounce from "lodash.debounce";
 
 // style
 import "./Home.scss";
-
-// context (global state)
-import UserContext from "../../context/UserContext";
-
 // api service
 import PostService from "../../services/PostService";
 
+// context (global state)
+import { ThemeContext } from "../../context/ThemeContext";
+import { LanguageContext } from "../../context/LanguageContext";
+import UserContext from "../../context/UserContext";
+
+
 const Home = () => {
+  // ******* start consume contexts ******* //
+
+  // theme context
+  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
+  // language context
+  const { isEnglish, english, german, toggleLanguage } = useContext(
+    LanguageContext
+  );
+  var language = isEnglish ? english : german;
+
+  // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // ******* end consume contexts ******* //
   const [lastKey, setKey] = useState("");
   const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
@@ -83,12 +99,17 @@ const Home = () => {
                   className='card-text content'
                   style={{
                     color: "#333",
-                    float: `${arabic.test(post.postContent) ? "right" : "left"}`,
+                    float: `${
+                      arabic.test(post.postContent) ? "right" : "left"
+                    }`,
                   }}
                 >
                   {post.postContent}
                 </p>
-                <p className='card-text' style={{ color: "#333", clear: "both" }}>
+                <p
+                  className='card-text'
+                  style={{ color: "#333", clear: "both" }}
+                >
                   {post.likeCount}
                 </p>
                 <p className='card-text' style={{ color: "#333" }}>
@@ -109,23 +130,27 @@ const Home = () => {
   );
 
   return (
-    <div className='home-box'>
+    <div className='home-box' style={{ background: `${theme.background}` }}>
       {userData.isAuth ? (
         <>
-          <h1 className='title'>Some user logged in</h1>
+          <h1 className='title' style={{ color: `${theme.typoMain}` }}>
+            Some user logged in
+          </h1>
           <input type='button' onClick={() => logOut()} value='Log out' />
         </>
       ) : (
         <>
-          <h1 className='title'>No user logged in</h1>
+          <h1 className='title' style={{ color: `${theme.typoMain}` }}>
+            No user logged in
+          </h1>
         </>
       )}
 
       <div className='posts'>{firstPosts}</div>
-      <div>people you may know</div>
+      <div style={{ color: `${theme.typoMain}` }}>people you may know</div>
       <div>
         {nextPosts_loading ? (
-          <p>Loading Next...</p>
+          <p style={{ color: `${theme.typoMain}` }}>Loading Next...</p>
         ) : lastKey.length > 0 ? (
           <input
             type='button'
@@ -136,7 +161,7 @@ const Home = () => {
           ""
         )}
       </div>
-      <div className='note'>
+      <div className='note' style={{ color: `${theme.typoMain}` }}>
         {!nextPosts_loading && lastKey.length == 0 && !posts_loading
           ? "Super! you are up to date :D"
           : ""}

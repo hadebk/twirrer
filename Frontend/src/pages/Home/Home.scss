@@ -1,11 +1,9 @@
 .home-box {
   height: auto;
-  background-color: rgb(33, 51, 68);
-  color: #fff;
   width: 45%;
   margin-left: 25%;
   padding: 10px 100px;
-   overflow: auto;
+  overflow: auto;
 }
 
 @media only screen and (max-width: 500px) {
@@ -13,6 +11,8 @@
   .home-box {
     width: 100%;
     margin-left: 0;
+    padding: 20px;
+    margin-bottom: 49px;
   }
 }
 

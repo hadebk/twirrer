@@ -1,16 +1,14 @@
 .Navbar {
   position: relative;
-}
-.Navbar__main {
-  height: 100vh;
-  background-color: rgb(21, 32, 43);
-  color: #fff;
-  width: 25%;
-  position: fixed;
+  &__main {
+    height: 100vh;
+    width: 25%;
+    position: fixed;
+  }
 }
 
 .Navbar__box {
-  padding: 20px 20% 20px 30%;
+  padding: 20px 10% 20px 40%;
 
   &__logo {
     display: flex;
@@ -23,20 +21,29 @@
     }
   }
 
-  &__tabs{
-    .Navbar__box__tab{
-      &__icon{
+  &__tabs {
+    .Navbar__box__tab {
+      margin-bottom: 20px;
+      &__icon {
         width: 30px;
-        font-size: 20px;
-        margin-right: 20px;
+        font-size: 22px;
+        margin-right: 15px;
         display: inline-block;
+        transition: all ease-in-out 0.5;
       }
-      &__text{
+      &__text {
         font-size: 19px;
+        font-weight: 700;
         display: inline-block;
+        transition: all ease-in-out 0.5;
       }
     }
   }
+}
+
+.buttons__box{
+  display: flex;
+  justify-content: space-around;
 }
 
 @media only screen and (max-width: 500px) {

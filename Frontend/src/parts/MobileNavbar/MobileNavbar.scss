@@ -1,0 +1,45 @@
+@media only screen and (max-width: 500px) {
+  .MobileNavber {
+    position: relative;
+    z-index: 999999;
+    &__main {
+      height: 50px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .MobileNavber__box {
+    height: 100%;
+    &__tabs {
+      display: flex;
+      justify-content: space-around;
+      flex-direction: row;
+      align-items: center;
+      vertical-align: middle;
+      height: 100%;
+
+      .MobileNavber__box__tab {
+        &__icon {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}
+
+.buttons__box{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+@media only screen and (min-width: 501px) {
+  .MobileNavber {
+    display: none;
+  }
+}

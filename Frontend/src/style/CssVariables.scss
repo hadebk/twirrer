@@ -1,1 +1,5 @@
-$radius: 9999px
+$radius: 9999px;
+
+:export {
+  radius: $radius;
+}

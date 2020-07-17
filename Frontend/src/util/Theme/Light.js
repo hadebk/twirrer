@@ -7,4 +7,6 @@ export default {
   typoMain: "#14171A",
   typoSecondary: "#657786",
   logo: "#1DA1F2",
+  border: "#e6ecf0",
+  mobileNavIcon: "#657786",
 };
