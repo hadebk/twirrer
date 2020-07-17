@@ -1,7 +1,7 @@
-.l-box {
+.Navbar {
   position: relative;
 }
-.leftSide {
+.Navbar__main {
   height: 100vh;
   background-color: rgb(21, 32, 43);
   color: #fff;
@@ -9,9 +9,39 @@
   position: fixed;
 }
 
+.Navbar__box {
+  padding: 20px 20% 20px 30%;
+
+  &__logo {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+
+    &__box {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &__tabs{
+    .Navbar__box__tab{
+      &__icon{
+        width: 30px;
+        font-size: 20px;
+        margin-right: 20px;
+        display: inline-block;
+      }
+      &__text{
+        font-size: 19px;
+        display: inline-block;
+      }
+    }
+  }
+}
+
 @media only screen and (max-width: 500px) {
   /* For mobile phones: */
-  .leftSide {
+  .Navbar__main {
     width: 0;
     display: none;
   }
@@ -19,14 +49,14 @@
 
 @media (min-width: 501px) and (max-width: 991px) {
   /* For tablet: */
-  .leftSide {
+  .Navbar__main {
     width: 20%;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1280px) {
   /* For small lab: */
-  .leftSide {
+  .Navbar__main {
     width: 20%;
   }
 }

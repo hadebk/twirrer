@@ -21,4 +21,11 @@ export default {
     question: "Sie haben bereits ein Konto?",
     link: "Melden Sie sich bei Twirrer an",
   },
+  navbar: {
+    home: "Startseite",
+    notifications: "Mitteilungen",
+    profile: "Profil",
+    more: "Mehr",
+    tweetButton: "Twittern",
+  },
 };

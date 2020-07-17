@@ -21,4 +21,11 @@ export default {
     question: "Already have an account?",
     link: "login to Twirrer",
   },
+  navbar: {
+    home: 'Home',
+    notifications: 'Notifications',
+    profile: 'Profile',
+    more: 'More',
+    tweetButton: 'Tweet'
+  }
 };
