@@ -62,6 +62,8 @@ const Home = () => {
     });
   };
 
+  var arabic = /[\u0600-\u06FF]/;
+
   const firstPosts = !posts_loading ? (
     <ul>
       {posts.map((post) => {
@@ -77,10 +79,16 @@ const Home = () => {
                 <h2 className='card-title' style={{ color: "#333" }}>
                   {post.userName}
                 </h2>
-                <p className='card-text' style={{ color: "#333" }}>
+                <p
+                  className='card-text content'
+                  style={{
+                    color: "#333",
+                    float: `${arabic.test(post.postContent) ? "right" : "left"}`,
+                  }}
+                >
                   {post.postContent}
                 </p>
-                <p className='card-text' style={{ color: "#333" }}>
+                <p className='card-text' style={{ color: "#333", clear: "both" }}>
                   {post.likeCount}
                 </p>
                 <p className='card-text' style={{ color: "#333" }}>
@@ -129,7 +137,9 @@ const Home = () => {
         )}
       </div>
       <div className='note'>
-        {!nextPosts_loading && lastKey.length == 0 && !posts_loading ? "Super! you are up to date :D" : ''}
+        {!nextPosts_loading && lastKey.length == 0 && !posts_loading
+          ? "Super! you are up to date :D"
+          : ""}
       </div>
     </div>
   );
