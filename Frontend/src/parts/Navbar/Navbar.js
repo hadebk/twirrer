@@ -157,7 +157,7 @@ const Navbar = () => {
               </div>
               {/* More Tab */}
               <div className='Navbar__box__tab'>
-                <Link>
+                <Link to='#'>
                   <span className='Navbar__box__tab__icon'>
                     <i
                       className='fal fa-ellipsis-h-alt'

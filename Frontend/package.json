@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "dayjs": "^1.8.29",
     "jwt-decode": "^2.2.0",
     "lodash.debounce": "^4.0.8",
     "node-sass": "^4.14.1",

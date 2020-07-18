@@ -10,6 +10,7 @@ import PostService from "../../services/PostService";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import PostCard from "../../components/PostCard/PostCard";
 
 
 const Home = () => {
@@ -78,48 +79,12 @@ const Home = () => {
     });
   };
 
-  var arabic = /[\u0600-\u06FF]/;
-
   const firstPosts = !posts_loading ? (
     <ul>
       {posts.map((post) => {
         return (
           <li key={post.postId}>
-            <div className='card'>
-              <img
-                className='card-img-top'
-                src={post.profilePicture}
-                alt='Card image cap'
-              />
-              <div className='card-body'>
-                <h2 className='card-title' style={{ color: "#333" }}>
-                  {post.userName}
-                </h2>
-                <p
-                  className='card-text content'
-                  style={{
-                    color: "#333",
-                    float: `${
-                      arabic.test(post.postContent) ? "right" : "left"
-                    }`,
-                  }}
-                >
-                  {post.postContent}
-                </p>
-                <p
-                  className='card-text'
-                  style={{ color: "#333", clear: "both" }}
-                >
-                  {post.likeCount}
-                </p>
-                <p className='card-text' style={{ color: "#333" }}>
-                  {post.commentCount}
-                </p>
-                <a className='card-text' style={{ color: "#333" }}>
-                  {post.createdAt}
-                </a>
-              </div>
-            </div>
+            <PostCard post={post}/>
             <hr />
           </li>
         );
