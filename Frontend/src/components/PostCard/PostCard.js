@@ -21,10 +21,11 @@ const PostCard = ({ post }) => {
   var language = isEnglish ? english : german;
 
   // ******* end consume contexts ******* //
-  var arabic = /[\u0600-\u06FF]/;
-  dayjs.extend(relativeTime);
-
-  return (
+    dayjs.extend(relativeTime);
+    var arabic = /[\u0600-\u06FF]/;
+    
+    
+    return (
     <div className='postCard'>
       <div className='postCard__userImage'>
         <div className='postCard__userImage__wrapper'>
@@ -47,20 +48,20 @@ const PostCard = ({ post }) => {
           className='postCard__content__line2'
           style={{
             color: theme.typoMain,
-            float: `${arabic.test(post.postContent) ? "right" : "left"}`,
+            textAlign: `${arabic.test(post.postContent) ? "right" : "left"}`,
           }}
         >
           {post.postContent}
         </div>
         <div
           className='postCard__content__line3'
-          style={{ color: theme.mobileNavIcon, clear: "both" }}
+          style={{ color: theme.mobileNavIcon}}
         >
           Image
         </div>
         <div
           className='postCard__content__line4'
-          style={{ color: theme.mobileNavIcon, clear: "both" }}
+          style={{ color: theme.mobileNavIcon}}
         >
           {post.likeCount} {" - "}
           {post.commentCount}
