@@ -335,14 +335,16 @@ exports.removePostImageOnPostDelete = functions
   .firestore.document("posts/{postId}")
   .onDelete((snap, context) => {
     let imageUrl = snap.data().postImage;
-    let imageName = imageUrl.substr(
-      imageUrl.indexOf("/o/") + 3,
-      imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)
-    );
-    console.log(snap.data(), imageName);
-    let bucket = defaultStorage.bucket();
-    file = bucket.file(imageName);
-    return file.delete();
+    if (imageUrl ) {
+      let imageName = imageUrl.substr(
+        imageUrl.indexOf("/o/") + 3,
+        imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)
+      );
+      console.log(snap.data(), imageName);
+      let bucket = defaultStorage.bucket();
+      file = bucket.file(imageName);
+      return file.delete();
+    }
   });
 
 /*

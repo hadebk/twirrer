@@ -7,10 +7,15 @@ import "./PostCard.scss";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+import ImageModal from "../ImageModal/ImageModal";
+
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+
+import PostService from "../../services/PostService";
+import DeletePostButton from "../Buttons/DeletePostButton";
 
 const PostCard = ({ post, userData }) => {
   // ******* start consume contexts ******* //
@@ -25,32 +30,20 @@ const PostCard = ({ post, userData }) => {
   dayjs.extend(relativeTime);
   var arabic = /[\u0600-\u06FF]/;
 
-  useEffect(() => {
-    console.log("userData", userData);
-  }, []);
+  const parent = () => {
+    console.log("parent");
+  };
 
-  const deleteButton = userData.isAuth ? (
-    post.userName == userData.user.credentials.userName ? (
-      <Fragment>
-        <i class='far fa-trash-alt' style={{ color: theme.error }}></i>
-        <div
-          className='background'
-          style={{
-            backgroundColor: theme.errorBackground,
-          }}
-        ></div>
-      </Fragment>
-    ) : (
-      ""
-    )
-  ) : (
-    ""
-  );
+  const child = () => {
+    console.log("child");
+  };
 
   return (
     <div
       className='postCard'
       style={{ borderBottom: `1px solid ${theme.border}` }}
+      onClick={() => parent()}
+      key={post.postId}
     >
       <div className='postCard__userImage'>
         <div className='postCard__userImage__wrapper'>
@@ -80,7 +73,9 @@ const PostCard = ({ post, userData }) => {
               {" · " + dayjs(post.createdAt).fromNow()}
             </span>
           </div>
-          <div className='postCard__content__line1__delete'>{deleteButton}</div>
+          <div className='postCard__content__line1__delete'>
+            <DeletePostButton post={post} userData={userData}/>
+          </div>
         </div>
         <div
           className='postCard__content__line2'
@@ -97,12 +92,15 @@ const PostCard = ({ post, userData }) => {
             style={{
               color: theme.mobileNavIcon,
             }}
+            onClick={(event) => {
+              event.stopPropagation();
+              child();
+            }}
           >
-            <img
-              src={post.postImage}
-              alt='post image'
+            <ImageModal
+              imageUrl={post.postImage}
               className='postCard__content__line3__image'
-            ></img>
+            />
           </div>
         ) : (
           ""

@@ -11,6 +11,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostCard from "../../components/PostCard/PostCard";
+import ImageModal from "../../components/ImageModal/ImageModal";
 
 
 const Home = () => {
@@ -96,6 +97,7 @@ const Home = () => {
           <h1 className='title' style={{ color: `${theme.typoMain}` }}>
             Some user logged in
           </h1>
+          <ImageModal/>
           <input type='button' onClick={() => logOut()} value='Log out' />
         </>
       ) : (

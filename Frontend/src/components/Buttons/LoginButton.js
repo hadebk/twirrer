@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
+// Global vars import
 import variables from "../../style/CssVariables.scss";
 
 // context (global state)
