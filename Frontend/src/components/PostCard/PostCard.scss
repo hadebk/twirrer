@@ -68,9 +68,10 @@
           position: absolute;
           right: 8px;
           top: 7px;
+          display: inline-block;
 
           &:hover ~ .background {
-            display: block;
+            visibility: visible;
           }
         }
 
@@ -79,7 +80,7 @@
           width: 30px;
           height: 30px;
           border-radius: 50%;
-          display: none;
+          visibility: hidden;
         }
       }
     }

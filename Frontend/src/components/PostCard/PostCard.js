@@ -36,7 +36,7 @@ const PostCard = ({ post, userData }) => {
         <div
           className='background'
           style={{
-            background: theme.errorBackground,
+            backgroundColor: theme.errorBackground,
           }}
         ></div>
       </Fragment>
