@@ -1,40 +1,177 @@
-.postCard{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+@import '../../style/CssVariables.scss';
 
-    &__userImage{
 
-        &__wrapper{
-            width: 50px;
-            height: 50px;
-            overflow: hidden;
-            border-radius: 50%;
+.postCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px 10px 0;
+  cursor: pointer;
 
-            &__image{
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-        }
-    }
+  &:hover{
+      background-color: $secondaryHoverColor;
+  }
 
-    &__content{
+  &__userImage {
+    &__wrapper {
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      border-radius: 50%;
+
+      &__image {
         width: 100%;
-        padding-left: 10px;
-
-        &__line1{
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        &__line2{
-            font-size: 15px;
-        }
-
-        &__line4{
-            font-size: 13px;
-        }
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
     }
+  }
+
+  &__content {
+    width: 100%;
+    padding-left: 10px;
+    overflow: hidden;
+
+    &__line1 {
+      font-size: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      &__box {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__userName {
+        font-weight: 700;
+        margin-right: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &__time {
+        width: 60%;
+      }
+
+      &__delete {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        &:hover {
+          cursor: pointer;
+        }
+        i {
+          position: absolute;
+          right: 8px;
+          top: 7px;
+
+          &:hover ~ .background {
+            display: block;
+          }
+        }
+
+        .background {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: none;
+        }
+      }
+    }
+
+    &__line2 {
+      font-size: 15px;
+      margin-top: 5px;
+    }
+
+    &__line3 {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      overflow: hidden;
+      border-radius: 15px;
+      margin-top: 10px;
+
+      &__image {
+        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &__line4 {
+      font-size: 13px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: 10px;
+      padding-bottom: 10px;
+
+      i {
+        font-size: 15px;
+        margin-right: 10px;
+      }
+
+      &__comment {
+        display: flex;
+        &:hover > .comment__box> .comment__background{
+            display: block;
+        }
+        &:hover{
+            color: $mainColor;
+            cursor: pointer;
+        }
+        .comment__box {
+          position: relative;
+        }
+
+        .comment__background {
+          position: absolute;
+          top: -7px;
+          left: -7px;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: none;
+        }
+      }
+
+      &__like {
+        display: flex;
+        &:hover > .like__box> .like__background{
+            display: block;
+        }
+        &:hover{
+            color: $red;
+            cursor: pointer;
+        }
+        .like__box {
+          position: relative;
+        }
+
+        .like__background {
+          position: absolute;
+          top: -7px;
+          left: -7px;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+  .postCard__content__line1__box {
+    flex-direction: column;
+  }
 }

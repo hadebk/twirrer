@@ -39,7 +39,7 @@ const RightSide = () => {
             color: `${theme.typoMain}`,
           }}
         >
-          People To Follow
+          
         </h1>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import debounce from "lodash.debounce";
 
 // style
@@ -80,16 +80,11 @@ const Home = () => {
   };
 
   const firstPosts = !posts_loading ? (
-    <ul>
+    <Fragment>
       {posts.map((post) => {
-        return (
-          <li key={post.postId}>
-            <PostCard post={post}/>
-            <hr />
-          </li>
-        );
+        return <PostCard post={post} userData={userData} />;
       })}
-    </ul>
+    </Fragment>
   ) : (
     <p>Loading...</p>
   );
