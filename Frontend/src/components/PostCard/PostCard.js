@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useEffect, Fragment } from "react";
 
-import variables from "../../style/CssVariables.scss";
+// style
 import "./PostCard.scss";
 
+// libraries
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-
 import ImageModal from "../ImageModal/ImageModal";
 
 // context (global state)
@@ -14,10 +13,12 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
-import PostService from "../../services/PostService";
+// component
 import DeletePostButton from "../Buttons/DeletePostButton";
+import LikeButton from "../Buttons/LikeButton";
+import CommentButton from "../Buttons/CommentButton";
 
-const PostCard = ({ post, userData }) => {
+const PostCard = ({ post, setPosts, posts }) => {
   // ******* start consume contexts ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -26,8 +27,13 @@ const PostCard = ({ post, userData }) => {
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
+  // user context
+  const { userData, setUserData } = useContext(UserContext);
+
   // ******* end consume contexts ******* //
+
   dayjs.extend(relativeTime);
+
   var arabic = /[\u0600-\u06FF]/;
 
   const parent = () => {
@@ -41,17 +47,17 @@ const PostCard = ({ post, userData }) => {
   return (
     <div
       className='postCard'
-      style={{ borderBottom: `1px solid ${theme.border}` }}
+      style={{
+        borderBottom: `1px solid ${theme.border}`,
+      }}
       onClick={() => parent()}
-      key={post.postId}
     >
       <div className='postCard__userImage'>
         <div className='postCard__userImage__wrapper'>
           <img
             className='postCard__userImage__wrapper__image'
-            data-holder-rendered='true'
             src={post.profilePicture}
-            alt='Profile Picture'
+            alt='profile'
           />
         </div>
       </div>
@@ -59,7 +65,9 @@ const PostCard = ({ post, userData }) => {
         <div className='postCard__content__line1'>
           <div className='postCard__content__line1__box'>
             <span
-              style={{ color: theme.typoMain }}
+              style={{
+                color: theme.typoMain,
+              }}
               className='postCard__content__line1__userName'
             >
               {post.userName}
@@ -74,7 +82,7 @@ const PostCard = ({ post, userData }) => {
             </span>
           </div>
           <div className='postCard__content__line1__delete'>
-            <DeletePostButton post={post} userData={userData}/>
+            <DeletePostButton post={post} userData={userData} setPosts={setPosts} posts={posts}/>
           </div>
         </div>
         <div
@@ -108,32 +116,12 @@ const PostCard = ({ post, userData }) => {
 
         <div
           className='postCard__content__line4'
-          style={{ color: theme.mobileNavIcon }}
+          style={{
+            color: theme.mobileNavIcon,
+          }}
         >
-          <div className='postCard__content__line4__comment'>
-            <div className='comment__box'>
-              <i class='fal fa-comment'></i>
-              <div
-                className='comment__background'
-                style={{
-                  background: theme.secondaryColor,
-                }}
-              ></div>
-            </div>
-            {post.commentCount == 0 ? "" : post.commentCount}
-          </div>
-          <div className='postCard__content__line4__like'>
-            <div className='like__box'>
-              <i class='fal fa-heart'></i>
-              <div
-                className='like__background'
-                style={{
-                  background: theme.errorBackground,
-                }}
-              ></div>
-            </div>
-            {post.likeCount == 0 ? "" : post.likeCount}
-          </div>
+          <CommentButton post={post} />
+          <LikeButton post={post} setPosts={setPosts} posts={posts}/>
         </div>
       </div>
     </div>

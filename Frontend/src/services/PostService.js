@@ -29,4 +29,26 @@ export default {
       throw error;
     }
   },
+
+  LikePost: async function (postId, token) {
+    try {
+      const response = await axios.get(`/post/${postId}/like`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  unlikePost: async function (postId, token) {
+    try {
+      const response = await axios.get(`/post/${postId}/unlike`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -6,7 +6,7 @@ import PostService from "../../services/PostService";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 
-const DeletePostButton = ({ post, userData }) => {
+const DeletePostButton = ({ post, userData, posts, setPosts }) => {
   // ******* start consume contexts ******* //
 
   // theme context
@@ -21,6 +21,10 @@ const DeletePostButton = ({ post, userData }) => {
     PostService.deletePost(id, token)
       .then((res) => {
         console.log("delete response", res.data.message);
+        // update posts in ui
+        let newPosts = posts.filter((pos) => pos.postId !== post.postId);
+        console.log("delete done !!", newPosts);
+        setPosts(newPosts);
       })
       .catch((err) => {
         console.log("delete error", err);
@@ -29,9 +33,9 @@ const DeletePostButton = ({ post, userData }) => {
 
   // button content
   const deleteButton = userData.isAuth ? (
-    post.userName == userData.user.credentials.userName ? (
+    post.userName === userData.user.credentials.userName ? (
       <Fragment>
-        <i class='far fa-trash-alt' style={{ color: theme.error }}></i>
+        <i className='far fa-trash-alt' style={{ color: theme.error }}></i>
         <div
           className='background'
           style={{

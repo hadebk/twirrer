@@ -1,3 +1,5 @@
+@import "../../style/CssVariables.scss";
+
 .__react_modal_image__header {
   background-color: transparent !important;
 }
@@ -7,7 +9,7 @@
 }
 
 .__react_modal_image__icon_menu svg {
-  background: #1DA1F2;
+  background: $darkBackground;
   padding: 3px;
   border-radius: 50%;
 }

@@ -33,7 +33,7 @@ const {
   usersToAdd,
 } = require("./handlers/users");
 
-// import middleware authentication
+// import middleware authentication 
 const firebaseAuth = require("./util/firebaseAuth");
 
 const defaultStorage = admin.storage();

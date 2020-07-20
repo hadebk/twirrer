@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
-import debounce from "lodash.debounce";
-
+import axios from "axios";
 // style
 import "./Home.scss";
 // api service
 import PostService from "../../services/PostService";
+import UserService from "../../services/UserService";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -13,17 +13,14 @@ import UserContext from "../../context/UserContext";
 import PostCard from "../../components/PostCard/PostCard";
 import ImageModal from "../../components/ImageModal/ImageModal";
 
-
 const Home = () => {
   // ******* start consume contexts ******* //
 
   // theme context
-  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
   // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
-    LanguageContext
-  );
+  const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
@@ -36,19 +33,31 @@ const Home = () => {
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
 
   useEffect(() => {
-    // get posts
-    setPostsLoading(true);
-    PostService.postsFirstFetch()
-      .then((res) => {
-        console.log(res.data);
-        setKey(res.data.lastKey);
-        setPosts(res.data.posts);
-        setPostsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setPostsLoading(false);
-      });
+          setPostsLoading(true);
+      PostService.postsFirstFetch()
+        .then((res) => {
+          console.log(res.data);
+          setKey(res.data.lastKey);
+          setPosts(res.data.posts);
+          setPostsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          setPostsLoading(false);
+        });
+      // get data of logged in user, and pass it to global state
+      let userToken = localStorage.getItem("auth-token");
+      if (userToken) {
+        UserService.getAuthenticatedUser(userToken)
+          .then((res) => {
+            setUserData({
+              token: userToken,
+              user: res.data,
+              isAuth: true,
+            });
+          })
+          .catch((err) => console.error("Error while get user data", err));
+      }
   }, []);
 
   const fetchMorePosts = (key) => {
@@ -83,7 +92,11 @@ const Home = () => {
   const firstPosts = !posts_loading ? (
     <Fragment>
       {posts.map((post) => {
-        return <PostCard post={post} userData={userData} />;
+        return (
+          <div key={post.postId}>
+            <PostCard post={post} userData={userData} setPosts={setPosts} posts={posts}/>
+          </div>
+        );
       })}
     </Fragment>
   ) : (
@@ -97,7 +110,7 @@ const Home = () => {
           <h1 className='title' style={{ color: `${theme.typoMain}` }}>
             Some user logged in
           </h1>
-          <ImageModal/>
+          <ImageModal />
           <input type='button' onClick={() => logOut()} value='Log out' />
         </>
       ) : (
@@ -124,7 +137,7 @@ const Home = () => {
         )}
       </div>
       <div className='note' style={{ color: `${theme.typoMain}` }}>
-        {!nextPosts_loading && lastKey.length == 0 && !posts_loading
+        {!nextPosts_loading && lastKey.length === 0 && !posts_loading
           ? "Super! you are up to date :D"
           : ""}
       </div>
