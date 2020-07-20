@@ -5,11 +5,12 @@
 }
 
 .__react_modal_image__modal_container {
-  background-color: rgba(110, 118, 125, 0.4) !important;
+  background-color: $darkBackground !important;
+  z-index: 999999999 !important;
 }
 
 .__react_modal_image__icon_menu svg {
-  background: $darkBackground;
+  background: $mainColor !important;
   padding: 3px;
   border-radius: 50%;
 }

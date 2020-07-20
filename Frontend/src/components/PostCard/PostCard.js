@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
-
+import { Link, useHistory } from "react-router-dom";
 // style
 import "./PostCard.scss";
 
@@ -12,13 +12,14 @@ import ImageModal from "../ImageModal/ImageModal";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import PostsContext from "../../context/PostsContext";
 
 // component
 import DeletePostButton from "../Buttons/DeletePostButton";
 import LikeButton from "../Buttons/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
 
-const PostCard = ({ post, setPosts, posts }) => {
+const PostCard = ({ post }) => {
   // ******* start consume contexts ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -29,6 +30,7 @@ const PostCard = ({ post, setPosts, posts }) => {
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+  const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end consume contexts ******* //
 
@@ -36,95 +38,94 @@ const PostCard = ({ post, setPosts, posts }) => {
 
   var arabic = /[\u0600-\u06FF]/;
 
-  const parent = () => {
-    console.log("parent");
-  };
+  const history = useHistory();
+
+ 
 
   const child = () => {
     console.log("child");
   };
 
   return (
-    <div
-      className='postCard'
-      style={{
-        borderBottom: `1px solid ${theme.border}`,
-      }}
-      onClick={() => parent()}
-    >
-      <div className='postCard__userImage'>
-        <div className='postCard__userImage__wrapper'>
-          <img
-            className='postCard__userImage__wrapper__image'
-            src={post.profilePicture}
-            alt='profile'
-          />
+      <div
+        className='postCard'
+        style={{
+          borderBottom: `1px solid ${theme.border}`,
+        }}
+      >
+        <div className='postCard__userImage'>
+          <div className='postCard__userImage__wrapper'>
+            <img
+              className='postCard__userImage__wrapper__image'
+              src={post.profilePicture}
+              alt='profile'
+            />
+          </div>
         </div>
-      </div>
-      <div className='postCard__content'>
-        <div className='postCard__content__line1'>
-          <div className='postCard__content__line1__box'>
-            <span
-              style={{
-                color: theme.typoMain,
-              }}
-              className='postCard__content__line1__userName'
-            >
-              {post.userName}
-            </span>
-            <span
+        <div className='postCard__content'>
+          <div className='postCard__content__line1'>
+            <div className='postCard__content__line1__box'>
+              <span
+                style={{
+                  color: theme.typoMain,
+                }}
+                className='postCard__content__line1__userName'
+              >
+                {post.userName}
+              </span>
+              <span
+                style={{
+                  color: theme.mobileNavIcon,
+                }}
+                className='postCard__content__line1__time'
+              >
+                {" · " + dayjs(post.createdAt).fromNow()}
+              </span>
+            </div>
+            <div className='postCard__content__line1__delete'>
+              <DeletePostButton post={post} />
+            </div>
+          </div>
+          <div
+            className='postCard__content__line2'
+            style={{
+              color: theme.typoMain,
+              textAlign: `${arabic.test(post.postContent) ? "right" : "left"}`,
+            }}
+          >
+            {post.postContent}
+          </div>
+          {post.postImage ? (
+            <div
+              className='postCard__content__line3'
               style={{
                 color: theme.mobileNavIcon,
               }}
-              className='postCard__content__line1__time'
+              onClick={(event) => {
+                event.stopPropagation();
+                child();
+              }}
             >
-              {" · " + dayjs(post.createdAt).fromNow()}
-            </span>
-          </div>
-          <div className='postCard__content__line1__delete'>
-            <DeletePostButton post={post} userData={userData} setPosts={setPosts} posts={posts}/>
-          </div>
-        </div>
-        <div
-          className='postCard__content__line2'
-          style={{
-            color: theme.typoMain,
-            textAlign: `${arabic.test(post.postContent) ? "right" : "left"}`,
-          }}
-        >
-          {post.postContent}
-        </div>
-        {post.postImage ? (
+              <ImageModal
+                imageUrl={post.postImage}
+                className='postCard__content__line3__image'
+              />
+            </div>
+          ) : (
+            ""
+          )}
+
           <div
-            className='postCard__content__line3'
+            className='postCard__content__line4'
             style={{
               color: theme.mobileNavIcon,
             }}
-            onClick={(event) => {
-              event.stopPropagation();
-              child();
-            }}
           >
-            <ImageModal
-              imageUrl={post.postImage}
-              className='postCard__content__line3__image'
-            />
+            <CommentButton post={post} />
+            <LikeButton post={post} />
           </div>
-        ) : (
-          ""
-        )}
-
-        <div
-          className='postCard__content__line4'
-          style={{
-            color: theme.mobileNavIcon,
-          }}
-        >
-          <CommentButton post={post} />
-          <LikeButton post={post} setPosts={setPosts} posts={posts}/>
         </div>
       </div>
-    </div>
   );
 };
 

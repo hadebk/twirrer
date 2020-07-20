@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 // style
 import "./Home.scss";
@@ -10,8 +11,10 @@ import UserService from "../../services/UserService";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import PostsContext from "../../context/PostsContext";
 import PostCard from "../../components/PostCard/PostCard";
 import ImageModal from "../../components/ImageModal/ImageModal";
+import Spinner from "../../components/Spinner/Spinner";
 
 const Home = () => {
   // ******* start consume contexts ******* //
@@ -25,39 +28,42 @@ const Home = () => {
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+  const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end consume contexts ******* //
   const [lastKey, setKey] = useState("");
-  const [posts, setPosts] = useState([]);
+  //const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
 
+  const history = useHistory();
+
   useEffect(() => {
-          setPostsLoading(true);
-      PostService.postsFirstFetch()
+    setPostsLoading(true);
+    PostService.postsFirstFetch()
+      .then((res) => {
+        console.log(res.data);
+        setKey(res.data.lastKey);
+        setPostsData(res.data.posts);
+        setPostsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setPostsLoading(false);
+      });
+    // get data of logged in user, and pass it to global state
+    let userToken = localStorage.getItem("auth-token");
+    if (userToken) {
+      UserService.getAuthenticatedUser(userToken)
         .then((res) => {
-          console.log(res.data);
-          setKey(res.data.lastKey);
-          setPosts(res.data.posts);
-          setPostsLoading(false);
+          setUserData({
+            token: userToken,
+            user: res.data,
+            isAuth: true,
+          });
         })
-        .catch((err) => {
-          console.log(err.response.data);
-          setPostsLoading(false);
-        });
-      // get data of logged in user, and pass it to global state
-      let userToken = localStorage.getItem("auth-token");
-      if (userToken) {
-        UserService.getAuthenticatedUser(userToken)
-          .then((res) => {
-            setUserData({
-              token: userToken,
-              user: res.data,
-              isAuth: true,
-            });
-          })
-          .catch((err) => console.error("Error while get user data", err));
-      }
+        .catch((err) => console.error("Error while get user data", err));
+    }
   }, []);
 
   const fetchMorePosts = (key) => {
@@ -68,7 +74,7 @@ const Home = () => {
           setKey(res.data.lastKey);
           // add new posts to old posts, rather than delete old posts and show new posts,
           // of course we need all posts to be shown.
-          setPosts(posts.concat(res.data.posts));
+          setPostsData(posts.concat(res.data.posts));
           setNextPostsLoading(false);
           console.log(res.data);
           console.log("key", lastKey);
@@ -89,43 +95,58 @@ const Home = () => {
     });
   };
 
+  const parent = (postID) => {
+    console.log("parent");
+    history.push('/posts/' + postID)
+  };
+
   const firstPosts = !posts_loading ? (
     <Fragment>
       {posts.map((post) => {
         return (
-          <div key={post.postId}>
-            <PostCard post={post} userData={userData} setPosts={setPosts} posts={posts}/>
+          <div key={post.postId} onClick={() => parent(post.postId)}>
+            <PostCard post={post} />
           </div>
         );
       })}
     </Fragment>
   ) : (
-    <p>Loading...</p>
+    <Spinner />
   );
 
   return (
     <div className='home-box' style={{ background: `${theme.background}` }}>
+      <div
+        className='home-box__title'
+        style={{
+          borderBottom: `1px solid ${theme.border}`,
+          background: `${theme.background}`,
+        }}
+      >
+        <h1
+          style={{
+            color: `${theme.typoMain}`,
+          }}
+        >
+          {language.home.title}
+        </h1>
+      </div>
       {userData.isAuth ? (
-        <>
-          <h1 className='title' style={{ color: `${theme.typoMain}` }}>
-            Some user logged in
-          </h1>
-          <ImageModal />
-          <input type='button' onClick={() => logOut()} value='Log out' />
-        </>
+        <input
+          type='button'
+          onClick={() => logOut()}
+          value='Log out'
+          style={{ display: "none" }}
+        />
       ) : (
-        <>
-          <h1 className='title' style={{ color: `${theme.typoMain}` }}>
-            No user logged in
-          </h1>
-        </>
+        ""
       )}
 
-      <div className='posts'>{firstPosts}</div>
+      <div className='home-box__posts'>{firstPosts}</div>
       <div style={{ color: `${theme.typoMain}` }}>people you may know</div>
       <div>
         {nextPosts_loading ? (
-          <p style={{ color: `${theme.typoMain}` }}>Loading Next...</p>
+          <Spinner />
         ) : lastKey.length > 0 ? (
           <input
             type='button'

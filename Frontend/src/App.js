@@ -3,14 +3,15 @@ import { Router, Route, Switch } from "react-router-dom";
 
 // pages
 import Home from "./pages/Home/Home";
+import PostDetails from "./pages/PostDetails/PostDetails";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Page404 from "./pages/Page404/Page404";
 
 // parts
-import Navbar from './parts/Navbar/Navbar';
+import Navbar from "./parts/Navbar/Navbar";
 import MobileNavbar from "./parts/MobileNavbar/MobileNavbar";
-import RightSide from './parts/RightSide/RightSide';
+import RightSide from "./parts/RightSide/RightSide";
 
 // util
 import History from "./util/History";
@@ -23,9 +24,11 @@ import jwtDecode from "jwt-decode";
 import ThemeContextProvider from "./context/ThemeContext";
 import LanguageContextProvider from "./context/LanguageContext";
 import UserContext from "./context/UserContext";
+import PostsContext from "./context/PostsContext";
 
 // api services
 import UserService from "./services/UserService";
+import PostService from "./services/PostService";
 
 function App() {
   const [userData, setUserData] = useState({
@@ -33,6 +36,8 @@ function App() {
     user: undefined,
     isAuth: false,
   });
+
+  const [posts, setPostsData] = useState([]);
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -77,6 +82,13 @@ function App() {
       } catch (err) {
         console.log(err);
       }
+
+      PostService.postsFirstFetch()
+        .then((res) => {
+        setPostsData(res.data.posts)
+        })
+      .catch((err)=> console.log(err))
+      
     };
 
     checkLoggedIn();
@@ -85,22 +97,25 @@ function App() {
   return (
     <Router history={History}>
       <UserContext.Provider value={{ userData, setUserData }}>
+        <PostsContext.Provider value={{ posts, setPostsData }}>
         <ThemeContextProvider>
           <LanguageContextProvider>
             <div className='App'>
               <Navbar />
-              <MobileNavbar/>
+              <MobileNavbar />
               {/* let one Route invoked at a time */}
               <Switch>
                 <Route exact path='/' component={Home} />
+                <Route exact path='/posts/:postId' component={PostDetails} />
                 <AuthRoute exact path='/login' component={Login} />
                 <AuthRoute exact path='/signup' component={Signup} />
                 <Route component={Page404} />
               </Switch>
-              <RightSide/>
+              <RightSide />
             </div>
           </LanguageContextProvider>
-        </ThemeContextProvider>
+          </ThemeContextProvider>
+        </PostsContext.Provider>
       </UserContext.Provider>
     </Router>
   );

@@ -7,8 +7,9 @@ import PostService from "../../services/PostService";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
+import PostsContext from "../../context/PostsContext";
 
-const LikeButton = ({ post, setPosts, posts }) => {
+const LikeButton = ({ post }) => {
   const [wasLiked, setLikeStatus] = useState(false);
 
   // theme context
@@ -17,10 +18,12 @@ const LikeButton = ({ post, setPosts, posts }) => {
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+  const { posts, setPostsData } = useContext(PostsContext);
   const history = useHistory();
 
   const likePost = (isAuth) => {
     if (isAuth) {
+      console.log('llllllllllllike auth', post.postId);
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
           console.log("like", res);
@@ -31,7 +34,7 @@ const LikeButton = ({ post, setPosts, posts }) => {
               let newPosts = [...posts];
               newPosts[index] = res.data;
               console.log("newPosts", newPosts);
-              setPosts(newPosts);
+              setPostsData(newPosts);
             }
           });
           // update user likes in state
@@ -60,6 +63,7 @@ const LikeButton = ({ post, setPosts, posts }) => {
 
   const unlikePost = (isAuth) => {
     if (isAuth) {
+      console.log('unllllllllllllike');
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
           console.log("unlike", res);
@@ -69,7 +73,7 @@ const LikeButton = ({ post, setPosts, posts }) => {
               let newPosts = [...posts];
               newPosts[index] = res.data;
               console.log("newPosts unlike", newPosts);
-              setPosts(newPosts);
+              setPostsData(newPosts);
             }
           });
           // update user likes in state

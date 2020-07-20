@@ -19,6 +19,15 @@ export default {
     }
   },
 
+  getPostDetails: async function (postId) {
+    try {
+      const response = await axios.get(`/post/${postId}/get`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   deletePost: async function (postId, token) {
     try {
       const response = await axios.delete(`/post/${postId}/delete`, {

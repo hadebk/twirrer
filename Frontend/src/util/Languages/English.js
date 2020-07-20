@@ -27,5 +27,13 @@ export default {
     profile: 'Profile',
     more: 'More',
     tweetButton: 'Tweet'
+  },
+  home: {
+    pageTitle: "Home | Twirrer",
+    title: 'Home',
+  },
+  postDetails: {
+    pageTitle: 'Tweet | Twirrer',
+    title: 'Tweet'
   }
 };

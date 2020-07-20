@@ -5,13 +5,18 @@ import PostService from "../../services/PostService";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
+import UserContext from "../../context/UserContext";
+import PostsContext from "../../context/PostsContext";
 
-const DeletePostButton = ({ post, userData, posts, setPosts }) => {
+const DeletePostButton = ({ post }) => {
   // ******* start consume contexts ******* //
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
+  const { userData, setUserData } = useContext(UserContext);
+  const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end consume contexts ******* //
 
@@ -24,7 +29,7 @@ const DeletePostButton = ({ post, userData, posts, setPosts }) => {
         // update posts in ui
         let newPosts = posts.filter((pos) => pos.postId !== post.postId);
         console.log("delete done !!", newPosts);
-        setPosts(newPosts);
+        setPostsData(newPosts);
       })
       .catch((err) => {
         console.log("delete error", err);

@@ -1,0 +1,28 @@
+@import "../../style/CssVariables.scss";
+
+.loader__box{
+  margin-top: 80px;
+}
+
+.loader {
+  border: 3px solid $secondaryColor;
+  border-top: 3px solid $mainColor;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

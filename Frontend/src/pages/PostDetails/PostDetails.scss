@@ -1,9 +1,12 @@
-.home-box {
+@import "../../style/CssVariables.scss";
+
+.postDetails-box {
   height: auto;
   width: 45%;
   margin-left: 25%;
   padding-bottom: 10px;
   overflow: auto;
+  height: 500px;
 
   &__title {
     padding: 15px 10px;
@@ -11,6 +14,33 @@
     position: fixed;
     width: 45%;
     z-index: 9999;
+    display: flex;
+    flex-direction: row;
+
+    &__iconBox {
+      position: relative;
+      margin: 0 32px 0 10px;
+
+      &:hover > &__background {
+        display: block;
+      }
+
+      &:hover {
+        color: $mainColor;
+        cursor: pointer;
+      }
+
+      &__background {
+        position: absolute;
+        top: -3px;
+        left: -8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: none;
+      }
+    }
+
     h1 {
       font-size: 19px;
       font-weight: 700;
@@ -18,18 +48,24 @@
     }
   }
 
-  &__posts{
+  &__post {
     margin-top: 53px;
+  }
+
+  .postCard{
+    &__content{
+      
+    }
   }
 }
 
 @media only screen and (max-width: 500px) {
   /* For mobile phones: */
-  .home-box {
+  .postDetails-box {
     width: 100%;
     margin-left: 0;
     margin-bottom: 49px;
-    &__title{
+    &__title {
       width: 100%;
     }
   }
@@ -37,10 +73,10 @@
 
 @media (min-width: 501px) and (max-width: 991px) {
   /* For tablet: */
-  .home-box {
+  .postDetails-box {
     width: 70%;
     margin-left: 20%;
-    &__title{
+    &__title {
       width: 70%;
     }
   }
@@ -48,10 +84,10 @@
 
 @media (min-width: 992px) and (max-width: 1280px) {
   /* For small lab: */
-  .home-box {
+  .postDetails-box {
     width: 50%;
     margin-left: 20%;
-    &__title{
+    &__title {
       width: 50%;
     }
   }

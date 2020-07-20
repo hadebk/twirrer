@@ -28,4 +28,12 @@ export default {
     more: "Mehr",
     tweetButton: "Twittern",
   },
+  home: {
+    pageTitle: "Startseite | Twirrer",
+    title: 'Startseite',
+  },
+  postDetails: {
+    pageTitle: 'Twittern | Twitter',
+    title: 'Twittern'
+  }
 };
