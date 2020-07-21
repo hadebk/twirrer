@@ -34,6 +34,10 @@ export default {
   },
   postDetails: {
     pageTitle: 'Twittern | Twitter',
-    title: 'Twittern'
+    title: 'Twittern',
+    comments: 'Kommentare',
+    likes: '„Gefällt mir“-Angaben',
+    noCommentHint: 'Sei der erste, der dies kommentiert',
+    replyingTo: 'Antwort an'
   }
 };

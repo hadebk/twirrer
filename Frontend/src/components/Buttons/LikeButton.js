@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // api service
 import PostService from "../../services/PostService";
@@ -10,35 +10,39 @@ import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
 const LikeButton = ({ post }) => {
-  const [wasLiked, setLikeStatus] = useState(false);
-
+  // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
+  // ******* end global state ******* //
+  
+  // local state
+  const [wasLiked, setLikeStatus] = useState(false);
+
+  // history init
   const history = useHistory();
 
   const likePost = (isAuth) => {
     if (isAuth) {
-      console.log('llllllllllllike auth', post.postId);
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
           console.log("like", res);
-          // update post in posts array
+          // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
-              console.log("finded!", index);
               let newPosts = [...posts];
               newPosts[index] = res.data;
-              console.log("newPosts", newPosts);
               setPostsData(newPosts);
             }
           });
-          // update user likes in state
           setLikeStatus(true);
+          // update user likes (in global state) array
           let newLikes = userData.user.likes;
           newLikes.push({
             postId: post.postId,
@@ -63,21 +67,19 @@ const LikeButton = ({ post }) => {
 
   const unlikePost = (isAuth) => {
     if (isAuth) {
-      console.log('unllllllllllllike');
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
           console.log("unlike", res);
+          // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
-              console.log("finded! unlike", index);
               let newPosts = [...posts];
               newPosts[index] = res.data;
-              console.log("newPosts unlike", newPosts);
               setPostsData(newPosts);
             }
           });
-          // update user likes in state
           setLikeStatus(false);
+          // update user likes (in global state) array
           let newLikes = userData.user.likes.filter(
             (like) => like.postId !== post.postId
           );
@@ -100,11 +102,13 @@ const LikeButton = ({ post }) => {
   useEffect(() => {
     function fetch() {
       if (userData.isAuth) {
-        console.log("isAuth");
+        /**
+         * when user logged in and open the app,
+         * fill like button of all posts that user have liked them before
+         */
         userData.user.likes.map((like) => {
           if (post.postId === like.postId) {
             setLikeStatus(true);
-            console.log("liked");
           }
         });
       } else {

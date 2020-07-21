@@ -34,6 +34,10 @@ export default {
   },
   postDetails: {
     pageTitle: 'Tweet | Twirrer',
-    title: 'Tweet'
+    title: 'Tweet',
+    comments: 'Comments',
+    likes: 'Likes',
+    noCommentHint: 'Be the first to comment on this',
+    replyingTo: 'Replying to'
   }
 };

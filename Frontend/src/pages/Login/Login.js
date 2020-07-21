@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 // style file
 import "./Login.scss";
 
-// context (global state) 
+// context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
@@ -13,11 +13,12 @@ import UserContext from "../../context/UserContext";
 import UserService from "../../services/UserService";
 
 const Login = () => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german, toggleLanguage } = useContext(
     LanguageContext
@@ -27,7 +28,7 @@ const Login = () => {
   // user context
   const { setUserData } = useContext(UserContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
 
   // local state
   const [email, setEmail] = useState("eman@gmail.com");
@@ -35,10 +36,11 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  // util
+  // utils
   const history = useHistory();
   let userToken = "";
 
+  // execute login operation
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -47,7 +49,6 @@ const Login = () => {
     // login user
     UserService.loginUser({ email, password })
       .then((res) => {
-        console.log(res.data);
         userToken = res.data.userToken;
         localStorage.setItem("auth-token", userToken);
       })
@@ -81,15 +82,6 @@ const Login = () => {
         setPassword("");
       });
   };
-
-  /*useEffect(() => {
-    console.log('login', isEnglish);
-    let j = isEnglish ? english : german
-    console.log('login', j);
-    console.log('login', localStorage.getItem("isEnglish") !== null
-      ? localStorage.getItem("isEnglish")
-      : true);
-  }, [isEnglish, english, german]);*/
 
   return (
     <div
@@ -256,13 +248,13 @@ const Login = () => {
           onClick={toggleLanguage}
           style={{ color: "#fff", background: "#333", padding: "10px" }}
         >
-          {isEnglish ? 'DE' : 'EN'}
+          {isEnglish ? "DE" : "EN"}
         </button>
         <button
           onClick={toggleTheme}
           style={{ color: "#fff", background: "#999", padding: "10px" }}
         >
-          {isLightTheme ? 'Dark' : 'Light'}
+          {isLightTheme ? "Dark" : "Light"}
         </button>
       </div>
     </div>

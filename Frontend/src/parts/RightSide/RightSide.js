@@ -10,11 +10,12 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
 const RightSide = () => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+  
   // language context
   const { isEnglish, english, german, toggleLanguage } = useContext(
     LanguageContext
@@ -24,7 +25,7 @@ const RightSide = () => {
   // user context
   const { userData } = useContext(UserContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
   return (
     <div className='r-box'>
       <div

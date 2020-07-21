@@ -13,18 +13,20 @@ import UserContext from "../../context/UserContext";
 import UserService from "../../services/UserService";
 
 const Signup = () => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   const language = isEnglish ? english : german;
+
   // user context
   const { setUserData } = useContext(UserContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
 
   // local state
   const [userName, setUserName] = useState("");
@@ -34,10 +36,11 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
-  // util
+  // init
   const history = useHistory();
   let userToken = "";
 
+  // execute sign up operations
   const handleSubmit = (e) => {
     e.preventDefault();
 

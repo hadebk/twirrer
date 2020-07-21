@@ -8,16 +8,17 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 
 const SignupButton = () => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+  
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
   return (
     <div
       className='signupButton'

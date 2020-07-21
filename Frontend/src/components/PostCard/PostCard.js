@@ -1,5 +1,6 @@
-import React, { useContext, useState, useEffect, Fragment } from "react";
+import React, { useContext, useState} from "react";
 import { Link, useHistory } from "react-router-dom";
+
 // style
 import "./PostCard.scss";
 
@@ -20,36 +21,39 @@ import LikeButton from "../Buttons/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
 
 const PostCard = ({ post }) => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // user context
   const { posts, setPostsData } = useContext(PostsContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
 
+
+  // local state
   const [isHover, setHover] = useState(false);
 
+  // lib init
   dayjs.extend(relativeTime);
+  const history = useHistory();
 
   var arabic = /[\u0600-\u06FF]/;
 
-  const history = useHistory();
-
-  const child = () => {
-    console.log("child");
-  };
-
+  // add dynamic style on hover on post card
   const toggleHover = () => {
     setHover(!isHover);
   };
 
+  // dynamic style on hover
   var linkStyle = { borderBottom: `1px solid ${theme.border}` };
   if (isHover) {
     if (isLightTheme) {
@@ -117,7 +121,6 @@ const PostCard = ({ post }) => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              child();
             }}
           >
             <ImageModal

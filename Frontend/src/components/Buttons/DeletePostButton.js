@@ -9,26 +9,26 @@ import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
 const DeletePostButton = ({ post }) => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
+  // userData context
   const { userData, setUserData } = useContext(UserContext);
+
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
 
   // delete post by id
   const delete_post = (id, token) => {
-    console.log("delete post");
     PostService.deletePost(id, token)
       .then((res) => {
         console.log("delete response", res.data.message);
-        // update posts in ui
         let newPosts = posts.filter((pos) => pos.postId !== post.postId);
-        console.log("delete done !!", newPosts);
         setPostsData(newPosts);
       })
       .catch((err) => {

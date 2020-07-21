@@ -31,6 +31,7 @@ import UserService from "./services/UserService";
 import PostService from "./services/PostService";
 
 function App() {
+  // start global state //
   const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
@@ -38,6 +39,7 @@ function App() {
   });
 
   const [posts, setPostsData] = useState([]);
+  // start global state //
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -83,12 +85,12 @@ function App() {
         console.log(err);
       }
 
+      // get first batch of posts to show them on page loaded
       PostService.postsFirstFetch()
         .then((res) => {
-        setPostsData(res.data.posts)
+          setPostsData(res.data.posts);
         })
-      .catch((err)=> console.log(err))
-      
+        .catch((err) => console.log(err));
     };
 
     checkLoggedIn();
@@ -98,22 +100,22 @@ function App() {
     <Router history={History}>
       <UserContext.Provider value={{ userData, setUserData }}>
         <PostsContext.Provider value={{ posts, setPostsData }}>
-        <ThemeContextProvider>
-          <LanguageContextProvider>
-            <div className='App'>
-              <Navbar />
-              <MobileNavbar />
-              {/* let one Route invoked at a time */}
-              <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path='/posts/:postId' component={PostDetails} />
-                <AuthRoute exact path='/login' component={Login} />
-                <AuthRoute exact path='/signup' component={Signup} />
-                <Route component={Page404} />
-              </Switch>
-              <RightSide />
-            </div>
-          </LanguageContextProvider>
+          <ThemeContextProvider>
+            <LanguageContextProvider>
+              <div className='App'>
+                <Navbar />
+                <MobileNavbar />
+                {/* let one Route invoked at a time */}
+                <Switch>
+                  <Route exact path='/' component={Home} />
+                  <Route exact path='/posts/:postId' component={PostDetails} />
+                  <AuthRoute exact path='/login' component={Login} />
+                  <AuthRoute exact path='/signup' component={Signup} />
+                  <Route component={Page404} />
+                </Switch>
+                <RightSide />
+              </div>
+            </LanguageContextProvider>
           </ThemeContextProvider>
         </PostsContext.Provider>
       </UserContext.Provider>

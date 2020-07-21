@@ -1,5 +1,6 @@
-import React, { useContext, useState, useEffect, Fragment } from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+
 // style
 import "./CommentCard.scss";
 
@@ -13,28 +14,31 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
-// component
-import CommentButton from "../Buttons/CommentButton";
 
 const CommentCard = ({ comment, authorName }) => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
 
+  // date lib init
   dayjs.extend(relativeTime);
+  const history = useHistory();
+  
   var arabic = /[\u0600-\u06FF]/;
 
-  const history = useHistory();
 
   return (
     <div className='commentCard'>
@@ -79,7 +83,7 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line2__text'
             >
-              Replying to
+              {language.postDetails.replyingTo}
             </span>
             <Link
               to='#'

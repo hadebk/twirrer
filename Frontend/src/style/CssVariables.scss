@@ -1,3 +1,4 @@
+//global vars
 $radius: 9999px;
 $mainColor:#1DA1F2;
 $secondaryColor: rgba(29, 161, 242, 0.1);
@@ -7,6 +8,7 @@ $red: #E0245E;
 $love: #E0245E;
 $darkBackground : #15202B;
 
+// to use in js file
 :export {
   radius: $radius;
 }

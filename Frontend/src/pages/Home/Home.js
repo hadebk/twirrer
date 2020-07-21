@@ -1,8 +1,12 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+
 // style
 import "./Home.scss";
+
+// libraries
+import axios from "axios";
+
 // api service
 import PostService from "../../services/PostService";
 import UserService from "../../services/UserService";
@@ -12,34 +16,41 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+
+// components
 import PostCard from "../../components/PostCard/PostCard";
-import ImageModal from "../../components/ImageModal/ImageModal";
 import Spinner from "../../components/Spinner/Spinner";
 
 const Home = () => {
-  // ******* start consume contexts ******* //
+  // ******* start global state ******* //
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
 
-  // ******* end consume contexts ******* //
+  // ******* end global state ******* //
+
+  // local state
   const [lastKey, setKey] = useState("");
-  //const [posts, setPosts] = useState([]);
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
 
+  // history init
   const history = useHistory();
 
   useEffect(() => {
     setPostsLoading(true);
+    // get first batch of posts to show in home
     PostService.postsFirstFetch()
       .then((res) => {
         console.log(res.data);
@@ -51,6 +62,7 @@ const Home = () => {
         console.log(err.response.data);
         setPostsLoading(false);
       });
+    
     // get data of logged in user, and pass it to global state
     let userToken = localStorage.getItem("auth-token");
     if (userToken) {
@@ -66,6 +78,12 @@ const Home = () => {
     }
   }, []);
 
+  /**
+   * used to apply pagination on posts
+   * @param {String} key
+   * @return next batch of posts
+   * will fire on user click on load more posts button in the end of home. 
+   */
   const fetchMorePosts = (key) => {
     if (key.length > 0) {
       setNextPostsLoading(true);
@@ -86,6 +104,7 @@ const Home = () => {
     }
   };
 
+  // log the current user out
   const logOut = () => {
     localStorage.setItem("auth-token", "");
     setUserData({
@@ -95,16 +114,17 @@ const Home = () => {
     });
   };
 
-  const parent = (postID) => {
-    console.log("parent");
+  // direct to post details page on click on post
+  const toPostDetails = (postID) => {
     history.push('/posts/' + postID)
   };
 
+  // store first batch of posts, on page load first
   const firstPosts = !posts_loading ? (
     <Fragment>
       {posts.map((post) => {
         return (
-          <div key={post.postId} onClick={() => parent(post.postId)}>
+          <div key={post.postId} onClick={() => toPostDetails(post.postId)}>
             <PostCard post={post} />
           </div>
         );

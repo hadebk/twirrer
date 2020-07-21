@@ -1,8 +1,10 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
-import axios from "axios";
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 // style
 import "./PostDetails.scss";
 
+// assets
 import Empty from "../../assets/Images/empty.svg";
 
 // libraries
@@ -24,22 +26,25 @@ import CommentCard from "../../components/CommentCard/CommentCard";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostCard from "../../components/PostCard/PostCard";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import PostsContext from "../../context/PostsContext";
-import { Link } from "react-router-dom";
 
 const PostDetails = (props) => {
+  // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
+
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
+  // ******* end global state *******//
 
   //local state
   const [postId, setPostId] = useState(props.match.params.postId);
@@ -50,11 +55,11 @@ const PostDetails = (props) => {
 
   useEffect(() => {
     setLoading(true);
+    // get all details of current post
     PostService.getPostDetails(postId)
       .then((res) => {
         let result = res.data.post;
         result.postId = res.data.postId;
-        console.log("posssssssssst", result);
         setPostData(result);
         setComments(res.data.comments);
         setLikes(res.data.likes);
@@ -70,8 +75,8 @@ const PostDetails = (props) => {
     props.history.goBack();
   };
 
+  // init
   dayjs.extend(relativeTime);
-
   var arabic = /[\u0600-\u06FF]/;
 
   return (
@@ -213,7 +218,7 @@ const PostDetails = (props) => {
                       color: `${theme.typoSecondary}`,
                     }}
                   >
-                    Comments
+                    {language.postDetails.comments}
                   </span>
                 </div>
                 <div className='postDetails__post__content__counters__likes'>
@@ -230,7 +235,7 @@ const PostDetails = (props) => {
                       color: `${theme.typoSecondary}`,
                     }}
                   >
-                    Likes
+                    {language.postDetails.likes}
                   </span>
                 </div>
               </div>
@@ -269,7 +274,7 @@ const PostDetails = (props) => {
                 color: `${theme.typoSecondary}`,
               }}
             >
-              Be the first to comment on this
+                {language.postDetails.noCommentHint}
             </p>
           </div>
         )}
