@@ -34,98 +34,112 @@ const PostCard = ({ post }) => {
 
   // ******* end consume contexts ******* //
 
+  const [isHover, setHover] = useState(false);
+
   dayjs.extend(relativeTime);
 
   var arabic = /[\u0600-\u06FF]/;
 
   const history = useHistory();
 
- 
-
   const child = () => {
     console.log("child");
   };
 
+  const toggleHover = () => {
+    setHover(!isHover);
+  };
+
+  var linkStyle = { borderBottom: `1px solid ${theme.border}` };
+  if (isHover) {
+    if (isLightTheme) {
+      linkStyle.backgroundColor = "#F5F8FA";
+    } else {
+      linkStyle.backgroundColor = "#172430";
+    }
+  }
+
   return (
-      <div
-        className='postCard'
-        style={{
-          borderBottom: `1px solid ${theme.border}`,
-        }}
-      >
-        <div className='postCard__userImage'>
-          <div className='postCard__userImage__wrapper'>
-            <img
-              className='postCard__userImage__wrapper__image'
-              src={post.profilePicture}
-              alt='profile'
-            />
-          </div>
+    <div
+      className='postCard'
+      style={linkStyle}
+      onMouseEnter={() => toggleHover()}
+      onMouseLeave={() => toggleHover()}
+    >
+      <div className='postCard__userImage'>
+        <div className='postCard__userImage__wrapper'>
+          <img
+            className='postCard__userImage__wrapper__image'
+            src={post.profilePicture}
+            alt='profile'
+          />
         </div>
-        <div className='postCard__content'>
-          <div className='postCard__content__line1'>
-            <div className='postCard__content__line1__box'>
-              <span
-                style={{
-                  color: theme.typoMain,
-                }}
-                className='postCard__content__line1__userName'
-              >
-                {post.userName}
-              </span>
-              <span
-                style={{
-                  color: theme.mobileNavIcon,
-                }}
-                className='postCard__content__line1__time'
-              >
-                {" · " + dayjs(post.createdAt).fromNow()}
-              </span>
-            </div>
-            <div className='postCard__content__line1__delete'>
-              <DeletePostButton post={post} />
-            </div>
-          </div>
-          <div
-            className='postCard__content__line2'
-            style={{
-              color: theme.typoMain,
-              textAlign: `${arabic.test(post.postContent) ? "right" : "left"}`,
-            }}
-          >
-            {post.postContent}
-          </div>
-          {post.postImage ? (
-            <div
-              className='postCard__content__line3'
+      </div>
+      <div className='postCard__content'>
+        <div className='postCard__content__line1'>
+          <div className='postCard__content__line1__box'>
+            <span
+              style={{
+                color: theme.typoMain,
+              }}
+              className='postCard__content__line1__userName'
+            >
+              {post.userName}
+            </span>
+            <span
               style={{
                 color: theme.mobileNavIcon,
               }}
-              onClick={(event) => {
-                event.stopPropagation();
-                child();
-              }}
+              className='postCard__content__line1__time'
             >
-              <ImageModal
-                imageUrl={post.postImage}
-                className='postCard__content__line3__image'
-              />
-            </div>
-          ) : (
-            ""
-          )}
-
+              {" · " + dayjs(post.createdAt).fromNow()}
+            </span>
+          </div>
+          <div className='postCard__content__line1__delete'>
+            <DeletePostButton post={post} />
+          </div>
+        </div>
+        <div
+          className='postCard__content__line2'
+          style={{
+            color: theme.typoMain,
+            textAlign: `${arabic.test(post.postContent) ? "right" : "left"}`,
+            direction: `${arabic.test(post.postContent) ? "rtl" : "ltr"}`,
+          }}
+        >
+          {post.postContent}
+        </div>
+        {post.postImage ? (
           <div
-            className='postCard__content__line4'
+            className='postCard__content__line3'
             style={{
               color: theme.mobileNavIcon,
             }}
+            onClick={(event) => {
+              event.stopPropagation();
+              child();
+            }}
           >
-            <CommentButton post={post} />
-            <LikeButton post={post} />
+            <ImageModal
+              imageUrl={post.postImage}
+              className='postCard__content__line3__image'
+            />
           </div>
+        ) : (
+          ""
+        )}
+
+        <div
+          className='postCard__content__line4'
+          style={{
+            color: theme.mobileNavIcon,
+          }}
+        >
+          <CommentButton post={post} />
+          <LikeButton post={post} />
         </div>
       </div>
+    </div>
   );
 };
 

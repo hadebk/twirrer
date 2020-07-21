@@ -8,7 +8,8 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $secondaryHoverColor;
+    background-color: $secondaryHoverColorDark;
+    background-color: $secondaryHoverColorLight;
   }
 
   &__userImage {
@@ -46,14 +47,16 @@
 
       &__userName {
         font-weight: 700;
-        margin-right: 5px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        margin-right: 5px;
       }
 
       &__time {
-        width: 60%;
+        font-size: 13px;
+        white-space: nowrap;
+        line-height: 1.6;
       }
 
       &__delete {
@@ -176,7 +179,4 @@
 
 @media only screen and (max-width: 500px) {
   /* For mobile phones: */
-  .postCard__content__line1__box {
-    flex-direction: column;
-  }
 }

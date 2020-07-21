@@ -2,10 +2,19 @@ import React, { useState, useContext, useEffect, Fragment } from "react";
 import axios from "axios";
 // style
 import "./PostDetails.scss";
+
+// libraries
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 // api service
 import PostService from "../../services/PostService";
 import UserService from "../../services/UserService";
 
+// component
+import DeletePostButton from "../../components/Buttons/DeletePostButton";
+import LikeButton from "../../components/Buttons/LikeButton";
+import CommentButton from "../../components/Buttons/CommentButton";
 import Spinner from "../../components/Spinner/Spinner";
 
 // context (global state)
@@ -56,20 +65,24 @@ const PostDetails = (props) => {
     props.history.goBack();
   };
 
+  dayjs.extend(relativeTime);
+
+  var arabic = /[\u0600-\u06FF]/;
+
   return (
     <div
-      className='postDetails-box'
+      className='postDetails__main'
       style={{ background: `${theme.background}` }}
     >
       <div
-        className='postDetails-box__title'
+        className='postDetails__main__title'
         style={{
           borderBottom: `1px solid ${theme.border}`,
           background: `${theme.background}`,
         }}
       >
         <div
-          className='postDetails-box__title__iconBox'
+          className='postDetails__main__title__iconBox'
           onClick={() => goToBack()}
         >
           <i
@@ -77,7 +90,7 @@ const PostDetails = (props) => {
             style={{ color: theme.mainColor }}
           ></i>
           <div
-            className='postDetails-box__title__iconBox__background'
+            className='postDetails__main__title__iconBox__background'
             style={{
               background: theme.secondaryColor,
             }}
@@ -91,13 +104,139 @@ const PostDetails = (props) => {
           {language.postDetails.title}
         </h1>
       </div>
-      <div className='postDetails-box__post'>
+      <div className='postDetails'>
         {loading ? (
           <div className='spinner'>
             <Spinner />
           </div>
         ) : (
-          <PostCard post={postData} />
+          <div
+            className='postDetails__post'
+            style={{
+              borderBottom: `1px solid ${theme.border}`,
+            }}
+          >
+            <div className='postDetails__post__header'>
+              <div className='postDetails__post__header__userImage'>
+                <div className='postDetails__post__header__userImage__wrapper'>
+                  <img
+                    className='postDetails__post__header__userImage__wrapper__image'
+                    src={postData.profilePicture}
+                    alt='profile'
+                  />
+                </div>
+              </div>
+              <div className='postDetails__post__header__col2'>
+                <div className='postDetails__post__header__col2__box'>
+                  <span
+                    style={{
+                      color: theme.typoMain,
+                    }}
+                    className='postDetails__post__header__col2__userName'
+                  >
+                    {postData.userName}
+                  </span>
+                  <span
+                    style={{
+                      color: theme.mobileNavIcon,
+                    }}
+                    className='postDetails__post__header__col2__time'
+                  >
+                    {dayjs(postData.createdAt).fromNow()}
+                  </span>
+                </div>
+                <div className='postDetails__post__header__col2__delete'>
+                  <DeletePostButton post={postData} />
+                </div>
+              </div>
+            </div>
+            <div className='postDetails__post__content'>
+              <div
+                className='postDetails__post__content__line2'
+                style={{
+                  color: theme.typoMain,
+                  textAlign: `${
+                    arabic.test(postData.postContent) ? "right" : "left"
+                  }`,
+                  direction: `${
+                    arabic.test(postData.postContent) ? "rtl" : "ltr"
+                  }`,
+                }}
+              >
+                {postData.postContent}
+              </div>
+              {postData.postImage ? (
+                <div
+                  className='postDetails__post__content__line3'
+                  style={{
+                    color: theme.mobileNavIcon,
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    //child();
+                  }}
+                >
+                  <ImageModal
+                    imageUrl={postData.postImage}
+                    className='postDetails__post__content__line3__image'
+                  />
+                </div>
+              ) : (
+                ""
+              )}
+
+              <div
+                className='postDetails__post__content__counters'
+                style={{
+                  borderBottom: `1px solid ${theme.border}`,
+                }}
+              >
+                <div className='postDetails__post__content__counters__comments'>
+                  <span
+                    className='postDetails__post__content__counters__numbers'
+                    style={{
+                      color: `${theme.typoMain}`,
+                    }}
+                  >
+                    {postData.commentCount}
+                  </span>
+                  <span
+                    style={{
+                      color: `${theme.typoSecondary}`,
+                    }}
+                  >
+                    Comments
+                  </span>
+                </div>
+                <div className='postDetails__post__content__counters__likes'>
+                  <span
+                    className='postDetails__post__content__counters__numbers'
+                    style={{
+                      color: `${theme.typoMain}`,
+                    }}
+                  >
+                    {postData.likeCount}
+                  </span>
+                  <span
+                    style={{
+                      color: `${theme.typoSecondary}`,
+                    }}
+                  >
+                    Likes
+                  </span>
+                </div>
+              </div>
+              <div
+                className='postDetails__post__content__line4'
+                style={{
+                  color: theme.mobileNavIcon,
+                }}
+              >
+                <CommentButton post={postData} />
+                <LikeButton post={postData} />
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
