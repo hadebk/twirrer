@@ -6,6 +6,7 @@ import "./PostDetails.scss";
 
 // assets
 import Empty from "../../assets/Images/empty.svg";
+import Default from "../../assets/Images/default_pp.png";
 
 // libraries
 import dayjs from "dayjs";
@@ -69,7 +70,7 @@ const PostDetails = (props) => {
         console.log(err);
         setLoading(false);
       });
-  }, [posts, postId]);
+  }, [ posts, postId]);
 
   const goToBack = () => {
     props.history.goBack();
@@ -115,11 +116,11 @@ const PostDetails = (props) => {
         </h1>
       </div>
       <div className='postDetails'>
-        {loading ? (
+        {/*{loading ? (
           <div className='spinner'>
             <Spinner />
           </div>
-        ) : (
+        ) : (*/}
           <div
             className='postDetails__post'
             style={{
@@ -132,7 +133,11 @@ const PostDetails = (props) => {
                   <Link to='#'>
                     <img
                       className='postDetails__post__header__userImage__wrapper__image'
-                      src={postData.profilePicture}
+                      src={
+                        postData.profilePicture
+                          ? postData.profilePicture
+                          : Default
+                      }
                       alt='profile'
                     />
                   </Link>
@@ -250,7 +255,7 @@ const PostDetails = (props) => {
               </div>
             </div>
           </div>
-        )}
+       {/* )}*/}
       </div>
       <div
         className='postComments'
@@ -274,7 +279,7 @@ const PostDetails = (props) => {
                 color: `${theme.typoSecondary}`,
               }}
             >
-                {language.postDetails.noCommentHint}
+              {language.postDetails.noCommentHint}
             </p>
           </div>
         )}
