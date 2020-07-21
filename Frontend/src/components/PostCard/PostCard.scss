@@ -7,11 +7,6 @@
   padding: 10px 10px 0;
   cursor: pointer;
 
-  &:hover {
-    background-color: $secondaryHoverColorDark;
-    background-color: $secondaryHoverColorLight;
-  }
-
   &__userImage {
     &__wrapper {
       width: 50px;

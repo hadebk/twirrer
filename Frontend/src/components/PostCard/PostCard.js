@@ -92,7 +92,7 @@ const PostCard = ({ post }) => {
               }}
               className='postCard__content__line1__time'
             >
-              {" · " + dayjs(post.createdAt).fromNow()}
+              {" · " + dayjs(post.createdAt).fromNow(true)}
             </span>
           </div>
           <div className='postCard__content__line1__delete'>

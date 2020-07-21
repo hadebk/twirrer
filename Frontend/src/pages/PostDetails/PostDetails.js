@@ -3,6 +3,8 @@ import axios from "axios";
 // style
 import "./PostDetails.scss";
 
+import Empty from "../../assets/Images/empty.svg";
+
 // libraries
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -16,6 +18,7 @@ import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import Spinner from "../../components/Spinner/Spinner";
+import CommentCard from "../../components/CommentCard/CommentCard";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -24,6 +27,7 @@ import UserContext from "../../context/UserContext";
 import PostCard from "../../components/PostCard/PostCard";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import PostsContext from "../../context/PostsContext";
+import { Link } from "react-router-dom";
 
 const PostDetails = (props) => {
   // theme context
@@ -40,19 +44,20 @@ const PostDetails = (props) => {
   //local state
   const [postId, setPostId] = useState(props.match.params.postId);
   const [postData, setPostData] = useState([]);
+  const [likes, setLikes] = useState([]);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("posts", posts);
     setLoading(true);
     PostService.getPostDetails(postId)
       .then((res) => {
-        console.log(res.data);
-
         let result = res.data.post;
         result.postId = res.data.postId;
         console.log("posssssssssst", result);
         setPostData(result);
+        setComments(res.data.comments);
+        setLikes(res.data.likes);
         setLoading(false);
       })
       .catch((err) => {
@@ -119,30 +124,33 @@ const PostDetails = (props) => {
             <div className='postDetails__post__header'>
               <div className='postDetails__post__header__userImage'>
                 <div className='postDetails__post__header__userImage__wrapper'>
-                  <img
-                    className='postDetails__post__header__userImage__wrapper__image'
-                    src={postData.profilePicture}
-                    alt='profile'
-                  />
+                  <Link to='#'>
+                    <img
+                      className='postDetails__post__header__userImage__wrapper__image'
+                      src={postData.profilePicture}
+                      alt='profile'
+                    />
+                  </Link>
                 </div>
               </div>
               <div className='postDetails__post__header__col2'>
                 <div className='postDetails__post__header__col2__box'>
-                  <span
+                  <Link
+                    to='#'
                     style={{
                       color: theme.typoMain,
                     }}
                     className='postDetails__post__header__col2__userName'
                   >
                     {postData.userName}
-                  </span>
+                  </Link>
                   <span
                     style={{
-                      color: theme.mobileNavIcon,
+                      color: theme.typoSecondary,
                     }}
                     className='postDetails__post__header__col2__time'
                   >
-                    {dayjs(postData.createdAt).fromNow()}
+                    {dayjs(postData.createdAt).fromNow(true)}
                   </span>
                 </div>
                 <div className='postDetails__post__header__col2__delete'>
@@ -169,7 +177,7 @@ const PostDetails = (props) => {
                 <div
                   className='postDetails__post__content__line3'
                   style={{
-                    color: theme.mobileNavIcon,
+                    color: theme.typoSecondary,
                   }}
                   onClick={(event) => {
                     event.stopPropagation();
@@ -236,6 +244,33 @@ const PostDetails = (props) => {
                 <LikeButton post={postData} />
               </div>
             </div>
+          </div>
+        )}
+      </div>
+      <div
+        className='postComments'
+        style={{
+          borderBottom: `1px solid ${theme.border}`,
+        }}
+      >
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <CommentCard
+              comment={comment}
+              authorName={postData.userName}
+              key={comment.postId}
+            />
+          ))
+        ) : (
+          <div className='postComments__empty'>
+            <img src={Empty} alt='empty' />
+            <p
+              style={{
+                color: `${theme.typoSecondary}`,
+              }}
+            >
+              Be the first to comment on this
+            </p>
           </div>
         )}
       </div>

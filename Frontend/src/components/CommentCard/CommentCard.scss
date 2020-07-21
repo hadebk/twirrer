@@ -1,0 +1,115 @@
+@import "../../style/CssVariables.scss";
+
+.commentCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+
+  &__userImage {
+    &__wrapper {
+      width: 50px;
+      height: 50px;
+      overflow: hidden;
+      border-radius: 50%;
+
+      &__image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+
+  &__content {
+    width: 100%;
+    padding-left: 10px;
+    overflow: hidden;
+
+    &__line1 {
+      font-size: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      &__box {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      &__userName {
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 5px;
+      }
+
+      &__time {
+        font-size: 13px;
+        white-space: nowrap;
+        line-height: 1.8;
+      }
+
+      &__delete {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        &:hover {
+          cursor: pointer;
+        }
+        &:hover > .background {
+          visibility: visible;
+        }
+        i {
+          position: absolute;
+          right: 8px;
+          top: 7px;
+          display: inline-block;
+        }
+
+        .background {
+          position: absolute;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          visibility: hidden;
+        }
+      }
+    }
+
+    &__line2 {
+      font-size: 15px;
+
+      &__box {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+      }
+      &__text {
+        font-weight: 400;
+        white-space: nowrap;
+        margin-right: 5px;
+      }
+
+      &__authorName {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &__content {
+        overflow-wrap: break-word;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 1.3125;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+}

@@ -164,11 +164,14 @@
     &__counters {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
+      justify-content: flex-start;
       padding: 10px 0;
       font-size: 15px;
       font-weight: 400;
 
+      &__comments{
+        margin-right: 20px;
+      }
       &__numbers {
         font-weight: bold;
         line-height: 1.3125;
@@ -236,6 +239,24 @@
           display: none;
         }
       }
+    }
+  }
+}
+
+/* start comments box*/
+
+.postComments{
+  &__empty{
+    text-align: center;
+    padding: 20px 10px 0;
+    img{
+      width: 100%;
+      max-width: 100%;
+      height: 150px;
+      margin-bottom: 20px;
+    }
+    p{
+      font-size: 15px;
     }
   }
 }
