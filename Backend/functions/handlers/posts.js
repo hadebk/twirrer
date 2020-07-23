@@ -237,7 +237,7 @@ exports.deletePost = (req, res) => {
  * comment on a post, just for authorized user
  * ****************************************************************
  */
-exports.commentOnPost = (req, res) => {
+exports.commentOnPost = (req, res) => { 
   // comment input validation
   if (req.body.commentContent.trim() === "")
     return res.status(400).json({

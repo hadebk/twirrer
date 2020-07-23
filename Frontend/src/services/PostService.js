@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   postsFirstFetch: async function () {
@@ -53,6 +53,17 @@ export default {
   unlikePost: async function (postId, token) {
     try {
       const response = await axios.get(`/post/${postId}/unlike`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  addComment: async function (postId, comment, token) {
+    try {
+      const response = await axios.post(`/post/${postId}/comment`, comment, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response;

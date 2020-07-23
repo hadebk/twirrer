@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 // api service
 import PostService from "../../services/PostService";
@@ -22,6 +22,9 @@ const CommentButton = ({ post }) => {
   const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end global state ******* //
+
+    useEffect(() => {
+  }, [posts]);
 
   return (
     <div className='postCard__content__line4__comment'>

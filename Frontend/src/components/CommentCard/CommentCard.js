@@ -42,7 +42,10 @@ const CommentCard = ({ comment, authorName }) => {
 
 
   return (
-    <div className='commentCard'>
+    <div className='commentCard' 
+    style={{
+          borderBottom: `1px solid ${theme.border}`,
+        }}>
       <div className='commentCard__userImage'>
         <div className='commentCard__userImage__wrapper'>
           <Link to='#'>
