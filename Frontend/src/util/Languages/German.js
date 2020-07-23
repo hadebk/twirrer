@@ -30,14 +30,15 @@ export default {
   },
   home: {
     pageTitle: "Startseite | Twirrer",
-    title: 'Startseite',
+    title: "Startseite",
   },
   postDetails: {
-    pageTitle: 'Twittern | Twitter',
-    title: 'Twittern',
-    comments: 'Kommentare',
-    likes: '„Gefällt mir“-Angaben',
-    noCommentHint: 'Sei der erste, der dies kommentiert',
-    replyingTo: 'Antwort an'
-  }
+    pageTitle: "Twittern | Twitter",
+    title: "Twittern",
+    comments: "Kommentare",
+    likes: "„Gefällt mir“-Angaben",
+    noCommentHint: "Sei der erste, der dies kommentiert",
+    replyingTo: "Antwort an",
+    commentPlaceholder: "Schreibe einen Kommentar...",
+  },
 };

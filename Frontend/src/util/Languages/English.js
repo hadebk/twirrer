@@ -38,6 +38,7 @@ export default {
     comments: 'Comments',
     likes: 'Likes',
     noCommentHint: 'Be the first to comment on this',
-    replyingTo: 'Replying to'
+    replyingTo: 'Replying to',
+    commentPlaceholder: 'Write a comment...',
   }
 };

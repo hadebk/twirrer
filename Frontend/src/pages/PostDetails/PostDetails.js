@@ -54,6 +54,12 @@ const PostDetails = (props) => {
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [textarea, setTextarea] = useState({
+    value: "",
+    rows: 1,
+    minRows: 1,
+    maxRows: 10,
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -75,6 +81,32 @@ const PostDetails = (props) => {
 
   const goToBack = () => {
     props.history.goBack();
+  };
+
+  // auto resize textarea box, when user type long text
+  const handleChange = (event) => {
+    const textareaLineHeight = 24;
+    let { value, rows, minRows, maxRows } = textarea;
+
+    const previousRows = event.target.rows;
+    event.target.rows = minRows; // reset number of rows in textarea
+
+    const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
+
+    if (currentRows === previousRows) {
+      event.target.rows = currentRows;
+    }
+
+    if (currentRows >= maxRows) {
+      event.target.rows = maxRows;
+      event.target.scrollTop = event.target.scrollHeight;
+    }
+
+    setTextarea({
+      ...textarea,
+      value: event.target.value,
+      rows: currentRows < maxRows ? currentRows : maxRows,
+    });
   };
 
   // init
@@ -259,6 +291,41 @@ const PostDetails = (props) => {
         </div>
         {/* )}*/}
       </div>
+      {userData.isAuth ? (
+        <div
+          className='addCommentBox'
+          style={{
+            borderBottom: `1px solid ${theme.border}`,
+          }}
+        >
+          <div className='addCommentBox__userImageBox'>
+            <img
+              className='addCommentBox__userImageBox__image'
+              src={postData.profilePicture}
+              alt='Profile Image'
+            ></img>
+          </div>
+          <div className='addCommentBox__inputBox'>
+            <textarea
+              style={{
+                backgroundColor: theme.secondaryColor,
+                color: theme.typoMain,
+                border: `1px solid ${theme.border}`,
+              }}
+              rows={textarea.rows}
+              value={textarea.value}
+              placeholder={language.postDetails.commentPlaceholder}
+              className='addCommentBox__inputBox__textarea'
+              onChange={(event) => handleChange(event)}
+            />
+          </div>
+          <div className='addCommentBox__buttonBox'>
+            <button>send</button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <div
         className='postComments'
         style={{
