@@ -11,6 +11,8 @@
     "dayjs": "^1.8.29",
     "jwt-decode": "^2.2.0",
     "lodash.debounce": "^4.0.8",
+    "moment": "^2.27.0",
+    "moment-twitter": "^0.2.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

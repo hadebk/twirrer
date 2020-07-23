@@ -8,6 +8,7 @@ import "./PostCard.scss";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ImageModal from "../ImageModal/ImageModal";
+import moment from "moment-twitter";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -96,7 +97,8 @@ const PostCard = ({ post }) => {
               }}
               className='postCard__content__line1__time'
             >
-              {" · " + dayjs(post.createdAt).fromNow(true)}
+              {/*" · " + dayjs(post.createdAt).fromNow(true)*/}
+              {moment(post.createdAt).twitterShort()}
             </span>
           </div>
           <div className='postCard__content__line1__delete'>

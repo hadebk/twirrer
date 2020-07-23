@@ -7,6 +7,7 @@ import "./CommentCard.scss";
 // libraries
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import moment from "moment-twitter";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -71,7 +72,8 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line1__time'
             >
-              {" · " + dayjs(comment.createdAt).fromNow(true)}
+              {/*" · " + dayjs(comment.createdAt).fromNow(true)*/}
+              {moment(comment.createdAt).twitterShort()}
             </span>
           </div>
         </div>

@@ -21,7 +21,7 @@ const LikeButton = ({ post }) => {
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
   // ******* end global state ******* //
-  
+
   // local state
   const [wasLiked, setLikeStatus] = useState(false);
 
@@ -100,24 +100,20 @@ const LikeButton = ({ post }) => {
   };
 
   useEffect(() => {
-    function fetch() {
-      if (userData.isAuth) {
-        /**
-         * when user logged in and open the app,
-         * fill like button of all posts that user have liked them before
-         */
-        userData.user.likes.map((like) => {
-          if (post.postId === like.postId) {
-            setLikeStatus(true);
-          }
-        });
-      } else {
-        console.log("not isAuth");
-        setLikeStatus(false);
-      }
+    if (userData.isAuth) {
+      /**
+       * when user logged in and open the app,
+       * fill like button of all posts that user have liked them before
+       */
+      userData.user.likes.map((like) => {
+        if (post.postId === like.postId) {
+          setLikeStatus(true);
+        }
+      });
+    } else {
+      console.log("likeButton-useEffect-isAuth=false");
     }
-    return fetch();
-  }, [userData.isAuth, setLikeStatus]);
+  }, [userData.isAuth, post.postId]);
 
   return (
     <div className='postCard__content__line4__like'>

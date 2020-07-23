@@ -95,7 +95,9 @@
       &__userName {
         font-weight: 700;
         margin-right: 5px;
-        word-break: break-word;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &__time {
@@ -169,7 +171,7 @@
       font-size: 15px;
       font-weight: 400;
 
-      &__comments{
+      &__comments {
         margin-right: 20px;
       }
       &__numbers {
@@ -245,17 +247,17 @@
 
 /* start comments box*/
 
-.postComments{
-  &__empty{
+.postComments {
+  &__empty {
     text-align: center;
     padding: 20px 10px 0;
-    img{
+    img {
       width: 100%;
       max-width: 100%;
       height: 150px;
       margin-bottom: 20px;
     }
-    p{
+    p {
       font-size: 15px;
     }
   }
