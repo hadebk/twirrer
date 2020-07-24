@@ -1,9 +1,9 @@
-@import '../../style/CssVariables.scss';
+@import "../../style/CssVariables.scss";
 
 /* start add comment box */
 .addCommentBox {
   padding: 10px;
-  padding-bottom:5px;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,6 +29,14 @@
   &__inputBox {
     width: 100%;
     margin-right: 10px;
+    ::-webkit-scrollbar {
+      width: 0px; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+      background: $mainColor;
+    }
 
     &__textarea {
       width: 100%;
@@ -47,9 +55,8 @@
   }
 
   &__buttonBox {
-
-    button{
-      &:focus{
+    button {
+      &:focus {
         outline: 0;
         border: 0;
       }

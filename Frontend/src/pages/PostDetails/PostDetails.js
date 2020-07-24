@@ -18,9 +18,6 @@ import PostService from "../../services/PostService";
 import UserService from "../../services/UserService";
 
 // component
-import DeletePostButton from "../../components/Buttons/DeletePostButton";
-import LikeButton from "../../components/Buttons/LikeButton";
-import CommentButton from "../../components/Buttons/CommentButton";
 import Spinner from "../../components/Spinner/Spinner";
 import CommentCard from "../../components/CommentCard/CommentCard";
 import AddComment from "../../components/AddComment/AddComment";
@@ -30,7 +27,6 @@ import PostCardDetails from "../../components/PostCardDetails/PostCardDetails";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import ImageModal from "../../components/ImageModal/ImageModal";
 import PostsContext from "../../context/PostsContext";
 
 const PostDetails = (props) => {

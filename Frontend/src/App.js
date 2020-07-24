@@ -7,6 +7,7 @@ import PostDetails from "./pages/PostDetails/PostDetails";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Page404 from "./pages/Page404/Page404";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 // parts
 import Navbar from "./parts/Navbar/Navbar";
@@ -109,6 +110,7 @@ function App() {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/posts/:postId' component={PostDetails} />
+                  <Route exact path='/:userName' component={UserProfile} />
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/signup' component={Signup} />
                   <Route component={Page404} />
