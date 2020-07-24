@@ -169,7 +169,6 @@ const UserProfile = (props) => {
           </div>
           <div className='userProfile__main__userDetails__userData__userName'>
             <h2 style={{ color: theme.typoMain }}>
-              {"@"}
               {userProfileData.user.userName}
             </h2>
           </div>
