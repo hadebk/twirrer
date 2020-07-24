@@ -86,6 +86,7 @@ const PostCard = ({ post }) => {
             <span
               style={{
                 color: theme.typoMain,
+                direction: `${arabic.test(post.userName) ? "rtl" : "ltr"}`,
               }}
               className='postCard__content__line1__userName'
             >

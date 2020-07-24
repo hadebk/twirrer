@@ -77,6 +77,7 @@ const PostCardDetails = ({postData}) => {
                   to='#'
                   style={{
                     color: theme.typoMain,
+                    direction: `${arabic.test(postData.userName) ? "rtl" : "ltr"}`,
                   }}
                   className='postDetails__post__header__col2__userName'
                 >

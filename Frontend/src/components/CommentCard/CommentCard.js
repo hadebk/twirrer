@@ -64,6 +64,7 @@ const CommentCard = ({ comment, authorName }) => {
               to='#'
               style={{
                 color: theme.typoMain,
+                direction: `${arabic.test(comment.userName) ? "rtl" : "ltr"}`,
               }}
               className='commentCard__content__line1__userName'
             >
