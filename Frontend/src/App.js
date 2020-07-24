@@ -110,7 +110,7 @@ function App() {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/posts/:postId' component={PostDetails} />
-                  <Route exact path='/:userName' component={UserProfile} />
+                  <Route exact path='/users/:userName' component={UserProfile} />
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/signup' component={Signup} />
                   <Route component={Page404} />

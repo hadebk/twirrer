@@ -486,7 +486,7 @@ exports.getAuthenticatedUser = (req, res) => {
  * this data will be used when open any user profile
  * ****************************************************************
  */
-exports.getUserDetails = (req, res) => {
+exports.getUserDetails = (req, res) => { 
     let userData = {};
     db.doc(`/users/${req.params.userName}`)
         .get()

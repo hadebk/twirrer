@@ -48,7 +48,7 @@ const CommentCard = ({ comment, authorName }) => {
         }}>
       <div className='commentCard__userImage'>
         <div className='commentCard__userImage__wrapper'>
-          <Link to='#'>
+          <Link to={'/users/' + comment.userName}>
             <img
               className='commentCard__userImage__wrapper__image'
               src={comment.profilePicture}
@@ -61,7 +61,7 @@ const CommentCard = ({ comment, authorName }) => {
         <div className='commentCard__content__line1'>
           <div className='commentCard__content__line1__box'>
             <Link
-              to='#'
+              to={'/users/' + comment.userName}
               style={{
                 color: theme.typoMain,
                 direction: `${arabic.test(comment.userName) ? "rtl" : "ltr"}`,
@@ -92,7 +92,7 @@ const CommentCard = ({ comment, authorName }) => {
               {language.postDetails.replyingTo}
             </span>
             <Link
-              to='#'
+              to={'/users/' + authorName}
               style={{
                 color: theme.mainColor,
               }}

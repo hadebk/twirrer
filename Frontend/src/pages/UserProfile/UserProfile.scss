@@ -7,8 +7,172 @@
   padding-bottom: 10px;
   overflow: auto;
   height: auto;
-}
 
+  // page header
+  &__title {
+    padding: 5px 10px;
+    height: 53px;
+    position: fixed;
+    width: 45%;
+    z-index: 9999;
+    display: flex;
+    flex-direction: row;
+
+    &__iconBox {
+      position: relative;
+      margin: 11px 32px 0 10px;
+
+      &:hover > &__background {
+        display: block;
+      }
+
+      &:hover {
+        color: $mainColor;
+        cursor: pointer;
+      }
+
+      &__background {
+        position: absolute;
+        top: -3px;
+        left: -8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: none;
+      }
+    }
+
+    &__textBox {
+      width: 100%;
+      overflow: hidden;
+      h2 {
+        font-size: 19px;
+        font-weight: 800;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      p {
+        font-size: 13px;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  // user data
+  &__userDetails {
+    margin-top: 53px;
+
+    // cover image
+    &__headerImageBox {
+      overflow: hidden;
+      width: 100%;
+      max-width: 100%;
+      max-height: 200px;
+
+      &__image {
+        max-width: 100%;
+        min-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    // rest user data
+    &__userData {
+      position: relative;
+      padding: 10px;
+
+      // user profile image line
+      &__pp {
+        position: absolute;
+        top: -40px;
+
+        &__userImageBox {
+          width: 134px;
+          height: 134px;
+          overflow: hidden;
+          border-radius: 50%;
+          box-sizing: content-box;
+
+          &__userImage { /* user image it self */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+
+      // main button
+      &__buttonBox {
+        display: flex;
+        justify-content: flex-end;
+        height: 50px;
+      }
+
+      // userName
+      &__userName {
+        margin-top: 44px;
+        margin-bottom: 10px;
+        h2 {
+          font-size: 19px;
+          font-weight: 800;
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      // bio
+      &__bio {
+        margin-bottom: 10px;
+        p {
+          font-size: 15px;
+          margin: 0;
+        }
+      }
+
+      //extra data
+      &__extraData{
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          margin-bottom: 10px;
+
+          div{
+              margin-right: 10px;
+              font-size: 15px;
+
+              i{
+                  font-size: 16px;
+                  margin-right: 5px;
+              }
+
+              a{
+                  &:hover{
+                      color: #007bff;
+                  }
+              }
+          }
+      }
+
+      // friend counter
+      &__friends{
+          margin-bottom: 20px;
+          font-size: 15px;
+          &__number{
+              font-weight: bold;
+          }
+      }
+    }
+  }
+}
 
 @media only screen and (max-width: 500px) {
   /* For mobile phones: */
@@ -18,6 +182,19 @@
     margin-bottom: 49px;
     &__title {
       width: 100%;
+    }
+    &__userDetails__headerImageBox {
+      max-height: 120px;
+    }
+    &__userDetails__userData__pp {
+      top: -18px;
+      &__userImageBox {
+        width: 68px;
+        height: 68px;
+      }
+    }
+    &__userDetails__userData__userName {
+      margin-top: 0px;
     }
   }
 }
@@ -29,6 +206,13 @@
     margin-left: 20%;
     &__title {
       width: 70%;
+    }
+    &__userDetails__userData__pp__userImageBox {
+      width: 110px;
+      height: 110px;
+    }
+    &__userDetails__userData__userName {
+      margin-top: 18px;
     }
   }
 }

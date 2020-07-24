@@ -41,4 +41,8 @@ export default {
     replyingTo: "Antwort an",
     commentPlaceholder: "Schreibe einen Kommentar...",
   },
+  userProfile: {
+    joined: 'Beitritt',
+    friends: 'Freunden'
+  }
 };

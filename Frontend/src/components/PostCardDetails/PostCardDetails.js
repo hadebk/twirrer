@@ -58,7 +58,7 @@ const PostCardDetails = ({postData}) => {
           <div className='postDetails__post__header'>
             <div className='postDetails__post__header__userImage'>
               <div className='postDetails__post__header__userImage__wrapper'>
-                <Link to='#'>
+              <Link to={'/users/' + postData.userName}>
                   <img
                     className='postDetails__post__header__userImage__wrapper__image'
                     src={
@@ -74,7 +74,7 @@ const PostCardDetails = ({postData}) => {
             <div className='postDetails__post__header__col2'>
               <div className='postDetails__post__header__col2__box'>
                 <Link
-                  to='#'
+                to={'/users/' + postData.userName}
                   style={{
                     color: theme.typoMain,
                     direction: `${arabic.test(postData.userName) ? "rtl" : "ltr"}`,

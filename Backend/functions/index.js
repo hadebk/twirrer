@@ -62,7 +62,7 @@ app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
 app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
 app.post("/addUserDetails", firebaseAuth, addUserDetails);
 app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
-app.get("/user/:userName/getUserDetails", getUserDetails);
+app.get("/user/:userName/getUserDetails", getUserDetails); 
 app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
 app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
 app.get("/usersToAdd", firebaseAuth, usersToAdd);

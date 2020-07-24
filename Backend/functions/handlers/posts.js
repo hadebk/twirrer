@@ -110,7 +110,7 @@ exports.postsNextFetch = (req, res) => {
  * get one post by postId
  * ****************************************************************
  */
-exports.getOnePost = (req, res) => {
+exports.getOnePost = (req, res) => { 
   let postData = {};
   db.doc(`/posts/${req.params.postId}`)
     .get()

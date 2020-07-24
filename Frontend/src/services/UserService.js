@@ -38,4 +38,13 @@ export default {
       throw error;
     }
   },
+
+  getUserDetails: async function (userName) {
+    try {
+      const response = await axios.get(`/user/${userName}/getUserDetails`);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
