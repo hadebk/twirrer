@@ -22,27 +22,28 @@ export default {
     link: "login to Twirrer",
   },
   navbar: {
-    home: 'Home',
-    notifications: 'Notifications',
-    profile: 'Profile',
-    more: 'More',
-    tweetButton: 'Tweet'
+    home: "Home",
+    notifications: "Notifications",
+    profile: "Profile",
+    more: "More",
+    tweetButton: "Tweet",
   },
   home: {
     pageTitle: "Home | Twirrer",
-    title: 'Home',
+    title: "Home",
   },
   postDetails: {
-    pageTitle: 'Tweet | Twirrer',
-    title: 'Tweet',
-    comments: 'Comments',
-    likes: 'Likes',
-    noCommentHint: 'Be the first to comment on this',
-    replyingTo: 'Replying to',
-    commentPlaceholder: 'Write a comment...',
+    pageTitle: "Tweet | Twirrer",
+    title: "Tweet",
+    comments: "Comments",
+    likes: "Likes",
+    noCommentHint: "Be the first to comment on this",
+    replyingTo: "Replying to",
+    commentPlaceholder: "Write a comment...",
   },
   userProfile: {
-    joined: 'Joined',
-    friends: 'Friends'
-  }
+    joined: "Joined",
+    friends: "Friends",
+    noPosts: "This user hasn't posted anything yet.",
+  },
 };

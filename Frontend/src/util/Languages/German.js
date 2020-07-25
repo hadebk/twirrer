@@ -42,7 +42,8 @@ export default {
     commentPlaceholder: "Schreibe einen Kommentar...",
   },
   userProfile: {
-    joined: 'Beitritt',
-    friends: 'Freunden'
-  }
+    joined: "Beitritt",
+    friends: "Freunden",
+    noPosts: "Dieser Benutzer hat noch nichts gepostet.",
+  },
 };

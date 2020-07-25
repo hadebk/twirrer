@@ -57,7 +57,7 @@ app.get("/post/:postId/unlike", firebaseAuth, unlikePost);
 app.post("/signup", signup); //
 app.post("/login", login); //
 app.get("/logout", logout); //
-app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage);
+app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage); 
 app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
 app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
 app.post("/addUserDetails", firebaseAuth, addUserDetails);

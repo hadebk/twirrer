@@ -47,4 +47,15 @@ export default {
       throw error;
     }
   },
+
+  uploadProfileImage: async function (fromData ,token) {
+    try {
+      const response = await axios.post("/uploadProfileImage", fromData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

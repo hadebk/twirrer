@@ -109,9 +109,9 @@
 
           /* make user image rounder also in modal full view*/
           .__react_modal_image__modal_content img,
-            .__react_modal_image__modal_content svg {
-              border-radius: 50% !important;
-            }
+          .__react_modal_image__modal_content svg {
+            border-radius: 50% !important;
+          }
         }
       }
 
@@ -176,6 +176,23 @@
         &__number {
           font-weight: bold;
         }
+      }
+    }
+
+    &__posts {
+      /* start no posts box*/
+      .posts__empty {
+          text-align: center;
+          padding: 30px 10px 0;
+          img {
+            width: 100%;
+            max-width: 100%;
+            height: 150px;
+            margin-bottom: 20px;
+          }
+          p {
+            font-size: 15px;
+          }
       }
     }
   }
