@@ -14,7 +14,7 @@
     height: 53px;
     position: fixed;
     width: 45%;
-    z-index: 9999;
+    z-index: 999;
     display: flex;
     flex-direction: row;
 
@@ -93,7 +93,7 @@
       // user profile image line
       &__pp {
         position: absolute;
-        top: -40px;
+        top: -50px;
 
         &__userImageBox {
           width: 134px;
@@ -130,7 +130,7 @@
 
       // userName
       &__userName {
-        margin-top: 44px;
+        margin-top: 30px;
         margin-bottom: 10px;
         h2 {
           font-size: 19px;
@@ -217,14 +217,14 @@
       max-height: 120px;
     }
     &__userDetails__userData__pp {
-      top: -18px;
+      top: -25px;
       &__userImageBox {
         width: 68px;
         height: 68px;
       }
     }
     &__userDetails__userData__userName {
-      margin-top: 0px;
+      margin-top: -8px;
     }
   }
 }
@@ -242,7 +242,7 @@
       height: 110px;
     }
     &__userDetails__userData__userName {
-      margin-top: 18px;
+      margin-top: 8px;
     }
   }
 }

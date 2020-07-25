@@ -21,6 +21,7 @@ import ImageModal from "../../components/ImageModal/ImageModal";
 import PostCard from "../../components/PostCard/PostCard";
 import EditProfileImageButton from "../../components/Buttons/EditProfileImageButton/EditProfileImageButton";
 import EditCoverImageButton from "../../components/Buttons/EditCoverImageButton/EditCoverImageButton";
+import EditProfile from "../../components/Buttons/EditProfile/EditProfile";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -232,11 +233,15 @@ const UserProfile = (props) => {
             </div>
           </div>
           <div className='userProfile__main__userDetails__userData__buttonBox'>
-            {userData.isAuth
-              ? userName === userData.user.credentials.userName
-                ? "profile edit"
-                : "add friend"
-              : "go to login"}
+            {userData.isAuth ? (
+              userName === userData.user.credentials.userName ? (
+                <EditProfile />
+              ) : (
+                "add friend"
+              )
+            ) : (
+              "go to login"
+            )}
           </div>
           <div className='userProfile__main__userDetails__userData__userName'>
             <h2 style={{ color: theme.typoMain }}>
