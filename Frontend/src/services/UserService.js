@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   loginUser: async function (userData) {
@@ -48,9 +48,20 @@ export default {
     }
   },
 
-  uploadProfileImage: async function (fromData ,token) {
+  uploadProfileImage: async function (fromData, token) {
     try {
       const response = await axios.post("/uploadProfileImage", fromData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  uploadCoverImage: async function (fromData, token) {
+    try {
+      const response = await axios.post("/uploadCoverImage", fromData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response;

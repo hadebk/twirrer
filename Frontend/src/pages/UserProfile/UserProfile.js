@@ -19,13 +19,14 @@ import UserService from "../../services/UserService";
 import Spinner from "../../components/Spinner/Spinner";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import PostCard from "../../components/PostCard/PostCard";
+import EditProfileImageButton from "../../components/Buttons/EditProfileImageButton/EditProfileImageButton";
+import EditCoverImageButton from "../../components/Buttons/EditCoverImageButton/EditCoverImageButton";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
-import EditProfileImageButton from "../../components/Buttons/EditProfileImageButton";
 
 const UserProfile = (props) => {
   // ******* start global state *******//
@@ -70,7 +71,7 @@ const UserProfile = (props) => {
         console.log(err.response.data);
         setProfileLoader(false);
       });
-  }, [posts]);
+  }, [posts, userData]);
 
   const goToBack = () => {
     props.history.goBack();
@@ -137,136 +138,150 @@ const UserProfile = (props) => {
       </div>
     );
 
+  const editAvatar = userData.isAuth ? (
+    userName === userData.user.credentials.userName ? (
+      <EditProfileImageButton
+        userProfileData={userProfileData}
+        setUserProfileData={setUserProfileData}
+      />
+    ) : (
+      ""
+    )
+  ) : (
+    ""
+  );
+
+  const editCover = userData.isAuth ? (
+    userName === userData.user.credentials.userName ? (
+      <EditCoverImageButton
+        userProfileData={userProfileData}
+        setUserProfileData={setUserProfileData}
+      />
+    ) : (
+      ""
+    )
+  ) : (
+    ""
+  );
+
   return (
     <div
       className='userProfile__main'
       style={{ background: `${theme.background}` }}
     >
-      {setProfileLoader ? (
-        <Fragment>
+      <div
+        className='userProfile__main__title'
+        style={{
+          borderBottom: `1px solid ${theme.border}`,
+          background: `${theme.background}`,
+        }}
+      >
+        <div
+          className='userProfile__main__title__iconBox'
+          onClick={() => goToBack()}
+        >
+          <i
+            className='far fa-arrow-left'
+            style={{ color: theme.mainColor }}
+          ></i>
           <div
-            className='userProfile__main__title'
+            className='userProfile__main__title__iconBox__background'
             style={{
-              borderBottom: `1px solid ${theme.border}`,
-              background: `${theme.background}`,
+              background: theme.secondaryColor,
+            }}
+          ></div>
+        </div>
+        <div className='userProfile__main__title__textBox'>
+          <h2
+            style={{
+              color: `${theme.typoMain}`,
             }}
           >
+            {props.match.params.userName}
+          </h2>
+          <p>{userProfileData.posts.length} tweets</p>
+        </div>
+      </div>
+      {/* user details section */}
+      <div className='userProfile__main__userDetails'>
+        {/* header image */}
+        <div className='userProfile__main__userDetails__headerImageBox'>
+          <ImageModal
+            imageUrl={userProfileData.user.coverPicture}
+            className='userProfile__main__userDetails__headerImageBox__image'
+          />
+          {editCover}
+        </div>
+        {/* user data section */}
+        <div
+          className='userProfile__main__userDetails__userData'
+          style={{
+            borderBottom: `1px solid ${theme.border}`,
+          }}
+        >
+          <div className='userProfile__main__userDetails__userData__pp'>
             <div
-              className='userProfile__main__title__iconBox'
-              onClick={() => goToBack()}
+              className='userProfile__main__userDetails__userData__pp__userImageBox'
+              style={{ border: `4px solid ${theme.background}` }}
             >
-              <i
-                className='far fa-arrow-left'
-                style={{ color: theme.mainColor }}
-              ></i>
-              <div
-                className='userProfile__main__title__iconBox__background'
-                style={{
-                  background: theme.secondaryColor,
-                }}
-              ></div>
-            </div>
-            <div className='userProfile__main__title__textBox'>
-              <h2
-                style={{
-                  color: `${theme.typoMain}`,
-                }}
-              >
-                {props.match.params.userName}
-              </h2>
-              <p>{userProfileData.posts.length} tweets</p>
+              <ImageModal
+                imageUrl={userProfileData.user.profilePicture}
+                className='userProfile__main__userDetails__userData__pp__userImageBox__userImage'
+              />
+              {editAvatar}
             </div>
           </div>
-          {/* user details section */}
-          <div className='userProfile__main__userDetails'>
-            {/* header image */}
-            <div className='userProfile__main__userDetails__headerImageBox'>
-              <ImageModal
-                imageUrl={userProfileData.user.coverPicture}
-                className='userProfile__main__userDetails__headerImageBox__image'
-              />
-            </div>
-            {/* user data section */}
+          <div className='userProfile__main__userDetails__userData__buttonBox'>
+            {userData.isAuth
+              ? userName === userData.user.credentials.userName
+                ? "profile edit"
+                : "add friend"
+              : "go to login"}
+          </div>
+          <div className='userProfile__main__userDetails__userData__userName'>
+            <h2 style={{ color: theme.typoMain }}>
+              {userProfileData.user.userName}
+            </h2>
+          </div>
+          <div className='userProfile__main__userDetails__userData__bio'>
+            <p style={{ color: theme.typoMain }}>{userProfileData.user.bio}</p>
+          </div>
+          <div className='userProfile__main__userDetails__userData__extraData'>
+            {location}
+            {website}
             <div
-              className='userProfile__main__userDetails__userData'
               style={{
-                borderBottom: `1px solid ${theme.border}`,
+                color: theme.typoSecondary,
               }}
             >
-              <div className='userProfile__main__userDetails__userData__pp'>
-                <div
-                  className='userProfile__main__userDetails__userData__pp__userImageBox'
-                  style={{ border: `4px solid ${theme.background}` }}
-                >
-                  <ImageModal
-                    imageUrl={userProfileData.user.profilePicture}
-                    className='userProfile__main__userDetails__userData__pp__userImageBox__userImage'
-                  />
-                </div>
-              </div>
-              <div className='userProfile__main__userDetails__userData__buttonBox'>
-                <EditProfileImageButton
-                  userProfileData={userProfileData}
-                  setUserProfileData={setUserProfileData}
-                />
-                {userData.isAuth
-                  ? userName === userData.user.credentials.userName
-                    ? "profile edit"
-                    : "add friend"
-                  : "go to login"}
-              </div>
-              <div className='userProfile__main__userDetails__userData__userName'>
-                <h2 style={{ color: theme.typoMain }}>
-                  {userProfileData.user.userName}
-                </h2>
-              </div>
-              <div className='userProfile__main__userDetails__userData__bio'>
-                <p style={{ color: theme.typoMain }}>
-                  {userProfileData.user.bio}
-                </p>
-              </div>
-              <div className='userProfile__main__userDetails__userData__extraData'>
-                {location}
-                {website}
-                <div
-                  style={{
-                    color: theme.typoSecondary,
-                  }}
-                >
-                  <i className='fal fa-calendar-alt'></i>
-                  {language.userProfile.joined}{" "}
-                  {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
-                </div>
-              </div>
-              <div className='userProfile__main__userDetails__userData__friends'>
-                <span
-                  className='userProfile__main__userDetails__userData__friends__number'
-                  style={{
-                    color: theme.typoMain,
-                  }}
-                >
-                  {userProfileData.friends.length}
-                </span>{" "}
-                <span
-                  className='userProfile__main__userDetails__userData__friends__word'
-                  style={{
-                    color: theme.typoSecondary,
-                  }}
-                >
-                  {" "}
-                  {language.userProfile.friends}
-                </span>
-              </div>
-            </div>
-            {/* user post section */}
-            <div className='userProfile__main__userDetails__posts'>
-              {userPosts}
+              <i className='fal fa-calendar-alt'></i>
+              {language.userProfile.joined}{" "}
+              {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
             </div>
           </div>
-        </Fragment>
-      ) : (
-        <Spinner />
-      )}
+          <div className='userProfile__main__userDetails__userData__friends'>
+            <span
+              className='userProfile__main__userDetails__userData__friends__number'
+              style={{
+                color: theme.typoMain,
+              }}
+            >
+              {userProfileData.friends.length}
+            </span>{" "}
+            <span
+              className='userProfile__main__userDetails__userData__friends__word'
+              style={{
+                color: theme.typoSecondary,
+              }}
+            >
+              {" "}
+              {language.userProfile.friends}
+            </span>
+          </div>
+        </div>
+        {/* user post section */}
+        <div className='userProfile__main__userDetails__posts'>{userPosts}</div>
+      </div>
     </div>
   );
 };

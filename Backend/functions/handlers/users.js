@@ -297,13 +297,15 @@ exports.uploadCoverImage = (req, res) => {
         // Append token to url
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
         // override default profile picture with uploaded picture 'uploaded by user'
-        return db.doc(`/users/${req.user.userName}`).update({
+        db.doc(`/users/${req.user.userName}`).update({
           coverPicture: imageUrl,
         });
+        return imageUrl
       })
-      .then(() => {
+      .then((imageUrl) => {
         return res.json({
           message: "Cover picture uploaded successfully",
+          imageURL: imageUrl
         });
       })
       .catch((err) => {

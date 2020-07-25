@@ -73,6 +73,7 @@ const PostDetails = (props) => {
       });
     }
   }, [postId, userData.user, posts]);
+  
 
   const goToBack = () => {
     props.history.goBack();

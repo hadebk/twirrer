@@ -1,0 +1,46 @@
+.load__ {
+background-color: #15202b80;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: 0;
+    position: absolute;
+
+  .loader__box {
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
+}
+
+.editCoverImage {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  input {
+    display: none;
+  }
+
+  .pen {
+    color: rgb(255, 255, 255);
+    background-color: rgb(29, 161, 242);
+    padding: 8px;
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+  .editCoverImage {
+    .pen {
+      padding: 5px;
+    }
+  }
+}
