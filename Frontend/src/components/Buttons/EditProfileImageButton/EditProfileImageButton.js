@@ -66,7 +66,8 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
     <div className='editPPImage'>
       <input
         type='file'
-          id='profileImageInput'
+        id='profileImageInput'
+        accept='image/x-png,image/jpeg'
         onChange={(event) => handleImageChange(event)}
       />
       <i className='fal fa-pen' onClick={() => handleEditPicture()}></i>

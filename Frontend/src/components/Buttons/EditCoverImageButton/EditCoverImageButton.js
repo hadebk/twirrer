@@ -53,14 +53,15 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
     fileInput.click();
   };
   return loading ? (
-    <div className="load">
+    <div className='load'>
       <Spinner />
     </div>
   ) : (
     <div className='editCoverImage'>
       <input
         type='file'
-          id='coverImageInput'
+        id='coverImageInput'
+        accept='image/x-png,image/jpeg'
         onChange={(event) => handleImageChange(event)}
       />
       <i className='fal fa-pen pen' onClick={() => handleEditPicture()}></i>
