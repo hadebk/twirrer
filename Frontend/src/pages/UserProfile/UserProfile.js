@@ -6,7 +6,8 @@ import "./UserProfile.scss";
 
 // assets
 import Empty from "../../assets/Images/empty.svg";
-import Default from "../../assets/Images/default_pp.png";
+import DefaultAvatar from "../../assets/Images/default_pp.png";
+import DefaultCover from "../../assets/Images/default_cp.png";
 
 // libraries
 import dayjs from "dayjs";
@@ -22,6 +23,7 @@ import PostCard from "../../components/PostCard/PostCard";
 import EditProfileImageButton from "../../components/Buttons/EditProfileImageButton/EditProfileImageButton";
 import EditCoverImageButton from "../../components/Buttons/EditCoverImageButton/EditCoverImageButton";
 import EditProfile from "../../components/Buttons/EditProfile/EditProfile";
+import FriendsModal from "../../components/FriendsModal/FriendsModal";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -208,7 +210,11 @@ const UserProfile = (props) => {
         {/* header image */}
         <div className='userProfile__main__userDetails__headerImageBox'>
           <ImageModal
-            imageUrl={userProfileData.user.coverPicture}
+            imageUrl={
+              userProfileData.user.coverPicture
+                ? userProfileData.user.coverPicture
+                : DefaultCover
+            }
             className='userProfile__main__userDetails__headerImageBox__image'
           />
           {editCover}
@@ -226,7 +232,11 @@ const UserProfile = (props) => {
               style={{ border: `4px solid ${theme.background}` }}
             >
               <ImageModal
-                imageUrl={userProfileData.user.profilePicture}
+                imageUrl={
+                  userProfileData.user.profilePicture
+                    ? userProfileData.user.profilePicture
+                    : DefaultAvatar
+                }
                 className='userProfile__main__userDetails__userData__pp__userImageBox__userImage'
               />
               {editAvatar}
@@ -267,7 +277,11 @@ const UserProfile = (props) => {
               {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
             </div>
           </div>
-          <div className='userProfile__main__userDetails__userData__friends'>
+          <FriendsModal
+            friends={userProfileData.friends}
+            userProfileData={userProfileData}
+          />
+          {/*<div className='userProfile__main__userDetails__userData__friends'>
             <span
               className='userProfile__main__userDetails__userData__friends__number'
               style={{
@@ -285,7 +299,7 @@ const UserProfile = (props) => {
               {" "}
               {language.userProfile.friends}
             </span>
-          </div>
+          </div>*/}
         </div>
         {/* user post section */}
         <div className='userProfile__main__userDetails__posts'>{userPosts}</div>

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 // style
-import "./LikesModal.scss";
+import "./FriendsModal.scss";
 
 // libraries
 import { Modal } from "react-bootstrap";
@@ -13,8 +13,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
-
-const LikesModal = ({ postData, likes }) => {
+const FriendsModal = ({ friends, userProfileData }) => {
   // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -35,35 +34,37 @@ const LikesModal = ({ postData, likes }) => {
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log("likes modal----");
-  }, [postData]);
+    console.log("friends modal----");
+  }, [friends]);
   // utils
   let closeModal = () => setOpen(false);
 
   let openModal = () => {
-    if (postData.likeCount === 0) return;
+    if (friends.length === 0) return;
     setOpen(true);
   };
   return (
     <Fragment>
       <div
-        className='postDetails__post__content__counters__likes'
+        className='userProfile__main__userDetails__userData__friends'
         onClick={openModal}
       >
         <span
-          className='postDetails__post__content__counters__numbers'
+          className='userProfile__main__userDetails__userData__friends__number'
           style={{
-            color: `${theme.typoMain}`,
+            color: theme.typoMain,
           }}
         >
-          {postData.likeCount}
-        </span>
+          {friends.length}
+        </span>{" "}
         <span
+          className='userProfile__main__userDetails__userData__friends__word'
           style={{
-            color: `${theme.typoSecondary}`,
+            color: theme.typoSecondary,
           }}
         >
-          {language.postDetails.likes}
+          {" "}
+          {language.userProfile.friends}
         </span>
       </div>
 
@@ -71,18 +72,18 @@ const LikesModal = ({ postData, likes }) => {
         show={isOpen}
         onHide={closeModal}
         keyboard={false}
-        className='likes__main__modal'
+        className='friends__main__modal'
       >
         <Modal.Header
           style={{
             background: theme.background,
             borderBottom: `1px solid ${theme.border}`,
           }}
-          className='likes__main__modal__header'
+          className='friends__main__modal__header'
         >
           <div className='left'>
             <div
-              className='likes__main__modal__header__iconBox'
+              className='friends__main__modal__header__iconBox'
               onClick={() => closeModal()}
             >
               <i
@@ -90,19 +91,20 @@ const LikesModal = ({ postData, likes }) => {
                 style={{ color: theme.mainColor }}
               ></i>
               <div
-                className='likes__main__modal__header__iconBox__background'
+                className='friends__main__modal__header__iconBox__background'
                 style={{
                   background: theme.secondaryColor,
                 }}
               ></div>
             </div>
             <h2
-              className='likes__main__modal__header__title'
+              className='friends__main__modal__header__title'
               style={{
                 color: theme.typoMain,
               }}
             >
-              {language.postDetails.likesModalTitle}
+              {language.userProfile.friendsModalTitle} {"@"}
+              {userProfileData.user.userName}
             </h2>
           </div>
         </Modal.Header>
@@ -111,31 +113,31 @@ const LikesModal = ({ postData, likes }) => {
             background: theme.background,
           }}
         >
-          <div className='likesBox'>
-            {likes.map((like) => {
+          <div className='friendsBox'>
+            {friends.map((friend) => {
               return (
                 <div
-                  className='likesBox__like'
-                  key={like.userName}
+                  className='friendsBox__friend'
+                  key={friend.userName}
                   style={{ borderBottom: `1px solid ${theme.border}` }}
                 >
-                  <div className='likesBox__like__leftSide'>
-                    <div className='likesBox__like__leftSide__userImageBox'>
-                      <Link to={"/users/" + like.userName}>
-                        <img src={like.profilePicture} alt='profile' />
+                  <div className='friendsBox__friend__leftSide'>
+                    <div className='friendsBox__friend__leftSide__userImageBox'>
+                      <Link to={"/users/" + friend.userName}>
+                        <img src={friend.profilePicture} alt='profile' />
                       </Link>
                     </div>
-                    <div className='likesBox__like__leftSide__userName'>
+                    <div className='friendsBox__friend__leftSide__userName'>
                       <Link
-                        to={"/users/" + like.userName}
+                        to={"/users/" + friend.userName}
                         style={{ color: theme.typoMain }}
                       >
-                        {like.userName}
+                        {friend.userName}
                       </Link>
                     </div>
                   </div>
                   <div
-                    className='likesBox__like__rightSide'
+                    className='friendsBox__friend__rightSide'
                     style={{ color: theme.typoMain }}
                   >
                     Add Friend
@@ -150,4 +152,4 @@ const LikesModal = ({ postData, likes }) => {
   );
 };
 
-export default LikesModal;
+export default FriendsModal;

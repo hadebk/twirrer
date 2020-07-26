@@ -166,7 +166,7 @@ const Home = () => {
 
       <div className='home-box__posts'>{firstPosts}</div>
       <div style={{ color: `${theme.typoMain}` }}>people you may know</div>
-      <div style={{ textAlign: "center" }}>
+      <div className='home-box__spinner' style={{ textAlign: "center" }}>
         {nextPosts_loading ? (
           <Spinner />
         ) : lastKey.length > 0 ? (
@@ -186,10 +186,14 @@ const Home = () => {
           ""
         )}
       </div>
-      <div className='home-box__note' style={{ color: `${theme.typoSecondary}` }}>
+      <div
+        className='home-box__note'
+        style={{ color: `${theme.typoSecondary}` }}
+      >
         {!nextPosts_loading && lastKey.length === 0 && !posts_loading ? (
           <span>
-            Cool, you are up to date <i class='fas fa-stars' style={{color: theme.mainColor}}></i>
+            Cool, you are up to date{" "}
+            <i className='fas fa-stars' style={{ color: theme.mainColor }}></i>
           </span>
         ) : (
           ""

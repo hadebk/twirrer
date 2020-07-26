@@ -45,6 +45,12 @@
       font-size: 20px;
     }
   }
+
+  &__spinner{
+    .loader__box{
+      margin-top: 0;
+    }
+  }
 }
 
 @media only screen and (max-width: 500px) {
