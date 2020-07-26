@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 
 // style
 import "./Home.scss";
+// Global vars import
+import variables from "../../style/CssVariables.scss";
 
 // libraries
 import axios from "axios";
@@ -62,7 +64,7 @@ const Home = () => {
         console.log(err.response.data);
         setPostsLoading(false);
       });
-    
+
     // get data of logged in user, and pass it to global state
     let userToken = localStorage.getItem("auth-token");
     if (userToken) {
@@ -82,7 +84,7 @@ const Home = () => {
    * used to apply pagination on posts
    * @param {String} key
    * @return next batch of posts
-   * will fire on user click on load more posts button in the end of home. 
+   * will fire on user click on load more posts button in the end of home.
    */
   const fetchMorePosts = (key) => {
     if (key.length > 0) {
@@ -116,7 +118,7 @@ const Home = () => {
 
   // direct to post details page on click on post
   const toPostDetails = (postID) => {
-    history.push('/posts/' + postID)
+    history.push("/posts/" + postID);
   };
 
   // store first batch of posts, on page load first
@@ -164,23 +166,34 @@ const Home = () => {
 
       <div className='home-box__posts'>{firstPosts}</div>
       <div style={{ color: `${theme.typoMain}` }}>people you may know</div>
-      <div>
+      <div style={{ textAlign: "center" }}>
         {nextPosts_loading ? (
           <Spinner />
         ) : lastKey.length > 0 ? (
-          <input
-            type='button'
+          <button
+            className='home-box__moreButton'
             onClick={() => fetchMorePosts(lastKey)}
-            value='fetch More'
-          />
+            style={{
+              backgroundColor: theme.mainColor,
+              color: "#fff",
+              borderRadius: variables.radius,
+            }}
+          >
+            <i className='fal fa-chevron-down home-box__moreButton__icon'></i>
+            <span className='home-box__moreButton__text'>More</span>
+          </button>
         ) : (
           ""
         )}
       </div>
-      <div className='note' style={{ color: `${theme.typoMain}` }}>
-        {!nextPosts_loading && lastKey.length === 0 && !posts_loading
-          ? "Super! you are up to date :D"
-          : ""}
+      <div className='home-box__note' style={{ color: `${theme.typoSecondary}` }}>
+        {!nextPosts_loading && lastKey.length === 0 && !posts_loading ? (
+          <span>
+            Cool, you are up to date <i class='fas fa-stars' style={{color: theme.mainColor}}></i>
+          </span>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

@@ -1,19 +1,50 @@
-@import "../../../style//CssVariables.scss";
+@import "../../style/CssVariables.scss";
 
-.editProfile__main {
-  &__button {
-    padding: 0 14px;
-    height: 37px;
-    font-weight: bold;
-    font-size: 14px;
+.postDetails__post__content__counters__likes {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
 
-    &:focus {
-      outline: 0;
+.likesBox {
+  &__like {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+    &__leftSide {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      &__userImageBox {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      &__userName {
+        font-size: 15px;
+        font-weight: 700;
+      }
     }
   }
 }
 
-.editProfile__main__modal {
+/* Modal edit */
+.likes__main__modal {
+  padding-right: 0 !important;
   .modal-content {
     border: 0;
     background: transparent;
@@ -21,6 +52,8 @@
     .modal-body {
       border-bottom-right-radius: 20px;
       border-bottom-left-radius: 20px;
+      padding: 0 !important;
+      min-height: 200px;
     }
   }
   &__header {
@@ -90,7 +123,7 @@
     .modal-content {
       height: 100vh;
 
-      .editProfile__main__modal__header {
+      .likes__main__modal__header {
         border-top-left-radius: 0 !important;
         border-top-right-radius: 0 !important;
       }

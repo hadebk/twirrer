@@ -87,7 +87,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
         onClick={openModal}
         className='editProfile__main__button'
       >
-        Edit profile
+        {language.userProfile.editProfileButton}
       </button>
 
       <Modal
@@ -126,13 +126,13 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                 color: theme.typoMain,
               }}
             >
-              Edit profile
+              {language.userProfile.modalTitle}
             </h2>
           </div>
           <button
             className='editProfile__main__modal__header__saveButton'
             style={{
-              color: theme.typoMain,
+              color: "#fff",
               backgroundColor: theme.mainColor,
               borderRadius: variables.radius,
             }}
@@ -141,7 +141,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
               saveAndClose();
             }}
           >
-            Save
+            {language.userProfile.modalSaveButton}
           </button>
         </Modal.Header>
         <Modal.Body
@@ -165,7 +165,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                     color: theme.typoSecondary,
                   }}
                 >
-                  Bio
+                  {language.userProfile.modalBioLabel}
                 </label>
                 <input
                   type='text'
@@ -194,7 +194,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                     color: theme.typoSecondary,
                   }}
                 >
-                  Location
+                  {language.userProfile.modalLocationLabel}
                 </label>
                 <input
                   type='text'
@@ -222,7 +222,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                     color: theme.typoSecondary,
                   }}
                 >
-                  Website
+                  {language.userProfile.modalWebsiteLabel}
                 </label>
                 <input
                   type='text'

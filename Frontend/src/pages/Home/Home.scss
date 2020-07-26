@@ -21,6 +21,30 @@
   &__posts{
     margin-top: 53px;
   }
+
+  &__moreButton{
+    font-size: 15px;
+    padding: 0 14px;
+    height: 30px;
+
+    &:focus{
+      outline: 0;
+    }
+
+    &__icon{
+      margin-right: 5px;
+    }
+  }
+
+  &__note{
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 10px;
+
+    i{
+      font-size: 20px;
+    }
+  }
 }
 
 @media only screen and (max-width: 500px) {

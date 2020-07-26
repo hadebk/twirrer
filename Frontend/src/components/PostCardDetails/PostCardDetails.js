@@ -21,6 +21,7 @@ import UserService from "../../services/UserService";
 import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
+import LikesModal from "../../components/LikesModal/LikesModal";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -29,7 +30,7 @@ import UserContext from "../../context/UserContext";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import PostsContext from "../../context/PostsContext";
 
-const PostCardDetails = ({postData}) => {
+const PostCardDetails = ({postData, likes}) => {
       // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -155,8 +156,9 @@ const PostCardDetails = ({postData}) => {
                 >
                   {language.postDetails.comments}
                 </span>
-              </div>
-              <div className='postDetails__post__content__counters__likes'>
+            </div>
+            <LikesModal likes={likes} postData={postData}/>
+            {/*<div className='postDetails__post__content__counters__likes'>
                 <span
                   className='postDetails__post__content__counters__numbers'
                   style={{
@@ -172,7 +174,7 @@ const PostCardDetails = ({postData}) => {
                 >
                   {language.postDetails.likes}
                 </span>
-              </div>
+                </div>*/}
             </div>
             <div
               className='postDetails__post__content__line4'

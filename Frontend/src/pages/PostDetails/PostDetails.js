@@ -124,7 +124,7 @@ const PostDetails = (props) => {
             <Spinner />
           </div>
         ) : (*/}
-        <PostCardDetails postData={postData}/>
+        <PostCardDetails postData={postData} likes={likes}/>
         {/* )}*/}
       </div>
       {userData.isAuth ? (
