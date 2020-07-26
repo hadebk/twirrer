@@ -69,4 +69,15 @@ export default {
       throw error;
     }
   },
+
+  addUserDetails: async function (data, token) {
+    try {
+      const response = await axios.post("/addUserDetails", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

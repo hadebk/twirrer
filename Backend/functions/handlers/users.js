@@ -399,7 +399,7 @@ exports.uploadPostImage = (req, res) => {
  * add extra data to user record in db, (bio ,location, website)
  * ****************************************************************
  */
-exports.addUserDetails = (req, res) => {
+exports.addUserDetails = (req, res) => { 
   // data validation
   let userDetails = reduceUserDetails(req.body);
 

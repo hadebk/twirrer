@@ -235,7 +235,10 @@ const UserProfile = (props) => {
           <div className='userProfile__main__userDetails__userData__buttonBox'>
             {userData.isAuth ? (
               userName === userData.user.credentials.userName ? (
-                <EditProfile />
+                <EditProfile
+                  userProfileData={userProfileData}
+                  setUserProfileData={setUserProfileData}
+                />
               ) : (
                 "add friend"
               )

@@ -1,0 +1,98 @@
+@import "../../../style//CssVariables.scss";
+
+.editProfile__main {
+  &__button {
+    padding: 0 14px;
+    height: 37px;
+    font-weight: bold;
+    font-size: 14px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+.editProfile__main__modal {
+  .modal-content {
+    border: 0;
+    background: transparent;
+
+    .modal-body {
+      border-bottom-right-radius: 20px;
+      border-bottom-left-radius: 20px;
+    }
+  }
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    align-items: flex-end;
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+
+    .left {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__iconBox {
+      position: relative;
+      margin-right: 30px;
+
+      &:hover > &__background {
+        display: block;
+      }
+
+      &:hover {
+        color: $mainColor;
+        cursor: pointer;
+      }
+
+      &__background {
+        position: absolute;
+        top: -3px;
+        left: -10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: none;
+      }
+    }
+
+    &__title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 0;
+    }
+
+    &__saveButton {
+      font-size: 14px;
+      font-weight: bold;
+      height: 28px;
+      padding: 0 14px;
+
+      &:focus{
+          outline: 0;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  // mobile screen
+  .modal-dialog {
+    margin: 0 !important;
+
+    .modal-content {
+      height: 100vh;
+
+      .editProfile__main__modal__header {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
+    }
+  }
+}
