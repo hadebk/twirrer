@@ -103,8 +103,9 @@ const FriendsModal = ({ friends, userProfileData }) => {
                 color: theme.typoMain,
               }}
             >
-              {language.userProfile.friendsModalTitle} {"@"}
-              {userProfileData.user.userName}
+              {"@"}
+              {userProfileData.user.userName + "'s "}
+              {language.userProfile.friendsModalTitle}
             </h2>
           </div>
         </Modal.Header>

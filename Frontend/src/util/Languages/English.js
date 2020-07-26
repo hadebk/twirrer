@@ -52,6 +52,6 @@ export default {
     modalBioLabel: 'Bio',
     modalLocationLabel: 'Location',
     modalWebsiteLabel: 'Website',
-    friendsModalTitle: 'Friends of'
+    friendsModalTitle: 'friends'
   },
 };

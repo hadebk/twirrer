@@ -44,7 +44,7 @@ export default {
   },
   userProfile: {
     joined: "Beitritt",
-    friends: "Freunden",
+    friends: "Freunde",
     noPosts: "Dieser Benutzer hat noch nichts gepostet.",
     editProfileButton: "Profil bearbeiten",
     modalTitle: "Profil bearbeiten",
@@ -52,6 +52,6 @@ export default {
     modalBioLabel: "Biografie",
     modalLocationLabel: "Standort",
     modalWebsiteLabel: "Website",
-    friendsModalTitle: "Freunde von",
+    friendsModalTitle: "freunde",
   },
 };
