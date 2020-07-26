@@ -133,7 +133,10 @@ const Navbar = () => {
               </div>
               {/* Profile Tab */}
               <div className='Navbar__box__tab'>
-                <Link to='/' onClick={() => handleProfileClick()}>
+                <Link
+                  to={"/users/" + userData.user.credentials.userName}
+                  onClick={() => handleProfileClick()}
+                >
                   <span className='Navbar__box__tab__icon'>
                     <i
                       className={

@@ -98,7 +98,10 @@ const MobileNavbar = () => {
               </div>
               {/* Profile Tab */}
               <div className='MobileNavber__box__tab'>
-                <Link to='/' onClick={() => handleProfileClick()}>
+                <Link
+                  to={"/users/" + userData.user.credentials.userName}
+                  onClick={() => handleProfileClick()}
+                >
                   <span className='MobileNavber__box__tab__icon'>
                     <i
                       className={
