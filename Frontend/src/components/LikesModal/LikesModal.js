@@ -12,6 +12,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
 
 const LikesModal = ({ postData, likes }) => {
   // ******* start global state ******* //
@@ -35,7 +36,7 @@ const LikesModal = ({ postData, likes }) => {
 
   useEffect(() => {
     console.log("likes modal----");
-  }, []); // posts, userData
+  }, [userData, setUserData]); // posts, userData
 
   // utils
   let closeModal = () => setOpen(false);
@@ -142,7 +143,10 @@ const LikesModal = ({ postData, likes }) => {
                         className='likesBox__like__rightSide'
                         style={{ color: theme.typoMain }}
                       >
-                        Add Friend
+                        <AddFriendButton
+                          userName={like.userName}
+                          profilePicture={like.profilePicture}
+                        />
                       </div>
                     ) : (
                       ""

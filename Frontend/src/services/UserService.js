@@ -80,4 +80,26 @@ export default {
       throw error;
     }
   },
+
+  addFriend: async function (userName, token) {
+    try {
+      const response = await axios.get(`/user/${userName}/addFriend`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  unFriend: async function (userName, token) {
+    try {
+      const response = await axios.get(`/user/${userName}/unFriend`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

@@ -12,8 +12,9 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
 
-const FriendsModal = ({ friends, userProfileData }) => {
+const FriendsModal = ({ userProfileData }) => {
   // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -35,12 +36,12 @@ const FriendsModal = ({ friends, userProfileData }) => {
 
   useEffect(() => {
     console.log("friends modal----");
-  }, [friends, userData]);
+  }, [ userData, userProfileData]);
   // utils
   let closeModal = () => setOpen(false);
 
   let openModal = () => {
-    if (friends.length === 0) return;
+    if (userProfileData.friends.length === 0) return;
     setOpen(true);
   };
   return (
@@ -55,7 +56,7 @@ const FriendsModal = ({ friends, userProfileData }) => {
             color: theme.typoMain,
           }}
         >
-          {friends.length}
+          {userProfileData.friends.length}
         </span>{" "}
         <span
           className='userProfile__main__userDetails__userData__friends__word'
@@ -115,7 +116,7 @@ const FriendsModal = ({ friends, userProfileData }) => {
           }}
         >
           <div className='friendsBox'>
-            {friends.map((friend) => {
+            {userProfileData.friends.map((friend) => {
               return (
                 <div
                   className='friendsBox__friend'
@@ -144,7 +145,10 @@ const FriendsModal = ({ friends, userProfileData }) => {
                         className='friendsBox__friend__rightSide'
                         style={{ color: theme.typoMain }}
                       >
-                        Add Friend
+                        <AddFriendButton
+                          userName={friend.userName}
+                          profilePicture={friend.profilePicture}
+                        />
                       </div>
                     ) : (
                       ""

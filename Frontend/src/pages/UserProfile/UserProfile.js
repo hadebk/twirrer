@@ -24,6 +24,7 @@ import EditProfileImageButton from "../../components/Buttons/EditProfileImageBut
 import EditCoverImageButton from "../../components/Buttons/EditCoverImageButton/EditCoverImageButton";
 import EditProfile from "../../components/Buttons/EditProfile/EditProfile";
 import FriendsModal from "../../components/FriendsModal/FriendsModal";
+import AddFriendButton from "../../components/Buttons/AddFriendButton/AddFriendButton";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -64,7 +65,7 @@ const UserProfile = (props) => {
   useEffect(() => {
     console.log("userData", userData);
     setProfileLoader(true);
-    UserService.getUserDetails(userName)
+    UserService.getUserDetails(props.match.params.userName)
       .then((res) => {
         console.log(res.data);
         setUserProfileData(res.data);
@@ -74,7 +75,7 @@ const UserProfile = (props) => {
         console.log(err.response.data);
         setProfileLoader(false);
       });
-  }, [posts, userData]);
+  }, [posts, userData, setUserProfileData, props.match.params.userName]);
 
   const goToBack = () => {
     props.history.goBack();
@@ -250,7 +251,11 @@ const UserProfile = (props) => {
                   setUserProfileData={setUserProfileData}
                 />
               ) : (
-                "add friend"
+                <AddFriendButton
+                  userName={userName}
+                  userProfileData={userProfileData}
+                  setUserProfileData={setUserProfileData}
+                />
               )
             ) : (
               "go to login"
@@ -277,29 +282,7 @@ const UserProfile = (props) => {
               {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
             </div>
           </div>
-          <FriendsModal
-            friends={userProfileData.friends}
-            userProfileData={userProfileData}
-          />
-          {/*<div className='userProfile__main__userDetails__userData__friends'>
-            <span
-              className='userProfile__main__userDetails__userData__friends__number'
-              style={{
-                color: theme.typoMain,
-              }}
-            >
-              {userProfileData.friends.length}
-            </span>{" "}
-            <span
-              className='userProfile__main__userDetails__userData__friends__word'
-              style={{
-                color: theme.typoSecondary,
-              }}
-            >
-              {" "}
-              {language.userProfile.friends}
-            </span>
-          </div>*/}
+          <FriendsModal userProfileData={userProfileData} />
         </div>
         {/* user post section */}
         <div className='userProfile__main__userDetails__posts'>{userPosts}</div>

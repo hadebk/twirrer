@@ -47,6 +47,8 @@ export default {
     friends: "Freunde",
     noPosts: "Dieser Benutzer hat noch nichts gepostet.",
     editProfileButton: "Profil bearbeiten",
+    addFriendButton: "Freund hinzufügen",
+    deleteFriendButton: "Freund löschen",
     modalTitle: "Profil bearbeiten",
     modalSaveButton: "Speichern",
     modalBioLabel: "Biografie",

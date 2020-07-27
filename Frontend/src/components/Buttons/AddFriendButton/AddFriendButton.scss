@@ -1,0 +1,12 @@
+@import "../../../style//CssVariables.scss";
+
+.addFriend__button {
+    padding: 0 14px;
+    height: 37px;
+    font-weight: bold;
+    font-size: 14px;
+
+    &:focus {
+      outline: 0;
+    }
+}
