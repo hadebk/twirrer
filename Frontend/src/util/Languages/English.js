@@ -28,9 +28,16 @@ export default {
     more: "More",
     tweetButton: "Tweet",
   },
+  rightSide: {
+    WhoToFAdd: "Who to add?",
+    JoinTwirrer: "Join Twirrer",
+    JoinTwirrerSub: "Sign up now or login to get your own personalized timeline!",
+  },
   home: {
     pageTitle: "Home | Twirrer",
     title: "Home",
+    moreButton: "More",
+    bottomHint: "Cool, you are up to date"
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",

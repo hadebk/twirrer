@@ -23,6 +23,8 @@ import PostsContext from "../../context/PostsContext";
 import PostCard from "../../components/PostCard/PostCard";
 import Spinner from "../../components/Spinner/Spinner";
 import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
+import { lang } from "moment";
+import JoinTwirrer from "../../parts/JoinTwirrer/JoinTwirrer";
 
 const Home = () => {
   // ******* start global state ******* //
@@ -154,7 +156,7 @@ const Home = () => {
           {language.home.title}
         </h1>
       </div>
-      
+
       {userData.isAuth ? (
         <input
           type='button'
@@ -167,7 +169,7 @@ const Home = () => {
       )}
 
       <div className='home-box__posts'>{firstPosts}</div>
-      <WhoToAdd/>
+      {userData.isAuth ? <WhoToAdd /> : ''}
       <div className='home-box__spinner' style={{ textAlign: "center" }}>
         {nextPosts_loading ? (
           <Spinner />
@@ -182,7 +184,7 @@ const Home = () => {
             }}
           >
             <i className='fal fa-chevron-down home-box__moreButton__icon'></i>
-            <span className='home-box__moreButton__text'>More</span>
+              <span className='home-box__moreButton__text'>{language.home.moreButton}</span>
           </button>
         ) : (
           ""
@@ -194,7 +196,7 @@ const Home = () => {
       >
         {!nextPosts_loading && lastKey.length === 0 && !posts_loading ? (
           <span>
-            Cool, you are up to date{" "}
+            {language.home.bottomHint}{" "}
             <i className='fas fa-stars' style={{ color: theme.mainColor }}></i>
           </span>
         ) : (

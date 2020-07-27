@@ -30,6 +30,7 @@ import PostsContext from "./context/PostsContext";
 // api services
 import UserService from "./services/UserService";
 import PostService from "./services/PostService";
+import TabletNavBarNotAuth from "./parts/TabletNavBarNotAuth/TabletNavBarNotAuth";
 
 function App() {
   // start global state //
@@ -106,6 +107,7 @@ function App() {
               <div className='App'>
                 <Navbar />
                 <MobileNavbar />
+                {!userData.isAuth && <TabletNavBarNotAuth />}
                 {/* let one Route invoked at a time */}
                 <Switch>
                   <Route exact path='/' component={Home} />

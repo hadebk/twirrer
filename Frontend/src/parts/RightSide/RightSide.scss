@@ -40,12 +40,20 @@
   /* For tablet: */
   .rightSide__box {
     width: 10%;
+
+    &__whoToAddBox{
+        display: none;
+    }
+
+    .joinTwirrer{
+      display: none;
+    }
   }
 }
 
 @media (min-width: 992px) and (max-width: 1280px) {
   /* For small lab: */
-  .rightSide__box {
-    width: 30%;
+  .rightSide__box { 
+    width: 40%;
   }
 }

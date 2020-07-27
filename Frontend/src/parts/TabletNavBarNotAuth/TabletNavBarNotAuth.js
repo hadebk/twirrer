@@ -1,17 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
-import "./RightSide.scss";
+import "./TabletNavBarNotAuth.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import WhoToAdd from "../WhoToAdd/WhoToAdd";
-import JoinTwirrer from "../JoinTwirrer/JoinTwirrer";
 
-const RightSide = () => {
+// components
+import LoginButton from "../../components/Buttons/LoginButton";
+import SignupButton from "../../components/Buttons/SignupButton";
+
+const TabletNavBarNotAuth = () => {
   // ******* start global state ******* //
 
   // theme context
@@ -28,31 +30,22 @@ const RightSide = () => {
   const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
-  useEffect(() => {}, [userData.isAuth]);
   return (
-    <div className='rightSide'>
+    <div className='TabletNavBarNotAuth'>
       <div
-        className='rightSide__box'
+        className='TabletNavBarNotAuth__main'
         style={{
-          backgroundColor: `${theme.background}`,
-          borderLeft: `1px solid ${theme.border}`,
+          background: `${theme.background}`,
+          borderTop: `1px solid ${theme.border}`,
         }}
       >
-        {userData.isAuth ? (
-          <div
-            className='rightSide__box__whoToAddBox'
-            style={{
-              backgroundColor: `${theme.foreground}`,
-            }}
-          >
-            <WhoToAdd />
-          </div>
-        ) : (
-            <JoinTwirrer />
-        )}
+        <div className='buttons__box'>
+          <LoginButton />
+          <SignupButton />
+        </div>
       </div>
     </div>
   );
 };
 
-export default RightSide;
+export default TabletNavBarNotAuth;

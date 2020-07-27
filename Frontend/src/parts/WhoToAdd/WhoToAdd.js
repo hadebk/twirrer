@@ -50,9 +50,9 @@ const WhoToAdd = () => {
         });
     }
   }, [userData.isAuth]);
-    
+
   return isLoad ? (
-    <div className="whoToAdd__spinner">
+    <div className='whoToAdd__spinner'>
       <Spinner />
     </div>
   ) : (
@@ -69,7 +69,7 @@ const WhoToAdd = () => {
           color: theme.typoMain,
         }}
       >
-        <h2>Who to add</h2>
+        <h2>{language.rightSide.WhoToFAdd}</h2>
       </div>
       <div className='whoToAdd__usersBox'>
         {users.map((user) => {
@@ -98,19 +98,15 @@ const WhoToAdd = () => {
                 </div>
               </div>
               {/* add friend button */}
-              {userData.isAuth ? (
-                <div
-                  className='whoToAdd__usersBox__user__rightSide'
-                  style={{ color: theme.typoMain }}
-                >
-                  <AddFriendButton
-                    userName={user.userName}
-                    profilePicture={user.profilePicture}
-                  />
-                </div>
-              ) : (
-                "login"
-              )}
+              <div
+                className='whoToAdd__usersBox__user__rightSide'
+                style={{ color: theme.typoMain }}
+              >
+                <AddFriendButton
+                  userName={user.userName}
+                  profilePicture={user.profilePicture}
+                />
+              </div>
             </div>
           );
         })}

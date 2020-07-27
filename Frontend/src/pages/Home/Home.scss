@@ -18,45 +18,47 @@
     }
   }
 
-  &__posts{
+  &__posts {
     margin-top: 53px;
   }
 
-  &__moreButton{
+  &__moreButton {
     font-size: 15px;
     padding: 0 14px;
+    margin-top: 20px;
     height: 30px;
 
-    &:focus{
+    &:focus {
       outline: 0;
     }
 
-    &__icon{
+    &__icon {
       margin-right: 5px;
     }
   }
 
-  &__note{
+  &__note {
     text-align: center;
     font-size: 15px;
+    margin-top: 20px;
     margin-bottom: 10px;
 
-    i{
+    i {
       font-size: 20px;
     }
   }
 
-  &__spinner{
-    .loader__box{
+  &__spinner {
+    .loader__box {
       margin-top: 0;
     }
   }
 
-  .whoToAdd{
-    margin-bottom: 20px;
+  .whoToAdd {
+    display: none;
 
-    &__title{
-      h2{
+    &__title {
+      h2 {
         padding: 15px 10px;
         margin: 0;
       }
@@ -70,8 +72,12 @@
     width: 100%;
     margin-left: 0;
     margin-bottom: 49px;
-    &__title{
+    &__title {
       width: 100%;
+    }
+
+    .whoToAdd {
+      display: block;
     }
   }
 }
@@ -79,10 +85,13 @@
 @media (min-width: 501px) and (max-width: 991px) {
   /* For tablet: */
   .home-box {
-    width: 70%;
-    margin-left: 20%;
-    &__title{
-      width: 70%;
+    width: 75%;
+    margin-left: 15%;
+    &__title {
+      width: 75%;
+    }
+    .whoToAdd {
+      display: block;
     }
   }
 }
@@ -91,8 +100,8 @@
   /* For small lab: */
   .home-box {
     width: 50%;
-    margin-left: 20%;
-    &__title{
+    margin-left: 10%;
+    &__title {
       width: 50%;
     }
   }

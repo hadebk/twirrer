@@ -231,10 +231,10 @@
 @media (min-width: 501px) and (max-width: 991px) {
   /* For tablet: */
   .userProfile__main {
-    width: 70%;
-    margin-left: 20%;
+    width: 75%;
+    margin-left: 15%;
     &__title {
-      width: 70%;
+      width: 75%;
     }
     &__userDetails__userData__pp__userImageBox {
       width: 110px;
@@ -250,7 +250,7 @@
   /* For small lab: */
   .userProfile__main {
     width: 50%;
-    margin-left: 20%;
+    margin-left: 10%;
     &__title {
       width: 50%;
     }

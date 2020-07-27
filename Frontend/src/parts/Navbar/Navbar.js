@@ -186,10 +186,7 @@ const Navbar = () => {
             {/* -------------- End Tabs -------------- */}
           </div>
         ) : (
-          <div className='buttons__box'>
-            <LoginButton />
-            <SignupButton />
-          </div>
+         ''
         )}
       </div>
     </div>
