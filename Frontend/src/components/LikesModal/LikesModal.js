@@ -127,7 +127,10 @@ const LikesModal = ({ postData, likes }) => {
                         <img src={like.profilePicture} alt='profile' />
                       </Link>
                     </div>
-                    <div className='likesBox__like__leftSide__userName'>
+                    <div
+                      className='likesBox__like__leftSide__userName'
+                      style={{ color: theme.typoMain }}
+                    >
                       <Link
                         to={"/users/" + like.userName}
                         style={{ color: theme.typoMain }}

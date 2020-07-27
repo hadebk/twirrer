@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext , useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -8,6 +8,7 @@ import "./RightSide.scss";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import WhoToAdd from "../WhoToAdd/WhoToAdd";
 
 const RightSide = () => {
   // ******* start global state ******* //
@@ -26,22 +27,26 @@ const RightSide = () => {
   const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
+  useEffect(() => {
+    
+  }, [userData.isAuth]);
   return (
-    <div className='r-box'>
+    <div className='rightSide'>
       <div
-        className='RightSide'
+        className='rightSide__box'
         style={{
           backgroundColor: `${theme.background}`,
           borderLeft: `1px solid ${theme.border}`,
         }}
       >
-        <h1
+        <div
+          className='rightSide__box__whoToAddBox'
           style={{
-            color: `${theme.typoMain}`,
+            backgroundColor: `${theme.foreground}`
           }}
         >
-          
-        </h1>
+          <WhoToAdd />
+        </div>
       </div>
     </div>
   );

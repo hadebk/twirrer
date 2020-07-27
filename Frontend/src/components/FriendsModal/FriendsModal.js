@@ -129,7 +129,10 @@ const FriendsModal = ({ userProfileData }) => {
                         <img src={friend.profilePicture} alt='profile' />
                       </Link>
                     </div>
-                    <div className='friendsBox__friend__leftSide__userName'>
+                    <div
+                      className='friendsBox__friend__leftSide__userName'
+                      style={{ color: theme.typoMain }}
+                    >
                       <Link
                         to={"/users/" + friend.userName}
                         style={{ color: theme.typoMain }}

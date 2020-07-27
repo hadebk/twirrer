@@ -102,4 +102,15 @@ export default {
       throw error;
     }
   },
+
+  usersToAdd: async function (token) {
+    try {
+      const response = await axios.get("/usersToAdd", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

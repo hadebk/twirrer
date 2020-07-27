@@ -867,7 +867,7 @@ deleteNotificationOnUnFriend = (req, res) => {
  * to show them as suggestion friend to add
  * ****************************************************************
  */
-exports.usersToAdd = (req, res) => {
+exports.usersToAdd = (req, res) => { 
   let allUsers = [];
   let randomArr = [];
   db.collection("users")

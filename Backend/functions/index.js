@@ -65,7 +65,7 @@ app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
 app.get("/user/:userName/getUserDetails", getUserDetails); 
 app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
 app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
-app.get("/usersToAdd", firebaseAuth, usersToAdd);
+app.get("/usersToAdd", firebaseAuth, usersToAdd); //
 app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
 
 /**

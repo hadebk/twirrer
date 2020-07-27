@@ -51,6 +51,17 @@
       margin-top: 0;
     }
   }
+
+  .whoToAdd{
+    margin-bottom: 20px;
+
+    &__title{
+      h2{
+        padding: 15px 10px;
+        margin: 0;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 500px) {

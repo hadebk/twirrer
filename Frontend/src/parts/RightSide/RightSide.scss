@@ -1,15 +1,36 @@
-.r-box {
+.rightSide {
   position: relative;
-}
-.RightSide {
-  height: 100vh;
-  width: 30%;
-  position: fixed;
+
+  &__box {
+    height: 100vh;
+    width: 30%;
+    position: fixed;
+
+    &__whoToAddBox {
+      padding: 20px 0;
+      border-radius: 15px;
+      margin: 30px 60px 30px 20px;
+
+    .whoToAdd{
+      &__title{
+        h2{
+          padding: 0 15px 10px;
+        }
+      }
+
+      &__usersBox{
+        &__user{
+          padding: 10px 15px;
+        }
+      }
+    }
+    }
+  }
 }
 
 @media only screen and (max-width: 500px) {
   /* For mobile phones: */
-  .RightSide {
+  .rightSide__box {
     width: 0;
     display: none;
   }
@@ -17,14 +38,14 @@
 
 @media (min-width: 501px) and (max-width: 991px) {
   /* For tablet: */
-  .RightSide {
+  .rightSide__box {
     width: 10%;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1280px) {
   /* For small lab: */
-  .RightSide {
+  .rightSide__box {
     width: 30%;
   }
 }

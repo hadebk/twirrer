@@ -22,6 +22,7 @@ import PostsContext from "../../context/PostsContext";
 // components
 import PostCard from "../../components/PostCard/PostCard";
 import Spinner from "../../components/Spinner/Spinner";
+import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
 
 const Home = () => {
   // ******* start global state ******* //
@@ -153,6 +154,7 @@ const Home = () => {
           {language.home.title}
         </h1>
       </div>
+      
       {userData.isAuth ? (
         <input
           type='button'
@@ -165,7 +167,7 @@ const Home = () => {
       )}
 
       <div className='home-box__posts'>{firstPosts}</div>
-      <div style={{ color: `${theme.typoMain}` }}>people you may know</div>
+      <WhoToAdd/>
       <div className='home-box__spinner' style={{ textAlign: "center" }}>
         {nextPosts_loading ? (
           <Spinner />

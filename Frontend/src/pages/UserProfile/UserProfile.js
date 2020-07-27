@@ -50,7 +50,6 @@ const UserProfile = (props) => {
   // ******* end global state *******//
 
   // local state
-  const [userName, setUserName] = useState(props.match.params.userName);
   const [userProfileData, setUserProfileData] = useState({
     friends: [],
     posts: [],
@@ -143,7 +142,7 @@ const UserProfile = (props) => {
     );
 
   const editAvatar = userData.isAuth ? (
-    userName === userData.user.credentials.userName ? (
+    props.match.params.userName === userData.user.credentials.userName ? (
       <EditProfileImageButton
         userProfileData={userProfileData}
         setUserProfileData={setUserProfileData}
@@ -156,7 +155,7 @@ const UserProfile = (props) => {
   );
 
   const editCover = userData.isAuth ? (
-    userName === userData.user.credentials.userName ? (
+    props.match.params.userName === userData.user.credentials.userName ? (
       <EditCoverImageButton
         userProfileData={userProfileData}
         setUserProfileData={setUserProfileData}
@@ -245,14 +244,15 @@ const UserProfile = (props) => {
           </div>
           <div className='userProfile__main__userDetails__userData__buttonBox'>
             {userData.isAuth ? (
-              userName === userData.user.credentials.userName ? (
+              props.match.params.userName ===
+              userData.user.credentials.userName ? (
                 <EditProfile
                   userProfileData={userProfileData}
                   setUserProfileData={setUserProfileData}
                 />
               ) : (
                 <AddFriendButton
-                  userName={userName}
+                  userName={props.match.params.userName}
                   userProfileData={userProfileData}
                   setUserProfileData={setUserProfileData}
                 />
