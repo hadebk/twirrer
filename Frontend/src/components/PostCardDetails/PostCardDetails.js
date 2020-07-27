@@ -47,7 +47,11 @@ const PostCardDetails = ({postData, likes}) => {
   const { posts, setPostsData } = useContext(PostsContext);
   // ******* end global state *******//
 
-   var arabic = /[\u0600-\u06FF]/;
+  var arabic = /[\u0600-\u06FF]/;
+  
+  useEffect(() => {
+    
+  },[posts, userData])
    
     return ( 
         <div

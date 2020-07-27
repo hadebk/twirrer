@@ -35,7 +35,7 @@ const FriendsModal = ({ friends, userProfileData }) => {
 
   useEffect(() => {
     console.log("friends modal----");
-  }, [friends]);
+  }, [friends, userData]);
   // utils
   let closeModal = () => setOpen(false);
 
@@ -137,12 +137,21 @@ const FriendsModal = ({ friends, userProfileData }) => {
                       </Link>
                     </div>
                   </div>
-                  <div
-                    className='friendsBox__friend__rightSide'
-                    style={{ color: theme.typoMain }}
-                  >
-                    Add Friend
-                  </div>
+                  {/* add friend button */}
+                  {userData.isAuth ? (
+                    friend.userName !== userData.user.credentials.userName ? (
+                      <div
+                        className='friendsBox__friend__rightSide'
+                        style={{ color: theme.typoMain }}
+                      >
+                        Add Friend
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    "login"
+                  )}
                 </div>
               );
             })}

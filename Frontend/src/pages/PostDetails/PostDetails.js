@@ -53,27 +53,25 @@ const PostDetails = (props) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
-      setLoading(true);
-    if(postId){
+    setLoading(true);
+    if (postId) {
       // get all details of current post
-    PostService.getPostDetails(postId)
-      .then((res) => {
-        let result = res.data.post;
-        result.postId = res.data.postId;
-        setPostData(result);
-        setComments(res.data.comments);
-        setLikes(res.data.likes);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+      PostService.getPostDetails(postId)
+        .then((res) => {
+          let result = res.data.post;
+          result.postId = res.data.postId;
+          setPostData(result);
+          setComments(res.data.comments);
+          setLikes(res.data.likes);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
     }
   }, [postId, userData.user, posts]);
-  
 
   const goToBack = () => {
     props.history.goBack();
@@ -86,7 +84,9 @@ const PostDetails = (props) => {
   return (
     <div
       className='postDetails__main'
-      style={{ background: `${theme.background}` }}
+      style={{
+        background: `${theme.background}`,
+      }}
     >
       <div
         className='postDetails__main__title'
@@ -124,17 +124,19 @@ const PostDetails = (props) => {
             <Spinner />
           </div>
         ) : (*/}
-        <PostCardDetails postData={postData} likes={likes}/>
+        <PostCardDetails postData={postData} likes={likes} />
         {/* )}*/}
       </div>
       {userData.isAuth ? (
-        <AddComment postId={postId} comments={comments} setComments={setComments}/>
+        <AddComment
+          postId={postId}
+          comments={comments}
+          setComments={setComments}
+        />
       ) : (
         ""
       )}
-      <div
-        className='postComments'
-      >
+      <div className='postComments'>
         {comments.length > 0 ? (
           comments.map((comment) => (
             <CommentCard

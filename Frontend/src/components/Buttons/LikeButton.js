@@ -114,7 +114,7 @@ const LikeButton = ({ post }) => {
       console.log("likeButton-useEffect-isAuth=false");
     }
   }, [userData.isAuth, post.postId]);
-
+  //
   return (
     <div className='postCard__content__line4__like'>
       {wasLiked ? (

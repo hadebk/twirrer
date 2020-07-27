@@ -13,7 +13,6 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
-
 const LikesModal = ({ postData, likes }) => {
   // ******* start global state ******* //
   // theme context
@@ -27,7 +26,7 @@ const LikesModal = ({ postData, likes }) => {
   // user context
   const { userData, setUserData } = useContext(UserContext);
 
-  // user context
+  // posts context
   const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end global state ******* //
@@ -36,7 +35,8 @@ const LikesModal = ({ postData, likes }) => {
 
   useEffect(() => {
     console.log("likes modal----");
-  }, [postData]);
+  }, []); // posts, userData
+
   // utils
   let closeModal = () => setOpen(false);
 
@@ -44,6 +44,7 @@ const LikesModal = ({ postData, likes }) => {
     if (postData.likeCount === 0) return;
     setOpen(true);
   };
+
   return (
     <Fragment>
       <div
@@ -134,12 +135,21 @@ const LikesModal = ({ postData, likes }) => {
                       </Link>
                     </div>
                   </div>
-                  <div
-                    className='likesBox__like__rightSide'
-                    style={{ color: theme.typoMain }}
-                  >
-                    Add Friend
-                  </div>
+                  {/* add friend button */}
+                  {userData.isAuth ? (
+                    like.userName !== userData.user.credentials.userName ? (
+                      <div
+                        className='likesBox__like__rightSide'
+                        style={{ color: theme.typoMain }}
+                      >
+                        Add Friend
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    "login"
+                  )}
                 </div>
               );
             })}
