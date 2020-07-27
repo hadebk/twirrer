@@ -1,0 +1,44 @@
+.currentUser {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 60px 0px 20px;
+  border-radius: 50px;
+  padding: 10px 15px;
+
+  &__userImage {
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  &__userName {
+    width: 75%;
+    h2 {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    p {
+      font-size: 15px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  .currentUser {
+    display: none;
+  }
+}

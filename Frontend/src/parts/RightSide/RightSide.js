@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -10,6 +10,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import WhoToAdd from "../WhoToAdd/WhoToAdd";
 import JoinTwirrer from "../JoinTwirrer/JoinTwirrer";
+import CurrentUser from "../CurrentUser/CurrentUser";
 
 const RightSide = () => {
   // ******* start global state ******* //
@@ -39,14 +40,17 @@ const RightSide = () => {
         }}
       >
         {userData.isAuth ? (
-          <div
-            className='rightSide__box__whoToAddBox'
-            style={{
-              backgroundColor: `${theme.foreground}`,
-            }}
-          >
-            <WhoToAdd />
-          </div>
+          <Fragment>
+            <CurrentUser/>
+            <div
+              className='rightSide__box__whoToAddBox'
+              style={{
+                backgroundColor: `${theme.foreground}`,
+              }}
+            >
+              <WhoToAdd />
+            </div>
+          </Fragment>
         ) : (
             <JoinTwirrer />
         )}
