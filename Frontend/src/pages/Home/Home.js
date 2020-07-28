@@ -109,15 +109,6 @@ const Home = () => {
     }
   };
 
-  // log the current user out
-  const logOut = () => {
-    localStorage.setItem("auth-token", "");
-    setUserData({
-      token: undefined,
-      user: undefined,
-      isAuth: false,
-    });
-  };
 
   // direct to post details page on click on post
   const toPostDetails = (postID) => {
@@ -156,17 +147,6 @@ const Home = () => {
           {language.home.title}
         </h1>
       </div>
-
-      {userData.isAuth ? (
-        <input
-          type='button'
-          onClick={() => logOut()}
-          value='Log out'
-          style={{ display: "none" }}
-        />
-      ) : (
-        ""
-      )}
 
       <div className='home-box__posts'>{firstPosts}</div>
       {userData.isAuth ? <WhoToAdd /> : ''}

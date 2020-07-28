@@ -63,4 +63,10 @@ export default {
     modalWebsiteLabel: "Website",
     friendsModalTitle: "freunde",
   },
+  moreButton: {
+    title: "Einstellung",
+    theme: "Thema",
+    language: "Sprache",
+    logoutButton: "Abmelden",
+  }
 };

@@ -12,6 +12,7 @@ import UserContext from "../../context/UserContext";
 // components
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
+import MoreButton from "../../components/Buttons/MoreButton/MoreButton";
 
 const Navbar = () => {
   // ******* start global state ******* //
@@ -164,22 +165,7 @@ const Navbar = () => {
               {/* More Tab */}
               <div className='Navbar__box__tab'>
                 <Link to='#'>
-                  <span className='Navbar__box__tab__icon'>
-                    <i
-                      className='fal fa-ellipsis-h-alt'
-                      style={{
-                        color: theme.typoMain,
-                      }}
-                    ></i>
-                  </span>
-                  <span
-                    className='Navbar__box__tab__text'
-                    style={{
-                      color: theme.typoMain,
-                    }}
-                  >
-                    {language.navbar.more}
-                  </span>
+                  <MoreButton className='Navbar__box__tab__icon' color={theme.typoMain}/> 
                 </Link>
               </div>
             </div>

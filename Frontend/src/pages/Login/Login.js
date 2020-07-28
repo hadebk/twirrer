@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-// style file
+// style file 
 import "./Login.scss";
 
 // context (global state)
@@ -244,18 +244,6 @@ const Login = () => {
             </Link>
           </span>
         </div>
-        <button
-          onClick={toggleLanguage}
-          style={{ color: "#fff", background: "#333", padding: "10px" }}
-        >
-          {isEnglish ? "DE" : "EN"}
-        </button>
-        <button
-          onClick={toggleTheme}
-          style={{ color: "#fff", background: "#999", padding: "10px" }}
-        >
-          {isLightTheme ? "Dark" : "Light"}
-        </button>
       </div>
     </div>
   );

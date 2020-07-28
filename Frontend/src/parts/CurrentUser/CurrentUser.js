@@ -27,33 +27,47 @@ const CurrentUser = () => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
 
   // ******* end global state ******* //
-    
-    useEffect(() => {
-        
-    },[userData])
+
+  useEffect(() => {}, [userData, setUserData]);
 
   return (
-    <Link to={"/users/" + userData.user.credentials.UserName}>
-      <div className='currentUser' style={{backgroundColor: theme.foreground}}>
-        <div className='currentUser__userImage'>
-          <img
-            alt='profile picture'
-            src={
-              userData.user.credentials.profilePicture
-                ? userData.user.credentials.profilePicture
-                : default_pp
-            }
-          />
-        </div>
-        <div className='currentUser__userName'>
-          <h2 style={{color: theme.typoMain}}>{userData.user.credentials.userName}</h2>
-                  <p style={{ color: theme.typoSecondary }}>{userData.user.credentials.friendsCount}{' '}{language.userProfile.friends}</p>
-        </div>
-      </div>
-    </Link>
+    <div className='currentUser' style={{ backgroundColor: theme.foreground }}>
+      {userData.isAuth ? (
+        <>
+          <div className='currentUser__userImage'>
+            <Link to={"/users/" + userData.user.credentials.userName}>
+              <img
+                alt='profile picture'
+                src={
+                  userData.user.credentials.profilePicture
+                    ? userData.user.credentials.profilePicture
+                    : default_pp
+                }
+              />
+            </Link>
+          </div>
+          <div className='currentUser__userName'>
+            <Link
+              to={"/users/" + userData.user.credentials.userName}
+              style={{ color: theme.typoMain }}
+            >
+              <h2 style={{ color: theme.typoMain }}>
+                {userData.user.credentials.userName}
+              </h2>
+            </Link>
+            <p style={{ color: theme.typoSecondary }}>
+              {userData.user.credentials.friendsCount}{" "}
+              {language.userProfile.friends}
+            </p>
+          </div>
+        </>
+      ) : (
+        <Spinner />
+      )}
+    </div>
   );
 };
 

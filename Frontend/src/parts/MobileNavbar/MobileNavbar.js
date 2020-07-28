@@ -12,6 +12,7 @@ import UserContext from "../../context/UserContext";
 // components
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
+import MoreButton from "../../components/Buttons/MoreButton/MoreButton";
 
 const MobileNavbar = () => {
   // ******* start global state ******* //
@@ -120,14 +121,12 @@ const MobileNavbar = () => {
               </div>
               {/* More Tab */}
               <div className='MobileNavber__box__tab'>
-                <span className='MobileNavber__box__tab__icon'>
-                  <i
-                    className='fal fa-ellipsis-h-alt'
-                    style={{
-                      color: theme.mobileNavIcon,
-                    }}
-                  ></i>
-                </span>
+                <Link to='#'>
+                  <MoreButton
+                    className='MobileNavber__box__tab__icon'
+                    color={theme.mobileNavIcon}
+                  />
+                </Link>
               </div>
             </div>
             {/* -------------- End Tabs -------------- */}
