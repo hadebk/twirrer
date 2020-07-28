@@ -36,7 +36,11 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
   const [website, setWebsite] = useState(userProfileData.user.website);
 
   useEffect(() => {
+    setBio(userProfileData.user.bio);
+    setLocation(userProfileData.user.location);
+    setWebsite(userProfileData.user.website);
   }, [userProfileData]);
+  
   // utils
   let closeModal = () => setOpen(false);
 
@@ -174,9 +178,9 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                   style={{
                     color: theme.typoMain,
                   }}
+                  value={bio}
                   autoComplete='off'
                   aria-describedby='text'
-                  value={bio}
                   onChange={(e) => setBio(e.target.value)}
                 />
               </div>
@@ -231,9 +235,9 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                   style={{
                     color: theme.typoMain,
                   }}
+                  value={website}
                   autoComplete='off'
                   aria-describedby='text'
-                  value={website}
                   onChange={(e) => setWebsite(e.target.value)}
                 />
               </div>

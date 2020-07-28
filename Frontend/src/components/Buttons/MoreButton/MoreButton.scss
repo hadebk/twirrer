@@ -54,11 +54,12 @@
 
       tr td {
         padding: 10px 15px;
+        min-width: 100px;
       }
     }
 
-    .--title{
-        font-size: 15px;
+    .--title {
+      font-size: 15px;
     }
 
     .--choices {
@@ -77,26 +78,26 @@
           max-height: 100%;
           border-radius: 50%;
           box-sizing: content-box;
-          padding: 1px; 
+          padding: 1px;
         }
       }
     }
 
-    &__logout{
-        padding: 10px 15px 0;
-        text-align: center;
+    &__logout {
+      padding: 20px 15px 10px;
+      text-align: center;
 
-        button{
-            padding: 5px 20px;
-            border-radius: $radius;
-            color: #fff;
-            font-size: 15px;
-        }
+      button {
+        padding: 5px 20px;
+        border-radius: $radius;
+        color: #fff;
+        font-size: 15px;
+      }
 
-        i{
-            margin-left: 10px;
-            margin-top: 4px;
-        }
+      i {
+        margin-left: 10px;
+        margin-top: 4px;
+      }
     }
   }
 }

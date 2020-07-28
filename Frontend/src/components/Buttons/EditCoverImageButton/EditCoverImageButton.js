@@ -64,7 +64,10 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
         accept='image/x-png,image/jpeg'
         onChange={(event) => handleImageChange(event)}
       />
-      <i className='fal fa-pen pen' onClick={() => handleEditPicture()}></i>
+      <i
+        className='fal fa-pen pen'
+        onClick={() => handleEditPicture()}
+      ></i>
     </div>
   );
 };

@@ -104,6 +104,7 @@ const MoreButton = ({ className, color }) => {
                         border: isLightTheme
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
+                        opacity: isLightTheme ? '.5' : '1'
                       }}
                     />
                   </div>
@@ -115,6 +116,7 @@ const MoreButton = ({ className, color }) => {
                         border: isLightTheme
                           ? `2px solid ${theme.mainColor}`
                           : "0",
+                        opacity: isLightTheme ? '1' : '.5'
                       }}
                     />
                   </div>
@@ -136,6 +138,7 @@ const MoreButton = ({ className, color }) => {
                         border: isEnglish
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
+                        opacity: isEnglish ? '.5' : '1'
                       }}
                     />
                   </div>
@@ -147,6 +150,7 @@ const MoreButton = ({ className, color }) => {
                         border: isEnglish
                           ? `2px solid ${theme.mainColor}`
                           : "0",
+                        opacity: isEnglish ? '1' : '.5'
                       }}
                     />
                   </div>

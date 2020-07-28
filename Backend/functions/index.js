@@ -54,9 +54,9 @@ app.get("/post/:postId/like", firebaseAuth, likePost);
 app.get("/post/:postId/unlike", firebaseAuth, unlikePost);
 
 // user routes
-app.post("/signup", signup); //
-app.post("/login", login); //
-app.get("/logout", logout); //
+app.post("/signup", signup);
+app.post("/login", login);
+app.get("/logout", logout); 
 app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage); 
 app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
 app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
@@ -65,7 +65,7 @@ app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
 app.get("/user/:userName/getUserDetails", getUserDetails); 
 app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
 app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
-app.get("/usersToAdd", firebaseAuth, usersToAdd); //
+app.get("/usersToAdd", firebaseAuth, usersToAdd);
 app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
 
 /**
