@@ -60,7 +60,7 @@ const Notifications = () => {
         userData.token
       )
         .then((res) => {
-            console.log("Not-", res.data);
+          console.log("Not-", res.data);
         })
         .then(() => {
           //TODO: update nots in userData state
@@ -102,95 +102,111 @@ const Notifications = () => {
         </h1>
       </div>
       <div className='notificationsBox__Wrapper'>
-        {notifications.map((Not) => {
-          let icon, text;
-          if (Not.type === "like") {
-            text = language.notifications.likeHint;
-            icon = (
-              <i
-                className='fas fa-heart'
-                style={{
-                  color: theme.error,
-                  backgroundColor: theme.foreground,
-                  border: `2px solid ${theme.background}`,
-                }}
-              ></i>
-            );
-          } else if (Not.type === "comment") {
-            text = language.notifications.commentHint;
-            icon = (
-              <i
-                className='fas fa-comment'
-                style={{
-                  color: "#17bf63",
-                  backgroundColor: theme.foreground,
-                  border: `2px solid ${theme.background}`,
-                }}
-              ></i>
-            );
-          } else if (Not.type === "addFriend") {
-            text = language.notifications.addFriendHint;
-            icon = (
-              <i
-                className='fas fa-user-plus'
-                style={{
-                  color: theme.mainColor,
-                  backgroundColor: theme.foreground,
-                  border: `2px solid ${theme.background}`,
-                }}
-              ></i>
-            );
-          }
-          return (
-            <Link
-              to={
-                Not.type === "like" || Not.type === "comment"
-                  ? "/posts/" + Not.postId
-                  : "/users/" + Not.sender
-              }
-              key={Not.createdAt}
-              className='link'
-            >
-              <div
-                className='notificationsBox__Wrapper__singleNotBox'
-                style={{
-                  borderBottom: `1px solid ${theme.border}`,
-                  backgroundColor: Not.read
-                    ? theme.background
-                    : theme.foreground,
-                }}
+        {notifications.length > 0 ? (
+          notifications.map((Not) => {
+            let icon, text;
+            if (Not.type === "like") {
+              text = language.notifications.likeHint;
+              icon = (
+                <i
+                  className='fas fa-heart'
+                  style={{
+                    color: theme.error,
+                    backgroundColor: theme.foreground,
+                    border: `2px solid ${theme.background}`,
+                  }}
+                ></i>
+              );
+            } else if (Not.type === "comment") {
+              text = language.notifications.commentHint;
+              icon = (
+                <i
+                  className='fas fa-comment'
+                  style={{
+                    color: "#17bf63",
+                    backgroundColor: theme.foreground,
+                    border: `2px solid ${theme.background}`,
+                  }}
+                ></i>
+              );
+            } else if (Not.type === "addFriend") {
+              text = language.notifications.addFriendHint;
+              icon = (
+                <i
+                  className='fas fa-user-plus'
+                  style={{
+                    color: theme.mainColor,
+                    backgroundColor: theme.foreground,
+                    border: `2px solid ${theme.background}`,
+                  }}
+                ></i>
+              );
+            }
+            return (
+              <Link
+                to={
+                  Not.type === "like" || Not.type === "comment"
+                    ? "/posts/" + Not.postId
+                    : "/users/" + Not.sender
+                }
+                key={Not.createdAt}
+                className='link'
               >
-                <div className='notificationsBox__Wrapper__singleNotBox__userImageBox'>
-                  <div className='notificationsBox__Wrapper__singleNotBox__userImageBox__imageWrapper'>
-                    <img
-                      alt='profile picture'
-                      src={
-                        Not.senderProfilePicture
-                          ? Not.senderProfilePicture
-                          : DefaultAvatar
-                      }
-                    />
+                <div
+                  className='notificationsBox__Wrapper__singleNotBox'
+                  style={{
+                    borderBottom: `1px solid ${theme.border}`,
+                    backgroundColor: Not.read
+                      ? theme.background
+                      : theme.foreground,
+                  }}
+                >
+                  <div className='notificationsBox__Wrapper__singleNotBox__userImageBox'>
+                    <div className='notificationsBox__Wrapper__singleNotBox__userImageBox__imageWrapper'>
+                      <img
+                        alt='profile picture'
+                        src={
+                          Not.senderProfilePicture
+                            ? Not.senderProfilePicture
+                            : DefaultAvatar
+                        }
+                      />
+                    </div>
+                    <div className='notificationsBox__Wrapper__singleNotBox__userImageBox__iconWrapper'>
+                      {icon}
+                    </div>
                   </div>
-                  <div className='notificationsBox__Wrapper__singleNotBox__userImageBox__iconWrapper'>
-                    {icon}
+                  <div className='notificationsBox__Wrapper__singleNotBox__content'>
+                    <div className='notificationsBox__Wrapper__singleNotBox__content__header'>
+                      <p style={{ color: theme.typoMain }}>{Not.sender}</p>
+                      <span style={{ color: theme.typoMain }}>{text}</span>
+                    </div>
+                    <div
+                      className='notificationsBox__Wrapper__singleNotBox__content__time'
+                      style={{ color: theme.typoSecondary }}
+                    >
+                      {moment(Not.createdAt).twitterShort()}
+                    </div>
                   </div>
                 </div>
-                <div className='notificationsBox__Wrapper__singleNotBox__content'>
-                  <div className='notificationsBox__Wrapper__singleNotBox__content__header'>
-                    <p style={{ color: theme.typoMain }}>{Not.sender}</p>
-                    <span style={{ color: theme.typoMain }}>{text}</span>
-                  </div>
-                  <div
-                    className='notificationsBox__Wrapper__singleNotBox__content__time'
-                    style={{ color: theme.typoSecondary }}
-                  >
-                    {moment(Not.createdAt).twitterShort()}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })
+        ) : (
+          <div className='notificationsBox__Wrapper__emptyState'>
+            <img
+              alt='empty'
+              src={Empty}
+              className='notificationsBox__Wrapper__emptyState__image'
+            />
+            <div
+              className='notificationsBox__Wrapper__emptyState__hint'
+              style={{ color: theme.typoSecondary }}
+            >
+              {language.notifications.emptyHint}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

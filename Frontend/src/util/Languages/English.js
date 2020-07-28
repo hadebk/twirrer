@@ -75,5 +75,6 @@ export default {
     likeHint: "liked your Tweet",
     commentHint: "commented on your Tweet",
     addFriendHint: "added you as a friend",
+    emptyHint:"You don't have any notifications yet",
   },
 };
