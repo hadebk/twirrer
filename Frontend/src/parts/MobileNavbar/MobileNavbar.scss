@@ -25,14 +25,29 @@
       .MobileNavber__box__tab {
         &__icon {
           font-size: 22px;
+          position: relative;
+
+          span {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            font-size: 12px;
+            display: inline-block;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            padding-right: 1px;
+            box-sizing: content-box;
+            text-align: center;
+          }
         }
 
-        .settingsBox{
+        .settingsBox {
           right: -10px;
           bottom: 39px;
         }
 
-        .Navbar__box__tab__text{
+        .Navbar__box__tab__text {
           display: none;
         }
       }
@@ -40,7 +55,7 @@
   }
 }
 
-.buttons__box{
+.buttons__box {
   display: flex;
   justify-content: space-around;
   align-items: center;

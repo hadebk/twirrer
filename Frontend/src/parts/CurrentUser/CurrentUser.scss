@@ -17,7 +17,8 @@
       height: 100%;
       border-radius: 50%;
       border: 2px solid #31a24c;
-      box-sizing: content-box;
+      box-sizing: border-box;
+      object-fit: cover;
     }
   }
 

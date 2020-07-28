@@ -31,13 +31,14 @@ export default {
   rightSide: {
     WhoToFAdd: "Wer hinzufügen?",
     JoinTwirrer: "Beitreten Twirrer",
-    JoinTwirrerSub: "Melden Sie sich jetzt an oder melden Sie sich an, um Ihre eigene timeline zu erhalten!",
+    JoinTwirrerSub:
+      "Melden Sie sich jetzt an oder melden Sie sich an, um Ihre eigene timeline zu erhalten!",
   },
   home: {
     pageTitle: "Startseite | Twirrer",
     title: "Startseite",
     moreButton: "Mehr",
-    bottomHint: "Cool, du bist auf dem neuesten Stand"
+    bottomHint: "Cool, du bist auf dem neuesten Stand",
   },
   postDetails: {
     pageTitle: "Twittern | Twitter",
@@ -68,5 +69,11 @@ export default {
     theme: "Thema",
     language: "Sprache",
     logoutButton: "Abmelden",
-  }
+  },
+  notifications: {
+    title: "Mitteilungen",
+    likeHint: "gefällt dein Tweet",
+    commentHint: "kommentierte Ihren Tweet",
+    addFriendHint: "Hinzugefügt Sie als Freund",
+  },
 };

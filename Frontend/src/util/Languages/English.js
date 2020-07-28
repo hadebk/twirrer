@@ -31,13 +31,14 @@ export default {
   rightSide: {
     WhoToFAdd: "Who to add?",
     JoinTwirrer: "Join Twirrer",
-    JoinTwirrerSub: "Sign up now or login to get your own personalized timeline!",
+    JoinTwirrerSub:
+      "Sign up now or login to get your own personalized timeline!",
   },
   home: {
     pageTitle: "Home | Twirrer",
     title: "Home",
     moreButton: "More",
-    bottomHint: "Cool, you are up to date"
+    bottomHint: "Cool, you are up to date",
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",
@@ -53,20 +54,26 @@ export default {
     joined: "Joined",
     friends: "Friends",
     noPosts: "This user hasn't posted anything yet.",
-    editProfileButton: 'Edit profile',
-    addFriendButton: 'Add friend',
-    deleteFriendButton: 'Delete friend',
-    modalTitle: 'Edit profile',
-    modalSaveButton: 'Save',
-    modalBioLabel: 'Bio',
-    modalLocationLabel: 'Location',
-    modalWebsiteLabel: 'Website',
-    friendsModalTitle: 'friends'
+    editProfileButton: "Edit profile",
+    addFriendButton: "Add friend",
+    deleteFriendButton: "Delete friend",
+    modalTitle: "Edit profile",
+    modalSaveButton: "Save",
+    modalBioLabel: "Bio",
+    modalLocationLabel: "Location",
+    modalWebsiteLabel: "Website",
+    friendsModalTitle: "friends",
   },
   moreButton: {
     title: "Settings",
     theme: "Theme",
     language: "Language",
     logoutButton: "Log out",
-  }
+  },
+  notifications: {
+    title: "Notifications",
+    likeHint: "liked your Tweet",
+    commentHint: "commented on your Tweet",
+    addFriendHint: "added you as a friend",
+  },
 };

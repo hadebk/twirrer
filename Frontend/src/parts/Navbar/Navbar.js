@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -38,6 +38,28 @@ const Navbar = () => {
     notifications: false,
     profile: false,
   });
+
+  const [notsCount, setNotsCount] = useState(0);
+
+  useEffect(() => {
+    if (userData.isAuth) {
+      let userNotifications = userData.user.notifications;
+
+      if (userNotifications && userNotifications.length > 0) {
+        userNotifications.filter((not) => not.read === false).length > 0
+          ? setNotsCount(
+              userNotifications.filter((not) => not.read === false).length
+            )
+          : setNotsCount(0);
+      } else {
+        setNotsCount(0);
+      }
+    }
+  }, [userData.isAuth]);
+
+  const clearCounter = () => {
+    setNotsCount(0)
+  }
 
   const handleHomeClick = () =>
     setActive({ home: true, notifications: false, profile: false });
@@ -102,12 +124,17 @@ const Navbar = () => {
                 </Link>
               </div>
               {/* Notification Tab */}
-              <div className='Navbar__box__tab'>
-                <Link to='/' onClick={() => handleNotificationsClick()}>
+              <div className='Navbar__box__tab' onClick={clearCounter}>
+                <Link
+                  to='/notifications'
+                  onClick={() => handleNotificationsClick()}
+                >
                   <span className='Navbar__box__tab__icon'>
                     <i
                       className={
-                        isActive.notifications ? "fas fa-bell" : "fal fa-bell"
+                        isActive.notifications
+                          ? "fas fa-bell Navbar__box__tab__icon--not"
+                          : "fal fa-bell Navbar__box__tab__icon--not"
                       }
                       style={{
                         color: `${
@@ -117,6 +144,17 @@ const Navbar = () => {
                         }`,
                       }}
                     ></i>
+                    {notsCount > 0 && (
+                      <span
+                        style={{
+                          backgroundColor: theme.mainColor,
+                          border: `2px solid ${theme.background}`,
+                          color: "#fff",
+                        }}
+                      >
+                        {notsCount}
+                      </span>
+                    )}
                   </span>
                   <span
                     className='Navbar__box__tab__text'
@@ -165,14 +203,17 @@ const Navbar = () => {
               {/* More Tab */}
               <div className='Navbar__box__tab'>
                 <Link to='#'>
-                  <MoreButton className='Navbar__box__tab__icon' color={theme.typoMain}/> 
+                  <MoreButton
+                    className='Navbar__box__tab__icon'
+                    color={theme.typoMain}
+                  />
                 </Link>
               </div>
             </div>
             {/* -------------- End Tabs -------------- */}
           </div>
         ) : (
-         ''
+          ""
         )}
       </div>
     </div>

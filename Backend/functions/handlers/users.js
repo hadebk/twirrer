@@ -882,7 +882,7 @@ exports.usersToAdd = (req, res) => {
       });
     })
     .then(() => {
-      // generate unique random number from 0 allUsers.length
+      // generate unique random number from 0 to allUsers.length
       while (randomArr.length < 4) {
         var r = Math.floor(Math.random() * allUsers.length);
         if (randomArr.indexOf(r) === -1) randomArr.push(r);
@@ -892,6 +892,7 @@ exports.usersToAdd = (req, res) => {
       let usersToAdd = [];
       for (let i = 0; i < 4; i++) {
         // avoid adding current user to list of suggestion people to add
+        // TODO: filter already added users
         if (allUsers[randomArr[i]].userName !== req.user.userName) {
           usersToAdd.push(allUsers[randomArr[i]]);
         }

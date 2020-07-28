@@ -8,11 +8,13 @@ import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Page404 from "./pages/Page404/Page404";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import Notifications from "./pages/Notifications/Notifications";
 
 // parts
 import Navbar from "./parts/Navbar/Navbar";
 import MobileNavbar from "./parts/MobileNavbar/MobileNavbar";
 import RightSide from "./parts/RightSide/RightSide";
+import TabletNavBarNotAuth from "./parts/TabletNavBarNotAuth/TabletNavBarNotAuth";
 
 // util
 import History from "./util/History";
@@ -30,7 +32,6 @@ import PostsContext from "./context/PostsContext";
 // api services
 import UserService from "./services/UserService";
 import PostService from "./services/PostService";
-import TabletNavBarNotAuth from "./parts/TabletNavBarNotAuth/TabletNavBarNotAuth";
 
 function App() {
   // start global state //
@@ -95,7 +96,7 @@ function App() {
         .catch((err) => console.log(err));
     };
 
-    checkLoggedIn();
+     checkLoggedIn();
   }, []);
 
   return (
@@ -113,6 +114,7 @@ function App() {
                   <Route exact path='/' component={Home} />
                   <Route exact path='/posts/:postId' component={PostDetails} />
                   <Route exact path='/users/:userName' component={UserProfile} />
+                  <Route exact path='/notifications' component={Notifications}/>
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/signup' component={Signup} />
                   <Route component={Page404} />

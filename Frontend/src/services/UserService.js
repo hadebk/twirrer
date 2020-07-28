@@ -111,6 +111,17 @@ export default {
       return response;
     } catch (error) {
       throw error;
+    } 
+  },
+
+  markNotificationsAsRead: async function (notificationsIds, token) {
+    try {
+      const response = await axios.post(`/markNotificationsAsRead`, notificationsIds, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
     }
   },
 };

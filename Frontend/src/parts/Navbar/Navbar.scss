@@ -48,6 +48,21 @@
         font-size: 22px;
         margin-right: 15px;
         display: inline-block;
+        position: relative;
+
+        span {
+          position: absolute;
+          top: -5px;
+          right: -4px;
+          font-size: 12px;
+          display: inline-block;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          padding-right: 1px;
+          box-sizing: content-box;
+          text-align: center;
+        }
       }
       &__text {
         font-size: 19px;
@@ -81,7 +96,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    &__logo{
+    &__logo {
       padding-right: 8px;
     }
   }
@@ -110,7 +125,7 @@
 @media (min-width: 992px) and (max-width: 1280px) {
   /* For small lab: */
   .Navbar__main {
-    width: 10%; 
+    width: 10%;
   }
 
   .Navbar__box {
@@ -118,7 +133,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    &__logo{
+    &__logo {
       padding-right: 8px;
     }
   }

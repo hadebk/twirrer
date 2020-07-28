@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
@@ -38,6 +38,28 @@ const MobileNavbar = () => {
     notifications: false,
     profile: false,
   });
+
+  const [notsCount, setNotsCount] = useState(0);
+
+  useEffect(() => {
+    if (userData.isAuth) {
+      let userNotifications = userData.user.notifications;
+
+      if (userNotifications && userNotifications.length > 0) {
+        userNotifications.filter((not) => not.read === false).length > 0
+          ? setNotsCount(
+              userNotifications.filter((not) => not.read === false).length
+            )
+          : setNotsCount(0);
+      } else {
+        setNotsCount(0);
+      }
+    }
+  }, [userData.isAuth]);
+
+  const clearCounter = () => {
+    setNotsCount(0)
+  }
 
   const handleHomeClick = () =>
     setActive({ home: true, notifications: false, profile: false });
@@ -79,8 +101,11 @@ const MobileNavbar = () => {
                 </Link>
               </div>
               {/* Notification Tab */}
-              <div className='MobileNavber__box__tab'>
-                <Link to='/' onClick={() => handleNotificationsClick()}>
+              <div className='MobileNavber__box__tab' onClick={clearCounter}>
+                <Link
+                  to='/notifications'
+                  onClick={() => handleNotificationsClick()}
+                >
                   <span className='MobileNavber__box__tab__icon'>
                     <i
                       className={
@@ -94,6 +119,17 @@ const MobileNavbar = () => {
                         }`,
                       }}
                     ></i>
+                    {notsCount > 0 && (
+                      <span
+                        style={{
+                          backgroundColor: theme.mainColor,
+                          border: `2px solid ${theme.background}`,
+                          color: "#fff",
+                        }}
+                      >
+                        {notsCount}
+                      </span>
+                    )}
                   </span>
                 </Link>
               </div>
