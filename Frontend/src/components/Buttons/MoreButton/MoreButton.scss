@@ -92,6 +92,10 @@
         border-radius: $radius;
         color: #fff;
         font-size: 15px;
+
+        &:focus{
+          outline: 0;
+        }
       }
 
       i {

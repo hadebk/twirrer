@@ -47,6 +47,7 @@ const CurrentUser = () => {
                     : default_pp
                 }
               />
+              <dvi className="currentUser__userImage__greenDot"></dvi>
             </Link>
           </div>
           <div className='currentUser__userName'>
