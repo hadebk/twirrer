@@ -41,14 +41,13 @@
     &__textarea {
       width: 100%;
       resize: none;
-      border: 1px solid red;
       border-radius: 20px;
       padding: 5px 10px;
       font-size: 15px;
       font-weight: 400;
+      overflow-x: hidden;
 
       &:focus {
-        border: 1px solid red;
         outline: 0;
       }
     }
