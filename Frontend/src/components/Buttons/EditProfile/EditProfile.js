@@ -9,8 +9,8 @@ import variables from "../../../style/CssVariables.scss";
 import UserService from "../../../services/UserService";
 
 // context (global state)
-import { ThemeContext } from "../../../context/ThemeContext";
 import UserContext from "../../../context/UserContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
 
 import { Modal } from "react-bootstrap";

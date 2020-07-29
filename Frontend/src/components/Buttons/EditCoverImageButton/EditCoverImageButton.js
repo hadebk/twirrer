@@ -11,10 +11,16 @@ import Spinner from "../../Spinner/Spinner";
 
 // context (global state)
 import UserContext from "../../../context/UserContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
+
   // userData context
   const { userData, setUserData } = useContext(UserContext);
+
+  // theme context
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
 
   // local state
   const [loading, setLoading] = useState(false);
@@ -66,7 +72,8 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
       />
       <i
         className='fal fa-pen pen'
-        onClick={() => handleEditPicture()}
+          onClick={() => handleEditPicture()}
+          style={{border: `2px solid ${theme.background}`}}
       ></i>
     </div>
   );

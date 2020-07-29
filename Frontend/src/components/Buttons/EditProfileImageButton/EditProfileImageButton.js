@@ -15,8 +15,13 @@ import UserContext from "../../../context/UserContext";
 import PostsContext from "../../../context/PostsContext";
 
 const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
+  
   // userData context
   const { userData, setUserData } = useContext(UserContext);
+
+  // theme context
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
 
   // local state
   const [loading, setLoading] = useState(false);
@@ -27,7 +32,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
     if (image.name) {
       formData.append("image", image, image.name);
       // send the image to server
-      setLoading(true)
+      setLoading(true);
       UserService.uploadProfileImage(formData, userData.token)
         .then((res) => {
           console.log("image-res", res.data);
@@ -50,7 +55,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
         .then(() => setLoading(false))
         .catch((err) => {
           console.log("image-err", err);
-          setLoading(false)
+          setLoading(false);
         });
     }
   };
@@ -70,7 +75,11 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
         accept='image/x-png,image/jpeg'
         onChange={(event) => handleImageChange(event)}
       />
-      <i className='fal fa-pen' onClick={() => handleEditPicture()}></i>
+      <i
+        className='fal fa-pen'
+        style={{ border: `2px solid ${theme.background}` }}
+        onClick={() => handleEditPicture()}
+      ></i>
     </div>
   );
 };
