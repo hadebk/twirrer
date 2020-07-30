@@ -51,6 +51,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
               profilePicture: url,
             },
           });
+          //TODO: update user image in global state also, in(setUserData) 
         })
         .then(() => setLoading(false))
         .catch((err) => {

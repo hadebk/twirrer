@@ -35,13 +35,21 @@ const WhoToAdd = () => {
   const [isLoad, setLoad] = useState(false);
 
   useEffect(() => {
-    console.log("users to add");
     if (userData.isAuth) {
       setLoad(true);
       UserService.usersToAdd(userData.token)
         .then((res) => {
-          console.log("users to add", res.data);
-          setUsers(res.data);
+          let all = userData.user.friends.concat(res.data);
+          console.log("----", all, res.data, userData.user.friends.length);
+          const filteredArr = all.reduce((acc, current) => {
+            const x = acc.find((item) => item.userName === current.userName);
+            if (!x) {
+              return acc.concat([current]);
+            } else {
+              return acc;
+            }
+          }, []).slice(userData.user.friends.length)
+          setUsers(filteredArr);
           setLoad(false);
         })
         .catch((err) => {
@@ -50,6 +58,21 @@ const WhoToAdd = () => {
         });
     }
   }, [userData.isAuth]);
+
+  function removeDuplicates(arr1, arr2) {
+    //var newArray = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+      for (let j = 0; j < arr2.length; j++) {
+        if (arr1[i].userName === arr2[j].userName) {
+          arr1.splice(i);
+        }
+      }
+    }
+    return arr1;
+  }
+
+  
 
   return isLoad ? (
     <div className='whoToAdd__spinner'>

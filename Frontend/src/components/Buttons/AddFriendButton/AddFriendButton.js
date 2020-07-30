@@ -31,7 +31,6 @@ const AddFriendButton = ({ userName,profilePicture, userProfileData, setUserProf
   const [friendStatus, setFriendStatus] = useState();
 
   useEffect(() => {
-    console.log("added effect---", userData.user.friends);
     if (userData.isAuth) {
       /**
        * if user added before show 'delete friend' button, nested of 'add friend'
