@@ -9,6 +9,7 @@ const ImageModal = ({ imageUrl, className }) => {
       small={imageUrl}
       large={imageUrl}
       hideDownload='true'
+      hideZoom='true'
       className={className}
     />
   );

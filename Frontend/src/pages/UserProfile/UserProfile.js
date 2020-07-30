@@ -74,7 +74,7 @@ const UserProfile = (props) => {
         console.log(err.response.data);
         setProfileLoader(false);
       });
-  }, [posts, userData, setUserProfileData, props.match.params.userName]);
+  }, [posts, userData.isAuth, setUserProfileData, props.match.params.userName]);
 
   const goToBack = () => {
     props.history.goBack();

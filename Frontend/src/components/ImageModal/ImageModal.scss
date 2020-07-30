@@ -5,7 +5,7 @@
 }
 
 .__react_modal_image__modal_container {
-  background-color: $darkBackground !important;
+  background-color: rgba(21, 32, 43, 0.9) !important;
   z-index: 999999999 !important;
 }
 
@@ -15,6 +15,6 @@
   border-radius: 50%;
 }
 
-.__react_modal_image__icon_menu{
+.__react_modal_image__icon_menu {
   float: left !important;
 }

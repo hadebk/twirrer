@@ -1,0 +1,11 @@
+button {
+  padding: 0 14px;
+  height: 37px;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+
+  &:focus {
+    outline: 0;
+  }
+}

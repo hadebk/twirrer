@@ -376,7 +376,7 @@ exports.uploadPostImage = (req, res) => {
           },
         },
       })
-      .then(() => {
+      .then(() => { 
         // Append token to url
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
         // override default profile picture with uploaded picture 'uploaded by user'

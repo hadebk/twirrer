@@ -39,6 +39,9 @@ export default {
     title: "Home",
     moreButton: "More",
     bottomHint: "Cool, you are up to date",
+    addPostPlaceholder: "What's new?",
+    addPostButton: "Twittern",
+    addPostButtonLoading:"Loading..",
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",

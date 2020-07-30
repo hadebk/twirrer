@@ -15,7 +15,6 @@ import UserContext from "../../../context/UserContext";
 import PostsContext from "../../../context/PostsContext";
 
 const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
-  
   // userData context
   const { userData, setUserData } = useContext(UserContext);
 
@@ -51,7 +50,21 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
               profilePicture: url,
             },
           });
-          //TODO: update user image in global state also, in(setUserData) 
+          return url
+        })
+        .then((url) => {
+          //TODO: update user image in global state also, in(setUserData)
+          setUserData({
+            isAuth: userData.isAuth,
+            token: userData.token,
+            user: {
+              ...userData.user,
+              credentials: {
+                ...userData.user.credentials,
+                profilePicture: url,
+              },
+            },
+          });
         })
         .then(() => setLoading(false))
         .catch((err) => {

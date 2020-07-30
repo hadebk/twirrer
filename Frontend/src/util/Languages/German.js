@@ -39,6 +39,9 @@ export default {
     title: "Startseite",
     moreButton: "Mehr",
     bottomHint: "Cool, du bist auf dem neuesten Stand",
+    addPostPlaceholder: "Was gibt's Neues?",
+    addPostButton: "Twittern",
+    addPostButtonLoading: "Wird geladen..",
   },
   postDetails: {
     pageTitle: "Twittern | Twitter",

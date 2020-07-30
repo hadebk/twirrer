@@ -11,6 +11,8 @@ import default_pp from "../../assets/Images/default_pp.png";
 
 // components
 import Spinner from "../../components/Spinner/Spinner";
+import ImageModal from "../../components/ImageModal/ImageModal";
+import TwitternButton from "../../components/Buttons/TwitternButton/TwitternButton";
 
 // api service
 import PostDetails from "../../services/PostService";
@@ -49,6 +51,7 @@ const AddNewPost = () => {
   const [imageStatus, setImageStatus] = useState({
     select: false,
     imagePath: null,
+    image: "",
   });
 
   // auto resize textarea box, when user type long text
@@ -82,6 +85,7 @@ const AddNewPost = () => {
     setImageStatus({
       select: true,
       imagePath: URL.createObjectURL(image),
+      image,
     });
     console.log("file selected", image);
   };
@@ -98,36 +102,26 @@ const AddNewPost = () => {
     });
   };
 
-  const sharePost = () => {
-    if (textarea.value.trim().length > 0 && !imageStatus.select) {
-      // post with text only
-      console.log("post with text only");
-      let post = {
-        postContent: textarea.value.trim(),
-        postImage: null,
-      };
-      PostDetails.addNewPost(post, userData.token)
-        .then((res) => {
-          console.log("posted", res.data);
-        })
-        .catch((err) => console.log(err));
-    } else if (imageStatus.select && textarea.value.trim().length === 0) {
-      // post with image only
-      console.log('post with image only');
-    } else if (imageStatus.select && textarea.value.trim().length > 0){
-      // post with image & text
-      console.log('post with image & text');
-    }
-  }
-
-  var ButtonDisabledFlag =
-    textarea.value.trim().length > 0 || imageStatus.select ? false : true;
-
   return (
     <div className='addNewPost'>
       <div className='addNewPost__leftSide'>
         <div className='addNewPost__leftSide__imageBox'>
-          <img alt='profile' src={default_pp} />
+          <Link
+            to={
+              userData.isAuth
+                ? "/users/" + userData.user.credentials.userName
+                : "#"
+            }
+          >
+            <img
+              alt='profile'
+              src={
+                userData.isAuth
+                  ? userData.user.credentials.profilePicture
+                  : default_pp
+              }
+            />
+          </Link>
         </div>
       </div>
       <div className='addNewPost__rightSide'>
@@ -139,7 +133,7 @@ const AddNewPost = () => {
             }}
             rows={textarea.rows}
             value={textarea.value}
-            placeholder={language.postDetails.commentPlaceholder}
+            placeholder={language.home.addPostPlaceholder}
             className='addNewPost__rightSide__inputBox__textarea'
             onChange={(event) => handleChange(event)}
           />
@@ -163,7 +157,8 @@ const AddNewPost = () => {
                 ></div>
               </div>
               <div className='addNewPost__rightSide__postImageBox__imageWrapper'>
-                <img alt='post' src={imageStatus.imagePath} />
+                {/*<img alt='post' src={imageStatus.imagePath} />*/}
+                <ImageModal imageUrl={imageStatus.imagePath} className='' />
               </div>
             </Fragment>
           ) : (
@@ -180,7 +175,7 @@ const AddNewPost = () => {
             />
             <div className='button'>
               <i
-                className='fal fa-file-image'
+                className='fal fa-image'
                 style={{ color: theme.mainColor }}
               ></i>
               <div
@@ -193,18 +188,12 @@ const AddNewPost = () => {
             </div>
           </div>
           <div className='addNewPost__rightSide__buttonsBox__postShare'>
-            <button
-              style={{
-                color: "#fff",
-                backgroundColor: theme.mainColor,
-                borderRadius: variables.radius,
-                opacity: ButtonDisabledFlag ? 0.6 : 1,
-              }}
-              onClick={sharePost}
-              disabled={ButtonDisabledFlag}
-            >
-              Twittern
-            </button>
+            <TwitternButton
+              textarea={textarea}
+              setTextarea={setTextarea}
+              imageStatus={imageStatus}
+              setImageStatus={setImageStatus}
+            />
           </div>
         </div>
       </div>
