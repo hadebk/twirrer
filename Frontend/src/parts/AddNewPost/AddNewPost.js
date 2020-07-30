@@ -1,0 +1,215 @@
+import React, { useContext, useEffect, useState, Fragment } from "react";
+import { Link } from "react-router-dom";
+
+// style file
+import "./AddNewPost.scss";
+// Global vars import
+import variables from "../../style/CssVariables.scss";
+
+// assets
+import default_pp from "../../assets/Images/default_pp.png";
+
+// components
+import Spinner from "../../components/Spinner/Spinner";
+
+// api service
+import PostDetails from "../../services/PostService";
+
+// context (global state)
+import { ThemeContext } from "../../context/ThemeContext";
+import { LanguageContext } from "../../context/LanguageContext";
+import UserContext from "../../context/UserContext";
+
+const AddNewPost = () => {
+  // ******* start global state ******* //
+
+  // theme context
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const theme = isLightTheme ? light : dark;
+
+  // language context
+  const { isEnglish, english, german } = useContext(LanguageContext);
+  var language = isEnglish ? english : german;
+
+  // user context
+  const { userData, setUserData } = useContext(UserContext);
+
+  // ******* end global state ******* //
+
+  // local state
+  const [textarea, setTextarea] = useState({
+    value: "",
+    rows: 1,
+    minRows: 1,
+    maxRows: 100,
+  });
+
+  const [imagePost, setImagePost] = useState(null);
+
+  const [imageStatus, setImageStatus] = useState({
+    select: false,
+    imagePath: null,
+  });
+
+  // auto resize textarea box, when user type long text
+  const handleChange = (event) => {
+    const textareaLineHeight = 24;
+    let { value, rows, minRows, maxRows } = textarea;
+
+    const previousRows = event.target.rows;
+    event.target.rows = minRows; // reset number of rows in textarea
+
+    const currentRows = ~~(event.target.scrollHeight / textareaLineHeight);
+
+    if (currentRows === previousRows) {
+      event.target.rows = currentRows;
+    }
+
+    if (currentRows >= maxRows) {
+      event.target.rows = maxRows;
+      event.target.scrollTop = event.target.scrollHeight;
+    }
+
+    setTextarea({
+      ...textarea,
+      value: event.target.value,
+      rows: currentRows < maxRows ? currentRows : maxRows,
+    });
+  };
+
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    setImageStatus({
+      select: true,
+      imagePath: URL.createObjectURL(image),
+    });
+    console.log("file selected", image);
+  };
+
+  const handleImageUpload = () => {
+    const fileInput = document.getElementById("postImageInput");
+    fileInput.click();
+  };
+
+  const imageDelete = () => {
+    setImageStatus({
+      select: false,
+      imagePath: null,
+    });
+  };
+
+  const sharePost = () => {
+    if (textarea.value.trim().length > 0 && !imageStatus.select) {
+      // post with text only
+      console.log("post with text only");
+      let post = {
+        postContent: textarea.value.trim(),
+        postImage: null,
+      };
+      PostDetails.addNewPost(post, userData.token)
+        .then((res) => {
+          console.log("posted", res.data);
+        })
+        .catch((err) => console.log(err));
+    } else if (imageStatus.select && textarea.value.trim().length === 0) {
+      // post with image only
+      console.log('post with image only');
+    } else if (imageStatus.select && textarea.value.trim().length > 0){
+      // post with image & text
+      console.log('post with image & text');
+    }
+  }
+
+  var ButtonDisabledFlag =
+    textarea.value.trim().length > 0 || imageStatus.select ? false : true;
+
+  return (
+    <div className='addNewPost'>
+      <div className='addNewPost__leftSide'>
+        <div className='addNewPost__leftSide__imageBox'>
+          <img alt='profile' src={default_pp} />
+        </div>
+      </div>
+      <div className='addNewPost__rightSide'>
+        <div className='addNewPost__rightSide__inputBox'>
+          <textarea
+            style={{
+              border: "0",
+              color: theme.typoMain,
+            }}
+            rows={textarea.rows}
+            value={textarea.value}
+            placeholder={language.postDetails.commentPlaceholder}
+            className='addNewPost__rightSide__inputBox__textarea'
+            onChange={(event) => handleChange(event)}
+          />
+        </div>
+        <div className='addNewPost__rightSide__postImageBox'>
+          {imageStatus.select ? (
+            <Fragment>
+              <div
+                className='addNewPost__rightSide__postImageBox__iconBox'
+                onClick={imageDelete}
+              >
+                <i
+                  className='fal fa-times'
+                  style={{ color: "#fff", zIndex: "10" }}
+                ></i>
+                <div
+                  className='addNewPost__rightSide__postImageBox__iconBox__background'
+                  style={{
+                    background: theme.mainColor,
+                  }}
+                ></div>
+              </div>
+              <div className='addNewPost__rightSide__postImageBox__imageWrapper'>
+                <img alt='post' src={imageStatus.imagePath} />
+              </div>
+            </Fragment>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className='addNewPost__rightSide__buttonsBox'>
+          <div className='addNewPost__rightSide__buttonsBox__imageUpload'>
+            <input
+              type='file'
+              id='postImageInput'
+              accept='image/x-png,image/jpeg'
+              onChange={(event) => handleImageChange(event)}
+            />
+            <div className='button'>
+              <i
+                className='fal fa-file-image'
+                style={{ color: theme.mainColor }}
+              ></i>
+              <div
+                className='background'
+                style={{
+                  backgroundColor: theme.secondaryColor,
+                }}
+                onClick={() => handleImageUpload()}
+              ></div>
+            </div>
+          </div>
+          <div className='addNewPost__rightSide__buttonsBox__postShare'>
+            <button
+              style={{
+                color: "#fff",
+                backgroundColor: theme.mainColor,
+                borderRadius: variables.radius,
+                opacity: ButtonDisabledFlag ? 0.6 : 1,
+              }}
+              onClick={sharePost}
+              disabled={ButtonDisabledFlag}
+            >
+              Twittern
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddNewPost;

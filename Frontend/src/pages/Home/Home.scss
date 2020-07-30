@@ -18,8 +18,12 @@
     }
   }
 
-  &__posts {
+  &__content {
     margin-top: 53px;
+  }
+
+  &__addNewPostWrapper {
+    padding: 10px;
   }
 
   &__moreButton {

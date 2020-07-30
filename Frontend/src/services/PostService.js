@@ -27,6 +27,28 @@ export default {
       throw error;
     }
   },
+ 
+  addNewPost: async function (post, token) {
+    try {
+      const response = await axios.post("/addNewPost", post, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  uploadPostImage: async function (fromData, token) {
+    try {
+      const response = await axios.post("/uploadPostImage", fromData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
 
   deletePost: async function (postId, token) {
     try {

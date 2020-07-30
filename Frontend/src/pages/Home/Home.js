@@ -25,6 +25,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
 import { lang } from "moment";
 import JoinTwirrer from "../../parts/JoinTwirrer/JoinTwirrer";
+import AddNewPost from "../../parts/AddNewPost/AddNewPost";
 
 const Home = () => {
   // ******* start global state ******* //
@@ -109,7 +110,6 @@ const Home = () => {
     }
   };
 
-
   // direct to post details page on click on post
   const toPostDetails = (postID) => {
     history.push("/posts/" + postID);
@@ -148,40 +148,54 @@ const Home = () => {
         </h1>
       </div>
 
-      <div className='home-box__posts'>{firstPosts}</div>
-      {userData.isAuth ? <WhoToAdd /> : ''}
-      <div className='home-box__spinner' style={{ textAlign: "center" }}>
-        {nextPosts_loading ? (
-          <Spinner />
-        ) : lastKey.length > 0 ? (
-          <button
-            className='home-box__moreButton'
-            onClick={() => fetchMorePosts(lastKey)}
-            style={{
-              backgroundColor: theme.mainColor,
-              color: "#fff",
-              borderRadius: variables.radius,
-            }}
-          >
-            <i className='fal fa-chevron-down home-box__moreButton__icon'></i>
-              <span className='home-box__moreButton__text'>{language.home.moreButton}</span>
-          </button>
-        ) : (
-          ""
-        )}
-      </div>
-      <div
-        className='home-box__note'
-        style={{ color: `${theme.typoSecondary}` }}
-      >
-        {!nextPosts_loading && lastKey.length === 0 && !posts_loading ? (
-          <span>
-            {language.home.bottomHint}{" "}
-            <i className='fas fa-stars' style={{ color: theme.mainColor }}></i>
-          </span>
-        ) : (
-          ""
-        )}
+      <div className='home-box__content'>
+        <div
+          className='home-box__addNewPostWrapper'
+          style={{ borderBottom: `10px solid  ${theme.addPostBorder}` }}
+        >
+          <AddNewPost />
+        </div>
+
+        <div className='home-box__posts'>{firstPosts}</div>
+        {userData.isAuth ? <WhoToAdd /> : ""}
+        <div className='home-box__spinner' style={{ textAlign: "center" }}>
+          {nextPosts_loading ? (
+            <Spinner />
+          ) : lastKey.length > 0 ? (
+            <button
+              className='home-box__moreButton'
+              onClick={() => fetchMorePosts(lastKey)}
+              style={{
+                backgroundColor: theme.mainColor,
+                color: "#fff",
+                borderRadius: variables.radius,
+              }}
+            >
+              <i className='fal fa-chevron-down home-box__moreButton__icon'></i>
+              <span className='home-box__moreButton__text'>
+                {language.home.moreButton}
+              </span>
+            </button>
+          ) : (
+            ""
+          )}
+        </div>
+        <div
+          className='home-box__note'
+          style={{ color: `${theme.typoSecondary}` }}
+        >
+          {!nextPosts_loading && lastKey.length === 0 && !posts_loading ? (
+            <span>
+              {language.home.bottomHint}{" "}
+              <i
+                className='fas fa-stars'
+                style={{ color: theme.mainColor }}
+              ></i>
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </div>
   );

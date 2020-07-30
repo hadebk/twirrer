@@ -8,7 +8,8 @@ export default {
   typoMain: "#ffffff",
   typoSecondary: "#8899A6",
   logo: "#ffffff",
-  border: "#38444d",
   mobileNavIcon: "#8899a6", 
+  border: "#38444d",
+  addPostBorder: "#253341",
 };
 
