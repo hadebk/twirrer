@@ -178,7 +178,7 @@ exports.addNewPost = (req, res) => {
      */
     postImage: req.body.postImage,
   };
-
+ 
   db.collection("posts")
     .add(post)
     .then((doc) => {

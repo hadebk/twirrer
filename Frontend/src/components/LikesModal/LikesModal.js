@@ -155,7 +155,13 @@ const LikesModal = ({ postData, likes }) => {
                       ""
                     )
                   ) : (
-                    "login"
+                    <Link to='/login'>
+                      <AddFriendButton
+                        userName={""}
+                        userProfileData={""}
+                        setUserProfileData={""}
+                      />
+                    </Link>
                   )}
                 </div>
               );

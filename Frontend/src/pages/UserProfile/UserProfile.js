@@ -258,7 +258,13 @@ const UserProfile = (props) => {
                 />
               )
             ) : (
-              "go to login"
+              <Link to='/login'>
+                <AddFriendButton
+                  userName={""}
+                  userProfileData={""}
+                  setUserProfileData={""}
+                />
+              </Link>
             )}
           </div>
           <div className='userProfile__main__userDetails__userData__userName'>

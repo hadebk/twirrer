@@ -48,7 +48,7 @@ app.get("/postsFirstFetch", postsFirstFetch);
 app.post("/postsNextFetch", postsNextFetch);
 app.get("/post/:postId/get", getOnePost); 
 app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.delete("/post/:postId/delete", firebaseAuth, deletePost);
+app.delete("/post/:postId/delete", firebaseAuth, deletePost); 
 app.post("/post/:postId/comment", firebaseAuth, commentOnPost); 
 app.get("/post/:postId/like", firebaseAuth, likePost);
 app.get("/post/:postId/unlike", firebaseAuth, unlikePost);

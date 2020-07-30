@@ -36,7 +36,7 @@ const FriendsModal = ({ userProfileData }) => {
 
   useEffect(() => {
     console.log("friends modal----");
-  }, [ userData, userProfileData]);
+  }, [userData, userProfileData]);
   // utils
   let closeModal = () => setOpen(false);
 
@@ -157,7 +157,13 @@ const FriendsModal = ({ userProfileData }) => {
                       ""
                     )
                   ) : (
-                    "login"
+                    <Link to='/login'>
+                      <AddFriendButton
+                        userName={""}
+                        userProfileData={""}
+                        setUserProfileData={""}
+                      />
+                    </Link>
                   )}
                 </div>
               );

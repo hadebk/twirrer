@@ -13,7 +13,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import UserContext from "../../../context/UserContext";
 import { LanguageContext } from "../../../context/LanguageContext";
 
-const AddFriendButton = ({ userName,profilePicture, userProfileData, setUserProfileData }) => {
+const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
   // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -133,8 +133,8 @@ const AddFriendButton = ({ userName,profilePicture, userProfileData, setUserProf
   return friendStatus ? (
     <button
       style={{
-        border: `1px solid ${theme.mainColor}`,
-        color: theme.mainColor,
+        color: '#fff',
+        backgroundColor:theme.error,
         borderRadius: variables.radius,
       }}
       onClick={unFriend}
