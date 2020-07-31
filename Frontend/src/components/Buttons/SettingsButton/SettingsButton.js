@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // style
-import "./MoreButton.scss";
+import "./SettingsButton.scss";
 
 // assets - icons
 import Dark from "../../../assets/IconsSvg/dark.svg";
@@ -15,7 +15,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import UserContext from "../../../context/UserContext";
 import { LanguageContext } from "../../../context/LanguageContext";
 
-const MoreButton = ({ className, color }) => {
+const SettingsButton = ({ className, color }) => {
   // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
@@ -82,7 +82,7 @@ const MoreButton = ({ className, color }) => {
             className='settingsBox__header__title'
             style={{ color: theme.typoMain }}
           >
-            {language.moreButton.title}
+            {language.SettingsButton.title}
           </h2>
         </div>
         <div className='settingsBox__body' style={{ color: theme.typoMain }}>
@@ -93,7 +93,7 @@ const MoreButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  {language.moreButton.theme}
+                  {language.SettingsButton.theme}
                 </td>
                 <td className='--choices'>
                   <div onClick={toggleTheme}>
@@ -104,7 +104,7 @@ const MoreButton = ({ className, color }) => {
                         border: isLightTheme
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
-                        opacity: isLightTheme ? '.5' : '1'
+                        opacity: isLightTheme ? ".5" : "1",
                       }}
                     />
                   </div>
@@ -116,7 +116,7 @@ const MoreButton = ({ className, color }) => {
                         border: isLightTheme
                           ? `2px solid ${theme.mainColor}`
                           : "0",
-                        opacity: isLightTheme ? '1' : '.5'
+                        opacity: isLightTheme ? "1" : ".5",
                       }}
                     />
                   </div>
@@ -127,7 +127,7 @@ const MoreButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  {language.moreButton.language}
+                  {language.SettingsButton.language}
                 </td>
                 <td className='--choices'>
                   <div onClick={toggleLanguage}>
@@ -138,7 +138,7 @@ const MoreButton = ({ className, color }) => {
                         border: isEnglish
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
-                        opacity: isEnglish ? '.5' : '1'
+                        opacity: isEnglish ? ".5" : "1",
                       }}
                     />
                   </div>
@@ -150,7 +150,7 @@ const MoreButton = ({ className, color }) => {
                         border: isEnglish
                           ? `2px solid ${theme.mainColor}`
                           : "0",
-                        opacity: isEnglish ? '1' : '.5'
+                        opacity: isEnglish ? "1" : ".5",
                       }}
                     />
                   </div>
@@ -160,7 +160,7 @@ const MoreButton = ({ className, color }) => {
           </table>
           <div className='settingsBox__body__logout'>
             <button style={{ backgroundColor: theme.error }} onClick={logout}>
-              {language.moreButton.logoutButton}
+              {language.SettingsButton.logoutButton}
               <i className='fal fa-sign-out-alt'></i>
             </button>
           </div>
@@ -188,4 +188,4 @@ const MoreButton = ({ className, color }) => {
   );
 };
 
-export default MoreButton;
+export default SettingsButton;

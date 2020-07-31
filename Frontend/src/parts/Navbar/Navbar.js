@@ -6,7 +6,6 @@ import "./Navbar.scss";
 // Global vars import
 import variables from "../../style/CssVariables.scss";
 
-
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
@@ -15,7 +14,7 @@ import UserContext from "../../context/UserContext";
 // components
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
-import MoreButton from "../../components/Buttons/MoreButton/MoreButton";
+import SettingsButton from "../../components/Buttons/SettingsButton/SettingsButton";
 import TwitternButton from "../../components/Buttons/TwitternButton/TwitternButton";
 import TwitternBtnNavbar from "../../components/Buttons/TwitternBtnNavbar/TwitternBtnNavbar";
 
@@ -208,7 +207,7 @@ const Navbar = () => {
               {/* More Tab */}
               <div className='Navbar__box__tab'>
                 <Link to='#'>
-                  <MoreButton
+                  <SettingsButton
                     className='Navbar__box__tab__icon'
                     color={theme.typoMain}
                   />
@@ -220,7 +219,6 @@ const Navbar = () => {
               </div>
             </div>
             {/* -------------- End Tabs -------------- */}
-            
           </div>
         ) : (
           ""

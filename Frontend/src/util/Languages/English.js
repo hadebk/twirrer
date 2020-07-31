@@ -37,11 +37,11 @@ export default {
   home: {
     pageTitle: "Home | Twirrer",
     title: "Home",
-    moreButton: "More",
+    SettingsButton: "More",
     bottomHint: "Cool, you are up to date",
     addPostPlaceholder: "What's new?",
     addPostButton: "Twittern",
-    addPostButtonLoading:"Loading..",
+    addPostButtonLoading: "Loading..",
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",
@@ -67,7 +67,7 @@ export default {
     modalWebsiteLabel: "Website",
     friendsModalTitle: "friends",
   },
-  moreButton: {
+  SettingsButton: {
     title: "Settings",
     theme: "Theme",
     language: "Language",
@@ -78,6 +78,6 @@ export default {
     likeHint: "liked your Tweet",
     commentHint: "commented on your Tweet",
     addFriendHint: "added you as a friend",
-    emptyHint:"You don't have any notifications yet",
+    emptyHint: "You don't have any notifications yet",
   },
 };

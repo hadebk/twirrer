@@ -12,7 +12,7 @@ import UserContext from "../../context/UserContext";
 // components
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
-import MoreButton from "../../components/Buttons/MoreButton/MoreButton";
+import SettingsButton from "../../components/Buttons/SettingsButton/SettingsButton";
 import TwitternBtnNavbar from "../../components/Buttons/TwitternBtnNavbar/TwitternBtnNavbar";
 
 const MobileNavbar = () => {
@@ -165,7 +165,7 @@ const MobileNavbar = () => {
                 {/* More Tab */}
                 <div className='MobileNavber__box__tab'>
                   <Link to='#'>
-                    <MoreButton
+                    <SettingsButton
                       className='MobileNavber__box__tab__icon'
                       color={theme.mobileNavIcon}
                     />

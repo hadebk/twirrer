@@ -37,7 +37,7 @@ export default {
   home: {
     pageTitle: "Startseite | Twirrer",
     title: "Startseite",
-    moreButton: "Mehr",
+    SettingsButton: "Mehr",
     bottomHint: "Cool, du bist auf dem neuesten Stand",
     addPostPlaceholder: "Was gibt's Neues?",
     addPostButton: "Twittern",
@@ -67,7 +67,7 @@ export default {
     modalWebsiteLabel: "Website",
     friendsModalTitle: "freunde",
   },
-  moreButton: {
+  SettingsButton: {
     title: "Einstellung",
     theme: "Thema",
     language: "Sprache",

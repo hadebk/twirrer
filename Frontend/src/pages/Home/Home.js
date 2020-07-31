@@ -167,7 +167,7 @@ const Home = () => {
             <Spinner />
           ) : lastKey.length > 0 ? (
             <button
-              className='home-box__moreButton'
+              className='home-box__SettingsButton'
               onClick={() => fetchMorePosts(lastKey)}
               style={{
                 backgroundColor: theme.mainColor,
@@ -175,9 +175,9 @@ const Home = () => {
                 borderRadius: variables.radius,
               }}
             >
-              <i className='fal fa-chevron-down home-box__moreButton__icon'></i>
-              <span className='home-box__moreButton__text'>
-                {language.home.moreButton}
+              <i className='fal fa-chevron-down home-box__SettingsButton__icon'></i>
+              <span className='home-box__SettingsButton__text'>
+                {language.home.SettingsButton}
               </span>
             </button>
           ) : (
