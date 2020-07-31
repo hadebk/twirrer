@@ -8,13 +8,13 @@ import "./CommentCard.scss";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import moment from "moment-twitter";
+import Linkify from "react-linkify";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
-
 
 const CommentCard = ({ comment, authorName }) => {
   // ******* start global state ******* //
@@ -37,18 +37,19 @@ const CommentCard = ({ comment, authorName }) => {
   // date lib init
   dayjs.extend(relativeTime);
   const history = useHistory();
-  
+
   var arabic = /[\u0600-\u06FF]/;
 
-
   return (
-    <div className='commentCard' 
-    style={{
-          borderBottom: `1px solid ${theme.border}`,
-        }}>
+    <div
+      className='commentCard'
+      style={{
+        borderBottom: `1px solid ${theme.border}`,
+      }}
+    >
       <div className='commentCard__userImage'>
         <div className='commentCard__userImage__wrapper'>
-          <Link to={'/users/' + comment.userName}>
+          <Link to={"/users/" + comment.userName}>
             <img
               className='commentCard__userImage__wrapper__image'
               src={comment.profilePicture}
@@ -61,7 +62,7 @@ const CommentCard = ({ comment, authorName }) => {
         <div className='commentCard__content__line1'>
           <div className='commentCard__content__line1__box'>
             <Link
-              to={'/users/' + comment.userName}
+              to={"/users/" + comment.userName}
               style={{
                 color: theme.typoMain,
                 direction: `${arabic.test(comment.userName) ? "rtl" : "ltr"}`,
@@ -92,7 +93,7 @@ const CommentCard = ({ comment, authorName }) => {
               {language.postDetails.replyingTo}
             </span>
             <Link
-              to={'/users/' + authorName}
+              to={"/users/" + authorName}
               style={{
                 color: theme.mainColor,
               }}
@@ -112,7 +113,7 @@ const CommentCard = ({ comment, authorName }) => {
             direction: `${arabic.test(comment.commentContent) ? "rtl" : "ltr"}`,
           }}
         >
-          {comment.commentContent}
+          <Linkify>{comment.commentContent}</Linkify>
         </div>
       </div>
     </div>

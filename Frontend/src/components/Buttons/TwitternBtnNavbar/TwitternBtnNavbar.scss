@@ -24,8 +24,13 @@
 
 /* modal edit */
 
+.modal{
+  padding-left: 0 !important;
+}
+
 .modal-content {
   background: transparent !important;
+  border: 0 !important;
 
   .modal-body {
     border-bottom-left-radius: 15px !important;

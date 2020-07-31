@@ -2,6 +2,7 @@
 
 .Navbar {
   position: relative;
+  z-index: 9999999999;
   &__main {
     height: 100vh;
     width: 25%;
@@ -49,6 +50,7 @@
         margin-right: 15px;
         display: inline-block;
         position: relative;
+        z-index: 1;
 
         span {
           position: absolute;

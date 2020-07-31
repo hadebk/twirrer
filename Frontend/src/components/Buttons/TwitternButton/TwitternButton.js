@@ -195,6 +195,7 @@ const TwitternButton = ({
 
   return (
     <button
+      className='postButton'
       style={{
         color: "#fff",
         backgroundColor: theme.mainColor,

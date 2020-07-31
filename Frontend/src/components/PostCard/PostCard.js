@@ -9,6 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ImageModal from "../ImageModal/ImageModal";
 import moment from "moment-twitter";
+import Linkify from "react-linkify";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -114,7 +115,7 @@ const PostCard = ({ post }) => {
             direction: `${arabic.test(post.postContent) ? "rtl" : "ltr"}`,
           }}
         >
-          {post.postContent}
+          <Linkify>{post.postContent}</Linkify>
         </div>
         {post.postImage ? (
           <div
