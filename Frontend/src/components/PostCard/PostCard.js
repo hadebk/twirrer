@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ImageModal from "../ImageModal/ImageModal";
 import moment from "moment-twitter";
-import Linkify from "react-linkify";
+import Linkify from 'react-linkify';
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";

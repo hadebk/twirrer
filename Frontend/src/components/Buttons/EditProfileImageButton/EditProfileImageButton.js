@@ -78,7 +78,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
     fileInput.click();
   };
   return loading ? (
-    <div className='load__'>
+    <div className='avatarLoad'>
       <Spinner />
     </div>
   ) : (

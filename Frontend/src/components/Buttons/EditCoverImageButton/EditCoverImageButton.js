@@ -59,7 +59,7 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
     fileInput.click();
   };
   return loading ? (
-    <div className='load'>
+    <div className='headerLoad'>
       <Spinner />
     </div>
   ) : (
