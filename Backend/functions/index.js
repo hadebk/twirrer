@@ -10,6 +10,7 @@ const { db, admin } = require("./util/admin");
 const {
   postsFirstFetch,
   postsNextFetch,
+  pinedPost,
   addNewPost,
   deletePost,
   getOnePost,
@@ -47,6 +48,9 @@ const defaultStorage = admin.storage();
 app.get("/postsFirstFetch", postsFirstFetch);
 app.post("/postsNextFetch", postsNextFetch);
 app.get("/post/:postId/get", getOnePost); 
+// extra route -------
+app.get("/pinedPost", pinedPost);
+//--------------------
 app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.delete("/post/:postId/delete", firebaseAuth, deletePost); 
 app.post("/post/:postId/comment", firebaseAuth, commentOnPost); 
@@ -67,6 +71,7 @@ app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
 app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
 app.get("/usersToAdd", firebaseAuth, usersToAdd);
 app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
+
 
 /**
  * ****************************************************************

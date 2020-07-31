@@ -27,6 +27,34 @@ const { db } = require("../util/admin");
 
 /**
  * **********************************************************
+ * retrieve pined posts (owner's post).
+ * **********************************************************
+ */
+exports.pinedPost = (req, res) => {
+  db.collection("posts")
+    .doc("U9iQtuYsvtVuHoH2A2Rk")
+    .get()
+    .then((data) => {
+      if (data.exists) {
+        let post = {
+          userId: data.data().userId,
+          userName: data.data().userName,
+          profilePicture: data.data().profilePicture,
+          postId: data.id,
+          postContent: data.data().postContent,
+          postImage: data.data().postImage,
+          createdAt: data.data().createdAt,
+          likeCount: data.data().likeCount,
+          commentCount: data.data().commentCount,
+        };
+        return res.json(post);
+      }
+    })
+    .catch((e) => console.error(e));
+};
+
+/**
+ * **********************************************************
  * use infinite scroll approach:
  *
  * retrieve very first posts.
@@ -110,7 +138,7 @@ exports.postsNextFetch = (req, res) => {
  * get one post by postId
  * ****************************************************************
  */
-exports.getOnePost = (req, res) => { 
+exports.getOnePost = (req, res) => {
   let postData = {};
   db.doc(`/posts/${req.params.postId}`)
     .get()
@@ -167,7 +195,7 @@ exports.addNewPost = (req, res) => {
     profilePicture: req.user.profilePicture,
     createdAt: new Date().toISOString(),
     likeCount: 0,
-    commentCount: 0, 
+    commentCount: 0,
 
     // received from user
     postContent: req.body.postContent,
@@ -178,7 +206,7 @@ exports.addNewPost = (req, res) => {
      */
     postImage: req.body.postImage,
   };
- 
+
   db.collection("posts")
     .add(post)
     .then((doc) => {
@@ -237,7 +265,7 @@ exports.deletePost = (req, res) => {
  * comment on a post, just for authorized user
  * ****************************************************************
  */
-exports.commentOnPost = (req, res) => { 
+exports.commentOnPost = (req, res) => {
   // comment input validation
   if (req.body.commentContent.trim() === "")
     return res.status(400).json({

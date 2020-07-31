@@ -1,6 +1,15 @@
 import axios from "axios";
 
 export default {
+  pinedPost: async function () {
+    try {
+      const response = await axios.get("/pinedPost");
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   postsFirstFetch: async function () {
     try {
       const response = await axios.get("/postsFirstFetch");
@@ -27,7 +36,7 @@ export default {
       throw error;
     }
   },
- 
+
   addNewPost: async function (post, token) {
     try {
       const response = await axios.post("/addNewPost", post, {
