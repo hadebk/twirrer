@@ -26,6 +26,7 @@ import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
 import { lang } from "moment";
 import JoinTwirrer from "../../parts/JoinTwirrer/JoinTwirrer";
 import AddNewPost from "../../parts/AddNewPost/AddNewPost";
+import PinedPost from "../../parts/PinedPost/PinedPost";
 
 const Home = () => {
   // ******* start global state ******* //
@@ -158,7 +159,9 @@ const Home = () => {
           </div>
         ) : (
           ""
-        )}
+          )}
+        
+        <PinedPost />
 
         <div className='home-box__posts'>{firstPosts}</div>
         {userData.isAuth ? <WhoToAdd /> : ""}

@@ -11,4 +11,5 @@ export default {
   mobileNavIcon: "#657786",
   border: "#e6ecf0",
   addPostBorder: "#e6ecf0",
+  pinedPostBorder: "#e6ecf0",
 };

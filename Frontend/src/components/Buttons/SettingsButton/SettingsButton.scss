@@ -21,7 +21,7 @@
 
     &__iconBox {
       position: relative;
-      margin-right: 15px;
+      margin-right: 20px;
 
       &:hover > &__background {
         display: block;
@@ -93,6 +93,7 @@
         border-radius: $radius;
         color: #fff;
         font-size: 15px;
+        height: 40px;
 
         &:focus{
           outline: 0;
