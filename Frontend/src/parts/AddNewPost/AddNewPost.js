@@ -22,7 +22,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
-const AddNewPost = () => {
+const AddNewPost = ({inputId}) => {
   // ******* start global state ******* //
 
   // theme context
@@ -45,8 +45,6 @@ const AddNewPost = () => {
     minRows: 1,
     maxRows: 100,
   });
-
-  const [imagePost, setImagePost] = useState(null);
 
   const [imageStatus, setImageStatus] = useState({
     select: false,
@@ -91,7 +89,7 @@ const AddNewPost = () => {
   };
 
   const handleImageUpload = () => {
-    const fileInput = document.getElementById("postImageInput");
+    const fileInput = document.getElementById(inputId);
     fileInput.click();
   };
 
@@ -157,8 +155,8 @@ const AddNewPost = () => {
                 ></div>
               </div>
               <div className='addNewPost__rightSide__postImageBox__imageWrapper'>
-                {/*<img alt='post' src={imageStatus.imagePath} />*/}
-                <ImageModal imageUrl={imageStatus.imagePath} className='' />
+                {/* <ImageModal imageUrl={imageStatus.imagePath} className='' />*/}
+                <img alt='post' src={imageStatus.imagePath} />
               </div>
             </Fragment>
           ) : (
@@ -169,7 +167,7 @@ const AddNewPost = () => {
           <div className='addNewPost__rightSide__buttonsBox__imageUpload'>
             <input
               type='file'
-              id='postImageInput'
+              id={inputId}
               accept='image/x-png,image/jpeg'
               onChange={(event) => handleImageChange(event)}
             />

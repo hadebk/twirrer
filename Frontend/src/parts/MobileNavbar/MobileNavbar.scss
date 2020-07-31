@@ -12,8 +12,36 @@
     }
   }
 
+  .modal__header {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+
   .MobileNavber__box {
     height: 100%;
+
+    // start twittern btn style
+    &__twitternButton {
+      position: absolute;
+      right: 20px;
+      top: -80px;
+
+      .bigButton {
+        display: none !important;
+      }
+
+      .smallButton {
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 10px,
+          rgba(136, 153, 166, 0.25) 0px 1px 3px 1px;
+        i {
+          font-size: 20px;
+        }
+      }
+    }
+
     &__tabs {
       display: flex;
       justify-content: space-around;

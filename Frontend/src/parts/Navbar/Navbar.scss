@@ -70,6 +70,14 @@
         display: inline-block;
       }
     }
+    .--twitternButton {
+      .smallButton {
+        display: none;
+        border-radius: 50%;
+        width: 100%;
+        height: 46px;
+      }
+    }
   }
 }
 
@@ -83,6 +91,18 @@
   .Navbar__main {
     width: 0;
     display: none;
+  }
+
+  .--twitternButton {
+    .bigButton {
+      display: none;
+    }
+  }
+
+  .--twitternButton {
+    .smallButton {
+      display: block !important;
+    }
   }
 }
 
@@ -120,6 +140,17 @@
       }
     }
   }
+
+  .--twitternButton {
+    .bigButton {
+      display: none;
+    }
+  }
+  .--twitternButton {
+    .smallButton {
+      display: block !important;
+    }
+  }
 }
 
 @media (min-width: 992px) and (max-width: 1280px) {
@@ -155,6 +186,17 @@
       &__text {
         display: none;
       }
+    }
+  }
+
+  .--twitternButton {
+    .bigButton {
+      display: none;
+    }
+  }
+  .--twitternButton {
+    .smallButton {
+      display: block !important;
     }
   }
 }

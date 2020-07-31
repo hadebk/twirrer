@@ -1,0 +1,77 @@
+@import "../../../style/CssVariables.scss";
+
+.twitternButtonsBox {
+  .bigButton {
+    padding: 0 14px;
+    height: 37px;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+    width: 100%;
+    height: 50px;
+    font-size: 15px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+  .smallButton {
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+/* modal edit */
+
+.modal-content {
+  background: transparent !important;
+
+  .modal-body {
+    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+  }
+}
+
+.twitternButtonsBox__modal__header {
+  padding: 10px 15px !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+
+  &__iconBox {
+    position: relative;
+    margin-right: 25px;
+
+    &:hover > &__background {
+      display: block;
+    }
+
+    &:hover {
+      color: $mainColor;
+      cursor: pointer;
+    }
+
+    &__background {
+      position: absolute;
+      top: -3px;
+      left: -10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .modal-content {
+    .modal-body {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+  }
+  .twitternButtonsBox__modal__header {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+}

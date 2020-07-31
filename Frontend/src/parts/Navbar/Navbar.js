@@ -3,6 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 
 // style file
 import "./Navbar.scss";
+// Global vars import
+import variables from "../../style/CssVariables.scss";
+
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -13,6 +16,8 @@ import UserContext from "../../context/UserContext";
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
 import MoreButton from "../../components/Buttons/MoreButton/MoreButton";
+import TwitternButton from "../../components/Buttons/TwitternButton/TwitternButton";
+import TwitternBtnNavbar from "../../components/Buttons/TwitternBtnNavbar/TwitternBtnNavbar";
 
 const Navbar = () => {
   // ******* start global state ******* //
@@ -58,8 +63,8 @@ const Navbar = () => {
   }, [userData.isAuth]);
 
   const clearCounter = () => {
-    setNotsCount(0)
-  }
+    setNotsCount(0);
+  };
 
   const handleHomeClick = () =>
     setActive({ home: true, notifications: false, profile: false });
@@ -209,8 +214,13 @@ const Navbar = () => {
                   />
                 </Link>
               </div>
+              {/* Twittern button Tab */}
+              <div className='Navbar__box__tab --twitternButton'>
+                <TwitternBtnNavbar />
+              </div>
             </div>
             {/* -------------- End Tabs -------------- */}
+            
           </div>
         ) : (
           ""

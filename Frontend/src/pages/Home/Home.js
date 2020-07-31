@@ -149,12 +149,16 @@ const Home = () => {
       </div>
 
       <div className='home-box__content'>
-        <div
-          className='home-box__addNewPostWrapper'
-          style={{ borderBottom: `10px solid  ${theme.addPostBorder}` }}
-        >
-          <AddNewPost />
-        </div>
+        {userData.isAuth ? (
+          <div
+            className='home-box__addNewPostWrapper'
+            style={{ borderBottom: `10px solid  ${theme.addPostBorder}` }}
+          >
+            <AddNewPost inputId='staticPart' />
+          </div>
+        ) : (
+          ""
+        )}
 
         <div className='home-box__posts'>{firstPosts}</div>
         {userData.isAuth ? <WhoToAdd /> : ""}
