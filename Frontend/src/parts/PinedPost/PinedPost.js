@@ -6,6 +6,9 @@ import "./PinedPost.scss";
 // Global vars import
 import variables from "../../style/CssVariables.scss";
 
+// assets
+import Default_pp from "../../assets/Images/default_pp.png";
+
 // api service
 import PostService from "../../services/PostService";
 
@@ -24,6 +27,7 @@ import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import Spinner from "../../components/Spinner/Spinner";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const PinedPost = () => {
   // ******* start global state ******* //
@@ -91,13 +95,13 @@ const PinedPost = () => {
       style={linkStyle}
       onMouseEnter={() => toggleHover()}
       onMouseLeave={() => toggleHover()}
-      onClick={() => toPostDetails("U9iQtuYsvtVuHoH2A2Rk")}
+      onClick={() => toPostDetails(pinedPost.postId)}
     >
       <div className='pinedPostCard__userImage'>
         <div className='pinedPostCard__userImage__wrapper'>
           <img
             className='pinedPostCard__userImage__wrapper__image'
-            src={pinedPost.profilePicture}
+            src={pinedPost.profilePicture ? pinedPost.profilePicture : Default_pp}
             alt='profile'
           />
         </div>
@@ -112,7 +116,7 @@ const PinedPost = () => {
               }}
               className='pinedPostCard__content__line1__userName'
             >
-              {pinedPost.userName}
+              <CheckVerifiedUserName userName={pinedPost.userName}/>
             </span>
             <span
               style={{

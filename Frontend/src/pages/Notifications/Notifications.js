@@ -17,6 +17,7 @@ import UserService from "../../services/UserService";
 
 // component
 import Spinner from "../../components/Spinner/Spinner";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -178,7 +179,7 @@ const Notifications = () => {
                   </div>
                   <div className='notificationsBox__Wrapper__singleNotBox__content'>
                     <div className='notificationsBox__Wrapper__singleNotBox__content__header'>
-                      <p style={{ color: theme.typoMain }}>{Not.sender}</p>
+                      <p style={{ color: theme.typoMain }}><CheckVerifiedUserName userName={Not.sender}/></p>
                       <span style={{ color: theme.typoMain }}>{text}</span>
                     </div>
                     <div

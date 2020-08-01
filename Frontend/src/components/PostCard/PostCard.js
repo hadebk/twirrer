@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style
@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ImageModal from "../ImageModal/ImageModal";
 import moment from "moment-twitter";
-import Linkify from 'react-linkify';
+import Linkify from "react-linkify";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -21,6 +21,7 @@ import PostsContext from "../../context/PostsContext";
 import DeletePostButton from "../Buttons/DeletePostButton";
 import LikeButton from "../Buttons/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const PostCard = ({ post }) => {
   // ******* start global state ******* //
@@ -39,7 +40,6 @@ const PostCard = ({ post }) => {
   const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end global state ******* //
-
 
   // local state
   const [isHover, setHover] = useState(false);
@@ -91,7 +91,7 @@ const PostCard = ({ post }) => {
               }}
               className='postCard__content__line1__userName'
             >
-              {post.userName}
+              <CheckVerifiedUserName userName={post.userName} />
             </span>
             <span
               style={{

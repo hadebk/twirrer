@@ -28,6 +28,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const PostDetails = (props) => {
   // ******* start global state *******//

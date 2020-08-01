@@ -14,6 +14,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const CurrentUser = () => {
   // ******* start global state ******* //
@@ -47,7 +48,10 @@ const CurrentUser = () => {
                     : default_pp
                 }
               />
-              <div className="currentUser__userImage__greenDot" style={{border:`2px solid ${theme.background}`}}></div>
+              <div
+                className='currentUser__userImage__greenDot'
+                style={{ border: `2px solid ${theme.background}` }}
+              ></div>
             </Link>
           </div>
           <div className='currentUser__userName'>
@@ -56,12 +60,13 @@ const CurrentUser = () => {
               style={{ color: theme.typoMain }}
             >
               <h2 style={{ color: theme.typoMain }}>
-                {userData.user.credentials.userName}
+                <CheckVerifiedUserName
+                  userName={userData.user.credentials.userName}
+                />
               </h2>
             </Link>
             <p style={{ color: theme.typoSecondary }}>
-              {userData.user.friends.length}{" "}
-              {language.userProfile.friends}
+              {userData.user.friends.length} {language.userProfile.friends}
             </p>
           </div>
         </>

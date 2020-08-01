@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, Fragment } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style
@@ -15,6 +15,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const CommentCard = ({ comment, authorName }) => {
   // ******* start global state ******* //
@@ -69,7 +70,7 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line1__userName'
             >
-              {comment.userName}
+              <CheckVerifiedUserName userName={comment.userName} />
             </Link>
             <span
               style={{
@@ -99,7 +100,7 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line2__authorName'
             >
-              {"@" + authorName}
+              {'@'}<CheckVerifiedUserName userName={authorName} />
             </Link>
           </div>
         </div>

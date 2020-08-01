@@ -13,6 +13,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const LikesModal = ({ postData, likes }) => {
   // ******* start global state ******* //
@@ -135,7 +136,7 @@ const LikesModal = ({ postData, likes }) => {
                         to={"/users/" + like.userName}
                         style={{ color: theme.typoMain }}
                       >
-                        {like.userName}
+                        <CheckVerifiedUserName userName={like.userName} />
                       </Link>
                     </div>
                   </div>

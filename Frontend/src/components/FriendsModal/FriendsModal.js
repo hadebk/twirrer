@@ -13,6 +13,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const FriendsModal = ({ userProfileData }) => {
   // ******* start global state ******* //
@@ -126,7 +127,11 @@ const FriendsModal = ({ userProfileData }) => {
                   <div className='friendsBox__friend__leftSide'>
                     <div className='friendsBox__friend__leftSide__userImageBox'>
                       <Link to={"/users/" + friend.userName}>
-                        <img src={friend.profilePicture} alt='profile' onClick={() => closeModal()}/>
+                        <img
+                          src={friend.profilePicture}
+                          alt='profile'
+                          onClick={() => closeModal()}
+                        />
                       </Link>
                     </div>
                     <div
@@ -138,7 +143,7 @@ const FriendsModal = ({ userProfileData }) => {
                         to={"/users/" + friend.userName}
                         style={{ color: theme.typoMain }}
                       >
-                        {friend.userName}
+                        <CheckVerifiedUserName userName={friend.userName} />
                       </Link>
                     </div>
                   </div>

@@ -32,7 +32,7 @@ const Login = () => {
 
   // local state
   const [email, setEmail] = useState("twirrer@twirrer.com");
-  const [password, setPassword] = useState("@twirrer@twirrer@");
+  const [password, setPassword] = useState("@twirrer@");
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 

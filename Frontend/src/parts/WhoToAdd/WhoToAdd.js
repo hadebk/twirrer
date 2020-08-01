@@ -10,6 +10,7 @@ import UserService from "../../services/UserService";
 // components
 import Spinner from "../../components/Spinner/Spinner";
 import AddFriendButton from "../../components/Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -116,7 +117,7 @@ const WhoToAdd = () => {
                     to={"/users/" + user.userName}
                     style={{ color: theme.typoMain }}
                   >
-                    {user.userName}
+                    <CheckVerifiedUserName userName={user.userName}/>
                   </Link>
                 </div>
               </div>

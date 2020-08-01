@@ -25,6 +25,7 @@ import EditCoverImageButton from "../../components/Buttons/EditCoverImageButton/
 import EditProfile from "../../components/Buttons/EditProfile/EditProfile";
 import FriendsModal from "../../components/FriendsModal/FriendsModal";
 import AddFriendButton from "../../components/Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -200,7 +201,7 @@ const UserProfile = (props) => {
               color: `${theme.typoMain}`,
             }}
           >
-            {props.match.params.userName}
+            <CheckVerifiedUserName userName={props.match.params.userName} />
           </h2>
           <p>{userProfileData.posts.length} tweets</p>
         </div>
@@ -269,7 +270,7 @@ const UserProfile = (props) => {
           </div>
           <div className='userProfile__main__userDetails__userData__userName'>
             <h2 style={{ color: theme.typoMain }}>
-              {userProfileData.user.userName}
+              <CheckVerifiedUserName userName={userProfileData.user.userName}/>
             </h2>
           </div>
           <div className='userProfile__main__userDetails__userData__bio'>
