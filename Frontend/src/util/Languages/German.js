@@ -42,6 +42,7 @@ export default {
     addPostPlaceholder: "Was gibt's Neues?",
     addPostButton: "Twittern",
     addPostButtonLoading: "Wird geladen..",
+    pinnedPost: "Angehefteter Tweet",
   },
   postDetails: {
     pageTitle: "Twittern | Twitter",

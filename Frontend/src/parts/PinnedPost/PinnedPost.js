@@ -136,7 +136,7 @@ const PinnedPost = () => {
           </div>
         </div>
         <div className='PinnedPostCard__content__pinnedHint'>
-          <span style={{color: theme.typoSecondary}}>Pinned post</span>
+          <span style={{ color: theme.typoSecondary }}>{language.home.pinnedPost}</span>
         </div>
         <div
           className='PinnedPostCard__content__line2'

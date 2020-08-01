@@ -42,6 +42,7 @@ export default {
     addPostPlaceholder: "What's new?",
     addPostButton: "Twittern",
     addPostButtonLoading: "Loading..",
+    pinnedPost: "Pinned Tweet"
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",
