@@ -54,6 +54,8 @@ const PostDetails = (props) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  document.title = language.postDetails.pageTitle;
+
   useEffect(() => {
     setLoading(true);
     if (postId) {

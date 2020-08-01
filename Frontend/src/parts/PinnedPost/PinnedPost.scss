@@ -1,6 +1,6 @@
 @import "../../style/CssVariables.scss";
 
-.pinedPostCard {
+.PinnedPostCard {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -54,7 +54,7 @@
         line-height: 1.8;
       }
 
-      &__delete { 
+      &__delete {
         position: relative;
         display: flex;
         justify-content: flex-end;
@@ -81,6 +81,12 @@
       }
     }
 
+    &__pinnedHint {
+      font-size: 13px;
+      margin-top: -5px;
+      margin-bottom: 5px;
+    }
+
     &__line2 {
       font-size: 15px;
       margin-bottom: 10px;
@@ -98,7 +104,6 @@
       max-height: 300px;
       overflow: hidden;
       border-radius: 15px;
-      
 
       &__image {
         width: 100%;
@@ -171,4 +176,3 @@
     }
   }
 }
-

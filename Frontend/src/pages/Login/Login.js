@@ -40,6 +40,8 @@ const Login = () => {
   const history = useHistory();
   let userToken = "";
 
+  document.title = language.login.pageTitle;
+
   // execute login operation
   const handleSubmit = (e) => {
     e.preventDefault();

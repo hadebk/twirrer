@@ -26,7 +26,7 @@ import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
 import { lang } from "moment";
 import JoinTwirrer from "../../parts/JoinTwirrer/JoinTwirrer";
 import AddNewPost from "../../parts/AddNewPost/AddNewPost";
-import PinedPost from "../../parts/PinedPost/PinedPost";
+import PinnedPost from "../../parts/PinnedPost/PinnedPost";
 
 const Home = () => {
   // ******* start global state ******* //
@@ -54,6 +54,8 @@ const Home = () => {
 
   // history init
   const history = useHistory();
+
+  document.title = language.home.pageTitle;
 
   useEffect(() => {
     setPostsLoading(true);
@@ -133,6 +135,7 @@ const Home = () => {
 
   return (
     <div className='home-box' style={{ background: `${theme.background}` }}>
+      {/* page title */}
       <div
         className='home-box__title'
         style={{
@@ -150,6 +153,7 @@ const Home = () => {
       </div>
 
       <div className='home-box__content'>
+        {/* 'add new post' section */}
         {userData.isAuth ? (
           <div
             className='home-box__addNewPostWrapper'
@@ -159,12 +163,18 @@ const Home = () => {
           </div>
         ) : (
           ""
-          )}
-        
-        <PinedPost />
+        )}
 
+        {/* 'pinned post' section */}
+        <PinnedPost />
+
+        {/* 'posts first fetch' section */}
         <div className='home-box__posts'>{firstPosts}</div>
+
+        {/* 'who to add' section */}
         {userData.isAuth ? <WhoToAdd /> : ""}
+
+        {/* 'button to fetch more posts' section */}
         <div className='home-box__spinner' style={{ textAlign: "center" }}>
           {nextPosts_loading ? (
             <Spinner />
@@ -187,6 +197,8 @@ const Home = () => {
             ""
           )}
         </div>
+
+        {/* note shown when there is no more posts */}
         <div
           className='home-box__note'
           style={{ color: `${theme.typoSecondary}` }}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  pinedPost: async function () {
+  PinnedPost: async function () {
     try {
       const response = await axios.get("/pinedPost");
       return response;

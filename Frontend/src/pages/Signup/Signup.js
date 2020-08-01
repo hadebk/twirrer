@@ -12,22 +12,23 @@ import UserContext from "../../context/UserContext";
 // api service
 import UserService from "../../services/UserService";
 
+
 const Signup = () => {
   // ******* start global state ******* //
-
+  
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
-
+  
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   const language = isEnglish ? english : german;
-
+  
   // user context
   const { setUserData } = useContext(UserContext);
-
+  
   // ******* end global state ******* //
-
+  
   // local state
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,11 +36,13 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
-
+  
   // init
   const history = useHistory();
   let userToken = "";
-
+  
+  document.title = language.signup.pageTitle;
+  
   // execute sign up operations
   const handleSubmit = (e) => {
     e.preventDefault();

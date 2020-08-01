@@ -45,6 +45,8 @@ const Notifications = () => {
   // local state
   const [notifications, setNotifications] = useState([]);
 
+  document.title = language.notifications.pageTitle;
+
   useEffect(() => {
     // get all nots and show them
     if (userData.isAuth) {

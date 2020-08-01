@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 // style file
-import "./PinedPost.scss";
+import "./PinnedPost.scss";
 // Global vars import
 import variables from "../../style/CssVariables.scss";
 
@@ -23,13 +23,12 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
 // component
-import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import Spinner from "../../components/Spinner/Spinner";
 import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
-const PinedPost = () => {
+const PinnedPost = () => {
   // ******* start global state ******* //
 
   // theme context
@@ -47,20 +46,20 @@ const PinedPost = () => {
 
   // local state
   const [isHover, setHover] = useState(false);
-  const [pinedPost, setPinedPost] = useState({});
-  const [pinedPostLoad, setPinedPostLoad] = useState(false);
+  const [PinnedPost, setPinnedPost] = useState({});
+  const [PinnedPostLoad, setPinnedPostLoad] = useState(false);
 
   useEffect(() => {
-    setPinedPostLoad(true);
-    PostService.pinedPost()
+    setPinnedPostLoad(true);
+    PostService.PinnedPost()
       .then((res) => {
         console.log("pined post: ", res.data);
-        setPinedPost(res.data);
-        setPinedPostLoad(false);
+        setPinnedPost(res.data);
+        setPinnedPostLoad(false);
       })
       .catch((err) => {
         console.log("pined post: ", err);
-        setPinedPostLoad(false);
+        setPinnedPostLoad(false);
       });
   }, []);
 
@@ -75,7 +74,7 @@ const PinedPost = () => {
   };
 
   // dynamic style on hover
-  var linkStyle = { borderBottom: `10px solid ${theme.pinedPostBorder}` };
+  var linkStyle = { borderBottom: `10px solid ${theme.PinnedPostBorder}` };
   if (isHover) {
     if (isLightTheme) {
       linkStyle.backgroundColor = "#F5F8FA";
@@ -91,62 +90,69 @@ const PinedPost = () => {
 
   return (
     <div
-      className='pinedPostCard'
+      className='PinnedPostCard'
       style={linkStyle}
       onMouseEnter={() => toggleHover()}
       onMouseLeave={() => toggleHover()}
-      onClick={() => toPostDetails(pinedPost.postId)}
+      onClick={() => toPostDetails(PinnedPost.postId)}
     >
-      <div className='pinedPostCard__userImage'>
-        <div className='pinedPostCard__userImage__wrapper'>
+      <div className='PinnedPostCard__userImage'>
+        <div className='PinnedPostCard__userImage__wrapper'>
           <img
-            className='pinedPostCard__userImage__wrapper__image'
-            src={pinedPost.profilePicture ? pinedPost.profilePicture : Default_pp}
+            className='PinnedPostCard__userImage__wrapper__image'
+            src={
+              PinnedPost.profilePicture ? PinnedPost.profilePicture : Default_pp
+            }
             alt='profile'
           />
         </div>
       </div>
-      <div className='pinedPostCard__content'>
-        <div className='pinedPostCard__content__line1'>
-          <div className='pinedPostCard__content__line1__box'>
+      <div className='PinnedPostCard__content'>
+        <div className='PinnedPostCard__content__line1'>
+          <div className='PinnedPostCard__content__line1__box'>
             <span
               style={{
                 color: theme.typoMain,
-                direction: `${arabic.test(pinedPost.userName) ? "rtl" : "ltr"}`,
+                direction: `${
+                  arabic.test(PinnedPost.userName) ? "rtl" : "ltr"
+                }`,
               }}
-              className='pinedPostCard__content__line1__userName'
+              className='PinnedPostCard__content__line1__userName'
             >
-              <CheckVerifiedUserName userName={pinedPost.userName}/>
+              <CheckVerifiedUserName userName={PinnedPost.userName} />
             </span>
             <span
               style={{
                 color: theme.mobileNavIcon,
               }}
-              className='pinedPostCard__content__line1__time'
+              className='PinnedPostCard__content__line1__time'
             >
-              {/*" · " + dayjs(pinedPost.createdAt).fromNow(true)*/}
-              {moment(pinedPost.createdAt).twitterShort()}
+              {/*" · " + dayjs(PinnedPost.createdAt).fromNow(true)*/}
+              {moment(PinnedPost.createdAt).twitterShort()}
             </span>
           </div>
-          <div className='pinedPostCard__content__line1__delete'>
-            <DeletePostButton post={pinedPost} />
+          <div className='PinnedPostCard__content__line1__delete'>
+            <i className='fas fa-thumbtack' style={{ color: theme.mobileNavIcon }}></i>
           </div>
         </div>
+        <div className='PinnedPostCard__content__pinnedHint'>
+          <span style={{color: theme.typoSecondary}}>Pinned post</span>
+        </div>
         <div
-          className='pinedPostCard__content__line2'
+          className='PinnedPostCard__content__line2'
           style={{
             color: theme.typoMain,
             textAlign: `${
-              arabic.test(pinedPost.postContent) ? "right" : "left"
+              arabic.test(PinnedPost.postContent) ? "right" : "left"
             }`,
-            direction: `${arabic.test(pinedPost.postContent) ? "rtl" : "ltr"}`,
+            direction: `${arabic.test(PinnedPost.postContent) ? "rtl" : "ltr"}`,
           }}
         >
-          <Linkify>{pinedPost.postContent}</Linkify>
+          <Linkify>{PinnedPost.postContent}</Linkify>
         </div>
-        {pinedPost.postImage ? (
+        {PinnedPost.postImage ? (
           <div
-            className='pinedPostCard__content__line3'
+            className='PinnedPostCard__content__line3'
             style={{
               color: theme.mobileNavIcon,
             }}
@@ -155,8 +161,8 @@ const PinedPost = () => {
             }}
           >
             <ImageModal
-              imageUrl={pinedPost.postImage}
-              className='pinedPostCard__content__line3__image'
+              imageUrl={PinnedPost.postImage}
+              className='PinnedPostCard__content__line3__image'
             />
           </div>
         ) : (
@@ -164,17 +170,17 @@ const PinedPost = () => {
         )}
 
         <div
-          className='pinedPostCard__content__line4'
+          className='PinnedPostCard__content__line4'
           style={{
             color: theme.mobileNavIcon,
           }}
         >
-          <CommentButton post={pinedPost} />
-          <LikeButton post={pinedPost} />
+          <CommentButton post={PinnedPost} />
+          <LikeButton post={PinnedPost} />
         </div>
       </div>
     </div>
   );
 };
 
-export default PinedPost;
+export default PinnedPost;

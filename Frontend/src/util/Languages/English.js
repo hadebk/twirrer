@@ -54,6 +54,7 @@ export default {
     commentPlaceholder: "Write a comment...",
   },
   userProfile: {
+    pageTitle: "Profile | Twirrer",
     joined: "Joined",
     friends: "Friends",
     noPosts: "This user hasn't posted anything yet.",
@@ -74,10 +75,11 @@ export default {
     logoutButton: "Log out",
   },
   notifications: {
+    pageTitle:"Notifications | Twirrer",
     title: "Notifications",
     likeHint: "liked your Tweet",
     commentHint: "commented on your Tweet",
     addFriendHint: "added you as a friend",
     emptyHint: "You don't have any notifications yet",
-  },
+  }
 };

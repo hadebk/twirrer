@@ -54,6 +54,7 @@ export default {
     commentPlaceholder: "Schreibe einen Kommentar...",
   },
   userProfile: {
+    pageTitle: "Profil | Twirrer",
     joined: "Beitritt",
     friends: "Freunde",
     noPosts: "Dieser Benutzer hat noch nichts gepostet.",
@@ -74,6 +75,7 @@ export default {
     logoutButton: "Abmelden",
   },
   notifications: {
+    Notifications: "Mitteilungen | Twirrer",
     title: "Mitteilungen",
     likeHint: "gefällt dein Tweet",
     commentHint: "kommentierte Ihren Tweet",
