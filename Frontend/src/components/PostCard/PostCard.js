@@ -122,6 +122,7 @@ const PostCard = ({ post }) => {
             className='postCard__content__line3'
             style={{
               color: theme.mobileNavIcon,
+              border: `1px solid ${theme.border}`
             }}
             onClick={(event) => {
               event.stopPropagation();

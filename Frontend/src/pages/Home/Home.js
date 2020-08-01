@@ -176,7 +176,7 @@ const Home = () => {
 
         {/* 'button to fetch more posts' section */}
         <div className='home-box__spinner' style={{ textAlign: "center" }}>
-          {nextPosts_loading ? (
+          {nextPosts_loading && !posts_loading ? (
             <Spinner />
           ) : lastKey.length > 0 ? (
             <button

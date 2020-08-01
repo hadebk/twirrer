@@ -119,6 +119,7 @@ const PostCardDetails = ({ postData, likes }) => {
             className='postDetails__post__content__line3'
             style={{
               color: theme.typoSecondary,
+              border: `1px solid ${theme.border}`
             }}
             onClick={(event) => {
               event.stopPropagation();

@@ -76,7 +76,7 @@ export default {
     logoutButton: "Abmelden",
   },
   notifications: {
-    Notifications: "Mitteilungen | Twirrer",
+    pageTitle: "Mitteilungen | Twirrer",
     title: "Mitteilungen",
     likeHint: "gefällt dein Tweet",
     commentHint: "kommentierte Ihren Tweet",
