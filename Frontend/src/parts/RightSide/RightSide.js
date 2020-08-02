@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useEffect, Fragment } from "react";
 
 // style file
 import "./RightSide.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
-import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import WhoToAdd from "../WhoToAdd/WhoToAdd";
 import JoinTwirrer from "../JoinTwirrer/JoinTwirrer";
@@ -16,14 +14,8 @@ const RightSide = () => {
   // ******* start global state ******* //
 
   // theme context
-  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
-
-  // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
-    LanguageContext
-  );
-  var language = isEnglish ? english : german;
 
   // user context
   const { userData } = useContext(UserContext);

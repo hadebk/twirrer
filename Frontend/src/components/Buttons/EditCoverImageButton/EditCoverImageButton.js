@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from "react";
+import React, { useContext, useState } from "react";
 
 // style
 import "./EditCoverImageButton.scss";
@@ -16,7 +16,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
 
   // userData context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);

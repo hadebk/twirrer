@@ -16,7 +16,7 @@ const DeletePostButton = ({ post }) => {
   const theme = isLightTheme ? light : dark;
 
   // userData context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);

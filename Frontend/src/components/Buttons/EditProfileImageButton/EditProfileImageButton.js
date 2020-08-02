@@ -12,7 +12,6 @@ import Spinner from "../../Spinner/Spinner";
 // context (global state)
 import { ThemeContext } from "../../../context/ThemeContext";
 import UserContext from "../../../context/UserContext";
-import PostsContext from "../../../context/PostsContext";
 
 const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
   // userData context

@@ -1,11 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
-// api service
-import PostService from "../../services/PostService";
-
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
-import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
 const CommentButton = ({ post }) => {
@@ -15,11 +11,8 @@ const CommentButton = ({ post }) => {
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
-  // userData context
-  const { userData, setUserData } = useContext(UserContext);
-
   // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
+  const { posts } = useContext(PostsContext);
 
   // ******* end global state ******* //
 

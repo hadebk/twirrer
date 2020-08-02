@@ -13,11 +13,9 @@ import DefaultCover from "../../assets/Images/default_cp.png";
 import dayjs from "dayjs";
 
 // api service
-import PostService from "../../services/PostService";
 import UserService from "../../services/UserService";
 
 // component
-import Spinner from "../../components/Spinner/Spinner";
 import ImageModal from "../../components/ImageModal/ImageModal";
 import PostCard from "../../components/PostCard/PostCard";
 import EditProfileImageButton from "../../components/Buttons/EditProfileImageButton/EditProfileImageButton";
@@ -31,8 +29,6 @@ import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
-
 
 const UserProfile = (props) => {
   // ******* start global state *******//
@@ -45,10 +41,8 @@ const UserProfile = (props) => {
   var language = isEnglish ? english : german;
   
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   
-  // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
   // ******* end global state *******//
   
   // local state
@@ -78,7 +72,7 @@ const UserProfile = (props) => {
         console.log(err.response.data);
         setProfileLoader(false);
       });
-  }, [posts, userData.isAuth, setUserProfileData, props.match.params.userName]);
+  }, [ userData.isAuth, setUserProfileData, props.match.params.userName]);
 
   const goToBack = () => {
     props.history.goBack();

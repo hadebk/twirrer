@@ -1,5 +1,5 @@
-import React, { useContext, Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
 // style
 import "./CommentCard.scss";
@@ -13,8 +13,6 @@ import Linkify from "react-linkify";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
-import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const CommentCard = ({ comment, authorName }) => {
@@ -27,17 +25,10 @@ const CommentCard = ({ comment, authorName }) => {
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
-  // user context
-  const { userData, setUserData } = useContext(UserContext);
-
-  // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
-
   // ******* end global state ******* //
 
   // date lib init
   dayjs.extend(relativeTime);
-  const history = useHistory();
 
   var arabic = /[\u0600-\u06FF]/;
 

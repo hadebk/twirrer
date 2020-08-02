@@ -1,21 +1,15 @@
 import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
 
 // style
 import "./PostCard.scss";
 
 // libraries
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import ImageModal from "../ImageModal/ImageModal";
 import moment from "moment-twitter";
 import Linkify from "react-linkify";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
-import { LanguageContext } from "../../context/LanguageContext";
-import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 
 // component
 import DeletePostButton from "../Buttons/DeletePostButton";
@@ -28,25 +22,10 @@ const PostCard = ({ post }) => {
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
-
-  // language context
-  const { isEnglish, english, german } = useContext(LanguageContext);
-  var language = isEnglish ? english : german;
-
-  // user context
-  const { userData, setUserData } = useContext(UserContext);
-
-  // user context
-  const { posts, setPostsData } = useContext(PostsContext);
-
   // ******* end global state ******* //
 
   // local state
   const [isHover, setHover] = useState(false);
-
-  // lib init
-  dayjs.extend(relativeTime);
-  const history = useHistory();
 
   var arabic = /[\u0600-\u06FF]/;
 
@@ -99,7 +78,6 @@ const PostCard = ({ post }) => {
               }}
               className='postCard__content__line1__time'
             >
-              {/*" · " + dayjs(post.createdAt).fromNow(true)*/}
               {moment(post.createdAt).twitterShort()}
             </span>
           </div>

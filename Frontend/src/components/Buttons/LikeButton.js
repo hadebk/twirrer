@@ -28,11 +28,32 @@ const LikeButton = ({ post }) => {
   // history init
   const history = useHistory();
 
+  var likes_counts;
+
+  useEffect(() => {
+    if (userData.isAuth) {
+      likes_counts = post.likeCount;
+      console.log('likes--',  likes_counts)
+      /**
+       * when user logged in and open the app,
+       * fill like button of all posts that user have liked them before
+       */
+      userData.user.likes.map((like) => {
+        if (post.postId === like.postId) {
+          setLikeStatus(true);
+        }
+      });
+    } else {
+      console.log("likeButton-useEffect-isAuth=false");
+    }
+  }, [userData.isAuth, post.postId]);
+
   const likePost = (isAuth) => {
     if (isAuth) {
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
-          console.log("like", res);
+          likes_counts++;
+          console.log("like", likes_counts, res);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -69,7 +90,8 @@ const LikeButton = ({ post }) => {
     if (isAuth) {
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
-          console.log("unlike", res);
+          likes_counts--;
+          console.log("unlike", likes_counts, res);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -99,22 +121,6 @@ const LikeButton = ({ post }) => {
     }
   };
 
-  useEffect(() => {
-    if (userData.isAuth) {
-      /**
-       * when user logged in and open the app,
-       * fill like button of all posts that user have liked them before
-       */
-      userData.user.likes.map((like) => {
-        if (post.postId === like.postId) {
-          setLikeStatus(true);
-        }
-      });
-    } else {
-      console.log("likeButton-useEffect-isAuth=false");
-    }
-  }, [userData.isAuth, post.postId]);
-  //
   return (
     <div className='postCard__content__line4__like'>
       {wasLiked ? (
@@ -161,7 +167,7 @@ const LikeButton = ({ post }) => {
         </div>
       )}
 
-      {post.likeCount === 0 ? "" : post.likeCount}
+      {likes_counts === 0 ? "999" : likes_counts}
     </div>
   );
 };

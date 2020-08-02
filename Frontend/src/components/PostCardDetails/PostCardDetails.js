@@ -1,22 +1,16 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // style
 import "./PostCardDetails.scss";
 
 // assets
-import Empty from "../../assets/Images/empty.svg";
 import Default from "../../assets/Images/default_pp.png";
 
 // libraries
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import moment from "moment-twitter";
 import Linkify from "react-linkify";
 
-// api service
-import PostService from "../../services/PostService";
-import UserService from "../../services/UserService";
 
 // component
 import DeletePostButton from "../../components/Buttons/DeletePostButton";
@@ -43,10 +37,10 @@ const PostCardDetails = ({ postData, likes }) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
+  const { posts } = useContext(PostsContext);
   // ******* end global state *******//
 
   var arabic = /[\u0600-\u06FF]/;

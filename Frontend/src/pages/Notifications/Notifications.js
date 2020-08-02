@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect, Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // style
 import "./Notifications.scss";
@@ -9,21 +9,18 @@ import Empty from "../../assets/Images/empty.svg";
 import DefaultAvatar from "../../assets/Images/default_pp.png";
 
 // libraries
-import dayjs from "dayjs";
 import moment from "moment-twitter";
 
 // api service
 import UserService from "../../services/UserService";
 
 // component
-import Spinner from "../../components/Spinner/Spinner";
 import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 
 const Notifications = () => {
   // ******* start global state *******//
@@ -36,10 +33,7 @@ const Notifications = () => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
-
-  // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
+  const { userData } = useContext(UserContext);
   // ******* end global state *******//
 
   // local state
@@ -64,21 +58,6 @@ const Notifications = () => {
       )
         .then((res) => {
           console.log("Not-", res.data);
-        })
-        .then(() => {
-          //TODO: update nots in userData state
-          /*let newNots = userData.user.notifications;
-          newNots.map((not) => {
-            return (not.read = true);
-          });
-          setUserData({
-            isAuth: userData.isAuth,
-            token: userData.token,
-            user: {
-              ...userData.user,
-              notifications: newNots,
-            },
-          });*/
         })
         .catch((err) => console.log("Not-", err));
     }

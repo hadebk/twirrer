@@ -8,14 +8,10 @@ import variables from "../../../style/CssVariables.scss";
 // libraries
 import { Modal } from "react-bootstrap";
 
-// api service
-import PostService from "../../../services/PostService";
 
 // context (global state)
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
-import UserContext from "../../../context/UserContext";
-import PostsContext from "../../../context/PostsContext";
 import AddNewPost from "../../../parts/AddNewPost/AddNewPost";
 
 const TwitternBtnNavbar = () => {
@@ -28,11 +24,6 @@ const TwitternBtnNavbar = () => {
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
-  // user context
-  const { userData, setUserData } = useContext(UserContext);
-
-  // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
   // ******* end global state *******//
 
   // local state

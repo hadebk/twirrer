@@ -1,13 +1,11 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 
 // style
 import "./Home.scss";
 // Global vars import
 import variables from "../../style/CssVariables.scss";
 
-// libraries
-import axios from "axios";
 
 // api service
 import PostService from "../../services/PostService";
@@ -23,8 +21,6 @@ import PostsContext from "../../context/PostsContext";
 import PostCard from "../../components/PostCard/PostCard";
 import Spinner from "../../components/Spinner/Spinner";
 import WhoToAdd from "../../parts/WhoToAdd/WhoToAdd";
-import { lang } from "moment";
-import JoinTwirrer from "../../parts/JoinTwirrer/JoinTwirrer";
 import AddNewPost from "../../parts/AddNewPost/AddNewPost";
 import PinnedPost from "../../parts/PinnedPost/PinnedPost";
 

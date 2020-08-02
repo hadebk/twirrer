@@ -11,7 +11,6 @@ import { Modal } from "react-bootstrap";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
@@ -26,10 +25,7 @@ const FriendsModal = ({ userProfileData }) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
-
-  // user context
-  const { posts, setPostsData } = useContext(PostsContext);
+  const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
   // local state

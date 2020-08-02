@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, { useContext, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 // style file
 import "./AddNewPost.scss";
-// Global vars import
-import variables from "../../style/CssVariables.scss";
 
 // assets
 import default_pp from "../../assets/Images/default_pp.png";
 
 // components
-import Spinner from "../../components/Spinner/Spinner";
-import ImageModal from "../../components/ImageModal/ImageModal";
 import TwitternButton from "../../components/Buttons/TwitternButton/TwitternButton";
-
-// api service
-import PostDetails from "../../services/PostService";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -34,7 +27,7 @@ const AddNewPost = ({inputId}) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
 

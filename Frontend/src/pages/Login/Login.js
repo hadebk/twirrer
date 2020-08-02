@@ -16,11 +16,11 @@ const Login = () => {
   // ******* start global state ******* //
 
   // theme context
-  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
   // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
+  const { isEnglish, english, german } = useContext(
     LanguageContext
   );
   var language = isEnglish ? english : german;

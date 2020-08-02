@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // style file
 import "./MobileNavbar.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
-import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
 // components
@@ -19,14 +18,8 @@ const MobileNavbar = () => {
   // ******* start global state ******* //
 
   // theme context
-  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
-
-  // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
-    LanguageContext
-  );
-  var language = isEnglish ? english : german;
 
   // user context
   const { userData } = useContext(UserContext);

@@ -11,7 +11,6 @@ import { Modal } from "react-bootstrap";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
@@ -27,9 +26,6 @@ const LikesModal = ({ postData, likes }) => {
 
   // user context
   const { userData, setUserData } = useContext(UserContext);
-
-  // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
 
   // ******* end global state ******* //
   // local state

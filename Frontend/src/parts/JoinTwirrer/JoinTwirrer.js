@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
 
 // style file
 import "./JoinTwirrer.scss";
@@ -8,7 +7,6 @@ import "./JoinTwirrer.scss";
 import joinTwirrer from "../../assets/Images/joinTwirrer.svg";
 
 // components
-import Spinner from "../../components/Spinner/Spinner";
 import LoginButton from "../../components/Buttons/LoginButton";
 import SignupButton from "../../components/Buttons/SignupButton";
 

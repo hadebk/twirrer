@@ -1,13 +1,10 @@
-import React, { useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
 
 // style file
 import "./TabletNavBarNotAuth.scss";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
-import { LanguageContext } from "../../context/LanguageContext";
-import UserContext from "../../context/UserContext";
 
 // components
 import LoginButton from "../../components/Buttons/LoginButton";
@@ -17,17 +14,8 @@ const TabletNavBarNotAuth = () => {
   // ******* start global state ******* //
 
   // theme context
-  const { isLightTheme, light, dark, toggleTheme } = useContext(ThemeContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
-
-  // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
-    LanguageContext
-  );
-  var language = isEnglish ? english : german;
-
-  // user context
-  const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
   return (

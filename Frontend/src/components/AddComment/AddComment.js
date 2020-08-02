@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 // style
 import "./AddComment.scss";
@@ -8,7 +8,6 @@ import Default from "../../assets/Images/default_pp.png";
 
 // api service
 import PostService from "../../services/PostService";
-import UserService from "../../services/UserService";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -27,7 +26,7 @@ const AddComment = ({postId, comments, setComments}) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
@@ -43,7 +42,7 @@ const AddComment = ({postId, comments, setComments}) => {
   // auto resize textarea box, when user type long text
   const handleChange = (event) => {
     const textareaLineHeight = 24;
-    let { value, rows, minRows, maxRows } = textarea;
+    let { minRows, maxRows } = textarea;
 
     const previousRows = event.target.rows;
     event.target.rows = minRows; // reset number of rows in textarea

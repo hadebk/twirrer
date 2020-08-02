@@ -1,24 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 // style
 import "./PostDetails.scss";
 
 // assets
 import Empty from "../../assets/Images/empty.svg";
-import Default from "../../assets/Images/default_pp.png";
 
 // libraries
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import moment from "moment-twitter";
 
 // api service
 import PostService from "../../services/PostService";
-import UserService from "../../services/UserService";
 
 // component
-import Spinner from "../../components/Spinner/Spinner";
 import CommentCard from "../../components/CommentCard/CommentCard";
 import AddComment from "../../components/AddComment/AddComment";
 import PostCardDetails from "../../components/PostCardDetails/PostCardDetails";
@@ -28,7 +23,6 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
-import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const PostDetails = (props) => {
   // ******* start global state *******//
@@ -41,10 +35,10 @@ const PostDetails = (props) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // posts context
-  const { posts, setPostsData } = useContext(PostsContext);
+  const { posts } = useContext(PostsContext);
   // ******* end global state *******//
 
   //local state
@@ -82,7 +76,6 @@ const PostDetails = (props) => {
 
   // init
   dayjs.extend(relativeTime);
-  var arabic = /[\u0600-\u06FF]/;
 
   return (
     <div

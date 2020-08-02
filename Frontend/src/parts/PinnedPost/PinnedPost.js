@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // style file
 import "./PinnedPost.scss";
-// Global vars import
-import variables from "../../style/CssVariables.scss";
 
 // assets
 import Default_pp from "../../assets/Images/default_pp.png";
@@ -20,12 +18,10 @@ import Linkify from "react-linkify";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
-import UserContext from "../../context/UserContext";
 
 // component
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
-import Spinner from "../../components/Spinner/Spinner";
 import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const PinnedPost = () => {
@@ -38,9 +34,6 @@ const PinnedPost = () => {
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
-
-  // user context
-  const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
 
