@@ -31,15 +31,16 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
 
   // local state
   const [isOpen, setOpen] = useState(false);
-  const [bio, setBio] = useState(userProfileData.user.bio);
-  const [location, setLocation] = useState(userProfileData.user.location);
-  const [website, setWebsite] = useState(userProfileData.user.website);
+  const [bio, setBio] = useState('');
+  const [location, setLocation] = useState('');
+  const [website, setWebsite] = useState('');
 
   useEffect(() => {
-    setBio(userProfileData.user.bio);
-    setLocation(userProfileData.user.location);
-    setWebsite(userProfileData.user.website);
+    setBio(userProfileData.user.bio ? userProfileData.user.bio : '');
+    setLocation(userProfileData.user.location ? userProfileData.user.location : '');
+    setWebsite(userProfileData.user.website ? userProfileData.user.website : '');
   }, [userProfileData]);
+
   
   // utils
   let closeModal = () => setOpen(false);

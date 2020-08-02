@@ -32,7 +32,7 @@ const CurrentUser = () => {
 
   // ******* end global state ******* //
 
-  useEffect(() => {}, [userData, setUserData]);
+  useEffect(() => {}, [userData.isAuth, setUserData]);
 
   return (
     <div className='currentUser' style={{ backgroundColor: theme.foreground }}>
