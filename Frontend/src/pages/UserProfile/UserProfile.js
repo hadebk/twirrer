@@ -290,7 +290,7 @@ const UserProfile = (props) => {
               {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
             </div>
           </div>
-          <FriendsModal userProfileData={userProfileData} />
+          <FriendsModal userProfileData={userProfileData} setUserProfileData={setUserProfileData}/>
         </div>
         {/* user post section */}
         <div className='userProfile__main__userDetails__posts'>{userPosts}</div>

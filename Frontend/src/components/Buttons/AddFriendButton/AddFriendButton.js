@@ -15,7 +15,7 @@ import { LanguageContext } from "../../../context/LanguageContext";
 
 const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
   // ******* start global state *******//
-  // theme context
+  // theme context 
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
@@ -57,7 +57,7 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
         .then((res) => {
           // update state in UserProfile to show the change immediately
           if (userProfileData) {
-            let newFriends = userProfileData.friends;
+            let newFriends = [...userProfileData.friends];
             newFriends.push({
               profilePicture: userData.user.credentials.profilePicture,
               userName: userData.user.credentials.userName,
@@ -101,7 +101,7 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
         .then(() => {
           // update state in UserProfile to show the change immediately
           if (userProfileData) {
-            let newFriends = userProfileData.friends.filter(
+            let newFriends = [...userProfileData.friends].filter(
               (friend) => friend.userName !== userData.user.credentials.userName
             );
             setUserProfileData({

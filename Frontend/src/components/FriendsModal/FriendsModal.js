@@ -14,7 +14,7 @@ import UserContext from "../../context/UserContext";
 import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
-const FriendsModal = ({ userProfileData }) => {
+const FriendsModal = ({ userProfileData, setUserProfileData }) => { 
   // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -152,7 +152,9 @@ const FriendsModal = ({ userProfileData }) => {
                       >
                         <AddFriendButton
                           userName={friend.userName}
-                          profilePicture={friend.profilePicture}
+                          /*profilePicture={friend.profilePicture}
+                          userProfileData={userProfileData}
+                          setUserProfileData={setUserProfileData}*/
                         />
                       </div>
                     ) : (

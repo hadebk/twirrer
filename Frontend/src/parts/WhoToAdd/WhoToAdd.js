@@ -128,7 +128,7 @@ const WhoToAdd = () => {
               >
                 <AddFriendButton
                   userName={user.userName}
-                  profilePicture={user.profilePicture}
+                  /*profilePicture={user.profilePicture}*/
                 />
               </div>
             </div>
