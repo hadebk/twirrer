@@ -56,6 +56,7 @@ const PostDetails = (props) => {
       // get all details of current post
       PostService.getPostDetails(postId)
         .then((res) => {
+          console.log('postDetails----')
           let result = res.data.post;
           result.postId = res.data.postId;
           setPostData(result);
@@ -68,7 +69,11 @@ const PostDetails = (props) => {
           setLoading(false);
         });
     }
-  }, [postId, userData.user, posts]);
+  }, [postId ]);
+
+  useEffect(() => {
+    console.log('PostDetails comments----', comments);
+  }, [posts, userData.user, comments, setComments, postData])
 
   const goToBack = () => {
     props.history.goBack();
@@ -120,7 +125,7 @@ const PostDetails = (props) => {
             <Spinner />
           </div>
         ) : (*/}
-        <PostCardDetails postData={postData} likes={likes} />
+        <PostCardDetails postData={postData} likes={likes} /> 
         {/* )}*/}
       </div>
       {userData.isAuth ? (
@@ -128,13 +133,15 @@ const PostDetails = (props) => {
           postId={postId}
           comments={comments}
           setComments={setComments}
+          postData={postData}
+          setPostData={setPostData}
         />
       ) : (
         ""
       )}
       <div className='postComments'>
         {comments.length > 0 ? (
-          comments.map((comment) => (
+          [...comments].map((comment) => (
             <CommentCard
               comment={comment}
               authorName={postData.userName}

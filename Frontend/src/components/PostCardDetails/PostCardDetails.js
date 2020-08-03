@@ -14,8 +14,8 @@ import Linkify from "react-linkify";
 
 // component
 import DeletePostButton from "../../components/Buttons/DeletePostButton";
-import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
+import LikeButton from "../../components/Buttons/LikeButton";
 import LikesModal from "../../components/LikesModal/LikesModal";
 
 // context (global state)
@@ -37,7 +37,7 @@ const PostCardDetails = ({ postData, likes }) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData } = useContext(UserContext);
+  const { userData } = useContext(UserContext); 
 
   // posts context
   const { posts } = useContext(PostsContext);

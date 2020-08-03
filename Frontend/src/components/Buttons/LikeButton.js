@@ -27,13 +27,9 @@ const LikeButton = ({ post }) => {
 
   // history init
   const history = useHistory();
-
-  var likes_counts;
-
+  
   useEffect(() => {
     if (userData.isAuth) {
-      likes_counts = post.likeCount;
-      console.log('likes--',  likes_counts)
       /**
        * when user logged in and open the app,
        * fill like button of all posts that user have liked them before
@@ -52,8 +48,6 @@ const LikeButton = ({ post }) => {
     if (isAuth) {
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
-          likes_counts++;
-          console.log("like", likes_counts, res);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -90,8 +84,6 @@ const LikeButton = ({ post }) => {
     if (isAuth) {
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
-          likes_counts--;
-          console.log("unlike", likes_counts, res);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -167,7 +159,7 @@ const LikeButton = ({ post }) => {
         </div>
       )}
 
-      {likes_counts === 0 ? "999" : likes_counts}
+      {post.likeCount === 0 ? "" : post.likeCount}
     </div>
   );
 };

@@ -29,6 +29,7 @@ import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import PostsContext from "../../context/PostsContext";
 
 const UserProfile = (props) => {
   // ******* start global state *******//
@@ -42,6 +43,9 @@ const UserProfile = (props) => {
   
   // user context
   const { userData } = useContext(UserContext);
+
+  // posts context
+  const { posts } = useContext(PostsContext);
   
   // ******* end global state *******//
   
@@ -58,21 +62,21 @@ const UserProfile = (props) => {
   
   // history init
   const history = useHistory();
-
   useEffect(() => {
-    console.log("userData", userData);
-    setProfileLoader(true);
-    UserService.getUserDetails(props.match.params.userName)
-      .then((res) => {
-        console.log(res.data);
-        setUserProfileData(res.data);
-        setProfileLoader(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setProfileLoader(false);
-      });
-  }, [ userData.isAuth, setUserProfileData, props.match.params.userName]);
+      setProfileLoader(true);
+      UserService.getUserDetails(props.match.params.userName)
+        .then((res) => {
+          console.log('userDetails---', res.data);
+          setUserProfileData(res.data);
+          setProfileLoader(false);
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          setProfileLoader(false);
+        });
+  }, [props.match.params.userName]);
+
+  useEffect(() => { }, [userData.isAuth, setUserProfileData, posts])
 
   const goToBack = () => {
     props.history.goBack();

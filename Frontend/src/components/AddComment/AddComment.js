@@ -15,7 +15,13 @@ import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
-const AddComment = ({postId, comments, setComments}) => {
+const AddComment = ({
+  postId,
+  comments,
+  setComments,
+  postData,
+  setPostData,
+}) => {
   // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -31,7 +37,7 @@ const AddComment = ({postId, comments, setComments}) => {
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
   // ******* end global state *******//
-    
+
   const [textarea, setTextarea] = useState({
     value: "",
     rows: 1,
@@ -69,36 +75,42 @@ const AddComment = ({postId, comments, setComments}) => {
   const sendComment = () => {
     console.log("comment...", postId);
     let comment = {
-        commentContent: textarea.value
-    }
+      commentContent: textarea.value.trim(),
+    };
     PostService.addComment(postId, comment, userData.token)
-    .then((res) =>{
-        console.log('comment-res', res.data)
+      .then((res) => {
+        console.log("comment-res", res.data);
+        // update posts state 'global'
         posts.map((pos, index) => {
-            if (pos.postId === res.data.postId) {
-              let newPosts = [...posts];
-              newPosts[index] = res.data;
-              setPostsData(newPosts);
-            }
-          });
-        let newComments = comments;
-        newComments.push(res.data)
-        console.log('newC', newComments);
-        setComments(
-            ...comments.assign(res.data)
-        )
+          if (pos.postId === res.data.postId) {
+            let newPosts = [...posts];
+            newPosts[index] = res.data;
+            setPostsData(newPosts);
+          }
+        });
+        // update comments state in PostDetails page
+        let newComments = [...comments];
+        newComments.unshift(res.data);
+        //console.log("newC", newComments);
+        setComments(newComments);
         setTextarea({
-            ...textarea,
-            value:''
-        })
-    })
-    .catch((err) => {
-        console.log('comment-err', err);
+          ...textarea,
+          rows: 1,
+          value: "",
+        });
+        // update commentsCount in postData in PostDetails Page
+        let newPost = {...postData};
+        newPost.commentCount = newPost.commentCount + 1;
+        setPostData(newPost);
+      })
+      .catch((err) => {
+        console.log("comment-err", err);
         setTextarea({
-            ...textarea,
-            value:''
-        })
-    })
+          ...textarea,
+          rows: 1,
+          value: "",
+        });
+      });
   };
 
   var disabledFlag = textarea.value.trim().length > 0 ? false : true;

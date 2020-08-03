@@ -58,7 +58,7 @@ const Home = () => {
     // get first batch of posts to show in home
     PostService.postsFirstFetch()
       .then((res) => {
-        console.log(res.data);
+        console.log("home fetch----",res.data);
         setKey(res.data.lastKey);
         setPostsData(res.data.posts);
         setPostsLoading(false);
