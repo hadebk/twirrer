@@ -32,6 +32,11 @@ import PostsContext from "./context/PostsContext";
 // api services
 import UserService from "./services/UserService";
 import PostService from "./services/PostService";
+import axios from "axios";
+
+// init axios
+axios.defaults.baseURL =
+  "https://europe-west3-twirrer-app.cloudfunctions.net/api";
 
 function App() {
   // start global state //
@@ -96,7 +101,7 @@ function App() {
         .catch((err) => console.log(err));
     };
 
-     checkLoggedIn();
+    checkLoggedIn();
   }, []);
 
   return (
@@ -113,8 +118,16 @@ function App() {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/posts/:postId' component={PostDetails} />
-                  <Route exact path='/users/:userName' component={UserProfile} />
-                  <Route exact path='/notifications' component={Notifications}/>
+                  <Route
+                    exact
+                    path='/users/:userName'
+                    component={UserProfile}
+                  />
+                  <Route
+                    exact
+                    path='/notifications'
+                    component={Notifications}
+                  />
                   <AuthRoute exact path='/login' component={Login} />
                   <AuthRoute exact path='/signup' component={Signup} />
                   <Route component={Page404} />
