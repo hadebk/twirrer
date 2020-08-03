@@ -26,7 +26,7 @@ import ImageModal from "../../components/ImageModal/ImageModal";
 import PostsContext from "../../context/PostsContext";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
-const PostCardDetails = ({ postData, likes }) => {
+const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
   // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -45,7 +45,7 @@ const PostCardDetails = ({ postData, likes }) => {
 
   var arabic = /[\u0600-\u06FF]/;
 
-  useEffect(() => {}, [posts, userData]);
+  /*useEffect(() => {}, [posts, userData]);*/
 
   return (
     <div
@@ -178,7 +178,7 @@ const PostCardDetails = ({ postData, likes }) => {
           }}
         >
           <CommentButton post={postData} />
-          <LikeButton post={postData} />
+          <LikeButton post={postData} postData={postData} likes={likes} setPostData={setPostData} setLikes={setLikes}/>
         </div>
       </div>
     </div>

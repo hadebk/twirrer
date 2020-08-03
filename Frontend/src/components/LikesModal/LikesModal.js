@@ -11,7 +11,7 @@ import { Modal } from "react-bootstrap";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
+import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton"; 
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const LikesModal = ({ postData, likes }) => {
@@ -31,9 +31,11 @@ const LikesModal = ({ postData, likes }) => {
   // local state
   const [isOpen, setOpen] = useState(false);
 
+  /*
   useEffect(() => {
     console.log("likes modal----");
   }, [userData, setUserData]); // posts, userData
+  */
 
   // utils
   let closeModal = () => setOpen(false);

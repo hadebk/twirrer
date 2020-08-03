@@ -9,7 +9,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
 
-const LikeButton = ({ post }) => {
+const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
   // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -24,11 +24,15 @@ const LikeButton = ({ post }) => {
 
   // local state
   const [wasLiked, setLikeStatus] = useState(false);
+  const [likes_count, setLikes_count] = useState(
+    post.likeCount ? post.likeCount : 0
+  );
 
   // history init
   const history = useHistory();
-  
+
   useEffect(() => {
+    setLikes_count(post.likeCount);
     if (userData.isAuth) {
       /**
        * when user logged in and open the app,
@@ -48,6 +52,8 @@ const LikeButton = ({ post }) => {
     if (isAuth) {
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
+          console.log("like", res.data);
+          setLikes_count(res.data.likeCount);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -71,6 +77,21 @@ const LikeButton = ({ post }) => {
               likes: newLikes,
             },
           });
+          // update postData in PostDetails Page
+          if (postData) {
+            setPostData(res.data);
+          }
+          // update likes in PostDetails page
+          if (likes) {
+            let newLikes = [...likes];
+            newLikes.unshift({
+              postId: post.postId,
+              profilePicture: userData.user.credentials.profilePicture,
+              userName: userData.user.credentials.userName,
+            });
+            setLikes(newLikes);
+            console.log('5555', newLikes)
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -84,6 +105,8 @@ const LikeButton = ({ post }) => {
     if (isAuth) {
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
+          console.log("unlike", res.data);
+          setLikes_count(res.data.likeCount);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
@@ -104,6 +127,16 @@ const LikeButton = ({ post }) => {
               likes: newLikes,
             },
           });
+          // update postData in PostDetails Page
+          if (postData) {
+            setPostData(res.data);
+          }
+          // update likes in PostDetails page
+          if (likes) {
+            let newLikes = [...likes].filter((like)=> like.userName !== userData.user.credentials.userName)
+            setLikes(newLikes);
+            console.log('5555', newLikes)
+          }
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -159,7 +192,7 @@ const LikeButton = ({ post }) => {
         </div>
       )}
 
-      {post.likeCount === 0 ? "" : post.likeCount}
+      {likes_count === 0 ? "" : likes_count}
     </div>
   );
 };
