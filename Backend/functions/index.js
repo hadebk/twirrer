@@ -4,6 +4,10 @@ const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 
+// fix cross origin problem
+const cors = require('cors');
+app.use(cors); 
+
 const { db, admin } = require("./util/admin");
 
 // import operations of the routes
@@ -38,6 +42,8 @@ const {
 const firebaseAuth = require("./util/firebaseAuth");
 
 const defaultStorage = admin.storage();
+
+
 
 /**
  * ****************************************************************
