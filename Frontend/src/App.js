@@ -22,6 +22,7 @@ import AuthRoute from "./util/AuthRoute";
 
 // libraries
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 // context (global state)
 import ThemeContextProvider from "./context/ThemeContext";
@@ -32,9 +33,10 @@ import PostsContext from "./context/PostsContext";
 // api services
 import UserService from "./services/UserService";
 import PostService from "./services/PostService";
-import axios from "axios";
 
 // init axios
+
+//      https://cors-anywhere.herokuapp.com/
 axios.defaults.baseURL =
   "https://europe-west3-twirrer-app.cloudfunctions.net/api";
 

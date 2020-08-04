@@ -300,12 +300,12 @@ exports.uploadCoverImage = (req, res) => {
         db.doc(`/users/${req.user.userName}`).update({
           coverPicture: imageUrl,
         });
-        return imageUrl
+        return imageUrl;
       })
       .then((imageUrl) => {
         return res.json({
           message: "Cover picture uploaded successfully",
-          imageURL: imageUrl
+          imageURL: imageUrl,
         });
       })
       .catch((err) => {
@@ -376,7 +376,7 @@ exports.uploadPostImage = (req, res) => {
           },
         },
       })
-      .then(() => { 
+      .then(() => {
         // Append token to url
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
         // override default profile picture with uploaded picture 'uploaded by user'
@@ -399,7 +399,7 @@ exports.uploadPostImage = (req, res) => {
  * add extra data to user record in db, (bio ,location, website)
  * ****************************************************************
  */
-exports.addUserDetails = (req, res) => { 
+exports.addUserDetails = (req, res) => {
   // data validation
   let userDetails = reduceUserDetails(req.body);
 
@@ -867,7 +867,7 @@ deleteNotificationOnUnFriend = (req, res) => {
  * to show them as suggestion friend to add
  * ****************************************************************
  */
-exports.usersToAdd = (req, res) => { 
+exports.usersToAdd = (req, res) => {
   let allUsers = [];
   let randomArr = [];
   db.collection("users")

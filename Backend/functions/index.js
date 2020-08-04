@@ -5,8 +5,10 @@ const express = require("express");
 const app = express();
 
 // fix cross origin problem
+// Automatically allow cross-origin requests
 const cors = require('cors');
-app.use(cors); 
+app.use(cors({origin:true}));
+
 
 const { db, admin } = require("./util/admin");
 
