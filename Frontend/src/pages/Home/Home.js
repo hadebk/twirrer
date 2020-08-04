@@ -54,33 +54,38 @@ const Home = () => {
   document.title = language.home.pageTitle;
 
   useEffect(() => {
-    setPostsLoading(true);
-    // get first batch of posts to show in home
-    PostService.postsFirstFetch()
-      .then((res) => {
-        console.log("home fetch----",res.data);
-        setKey(res.data.lastKey);
-        setPostsData(res.data.posts);
-        setPostsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-        setPostsLoading(false);
-      });
+    let mounted = true;
 
-    // get data of logged in user, and pass it to global state
-    let userToken = localStorage.getItem("auth-token");
-    if (userToken) {
-      UserService.getAuthenticatedUser(userToken)
+    if (mounted) {
+      setPostsLoading(true);
+      // get first batch of posts to show in home
+      PostService.postsFirstFetch()
         .then((res) => {
-          setUserData({
-            token: userToken,
-            user: res.data,
-            isAuth: true,
-          });
+          console.log("home fetch----", res.data);
+          setKey(res.data.lastKey);
+          setPostsData(res.data.posts);
+          setPostsLoading(false);
         })
-        .catch((err) => console.error("Error while get user data", err));
+        .catch((err) => {
+          console.log(err);
+          setPostsLoading(false);
+        });
+
+      // get data of logged in user, and pass it to global state
+      let userToken = localStorage.getItem("auth-token");
+      if (userToken) {
+        UserService.getAuthenticatedUser(userToken)
+          .then((res) => {
+            setUserData({
+              token: userToken,
+              user: res.data,
+              isAuth: true,
+            });
+          })
+          .catch((err) => console.error("Error while get user data", err));
+      }
     }
+    return () => mounted = false;
   }, []);
 
   /**

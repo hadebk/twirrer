@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, Fragment } from "react";
+import React, { useContext, useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 // style
@@ -25,17 +25,11 @@ const LikesModal = ({ postData, likes }) => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
   // local state
   const [isOpen, setOpen] = useState(false);
-
-  /*
-  useEffect(() => {
-    console.log("likes modal----");
-  }, [userData, setUserData]); // posts, userData
-  */
 
   // utils
   let closeModal = () => setOpen(false);

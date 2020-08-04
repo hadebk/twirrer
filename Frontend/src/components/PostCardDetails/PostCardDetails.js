@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 // style
@@ -11,7 +11,6 @@ import Default from "../../assets/Images/default_pp.png";
 import moment from "moment-twitter";
 import Linkify from "react-linkify";
 
-
 // component
 import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import CommentButton from "../../components/Buttons/CommentButton";
@@ -21,9 +20,7 @@ import LikesModal from "../../components/LikesModal/LikesModal";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
-import UserContext from "../../context/UserContext";
 import ImageModal from "../../components/ImageModal/ImageModal";
-import PostsContext from "../../context/PostsContext";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
@@ -35,17 +32,9 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
-
-  // user context
-  const { userData } = useContext(UserContext); 
-
-  // posts context
-  const { posts } = useContext(PostsContext);
   // ******* end global state *******//
 
   var arabic = /[\u0600-\u06FF]/;
-
-  /*useEffect(() => {}, [posts, userData]);*/
 
   return (
     <div
@@ -86,7 +75,6 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
               }}
               className='postDetails__post__header__col2__time'
             >
-              {/*dayjs(postData.createdAt).fromNow(true)*/}
               {moment(postData.createdAt).twitterShort()}
             </span>
           </div>
@@ -113,7 +101,7 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
             className='postDetails__post__content__line3'
             style={{
               color: theme.typoSecondary,
-              border: `1px solid ${theme.border}`
+              border: `1px solid ${theme.border}`,
             }}
             onClick={(event) => {
               event.stopPropagation();
@@ -153,23 +141,6 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
             </span>
           </div>
           <LikesModal likes={likes} postData={postData} />
-          {/*<div className='postDetails__post__content__counters__likes'>
-                <span
-                  className='postDetails__post__content__counters__numbers'
-                  style={{
-                    color: `${theme.typoMain}`,
-                  }}
-                >
-                  {postData.likeCount}
-                </span>
-                <span
-                  style={{
-                    color: `${theme.typoSecondary}`,
-                  }}
-                >
-                  {language.postDetails.likes}
-                </span>
-                </div>*/}
         </div>
         <div
           className='postDetails__post__content__line4'
@@ -178,7 +149,13 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
           }}
         >
           <CommentButton post={postData} />
-          <LikeButton post={postData} postData={postData} likes={likes} setPostData={setPostData} setLikes={setLikes}/>
+          <LikeButton
+            post={postData}
+            postData={postData}
+            likes={likes}
+            setPostData={setPostData}
+            setLikes={setLikes}
+          />
         </div>
       </div>
     </div>

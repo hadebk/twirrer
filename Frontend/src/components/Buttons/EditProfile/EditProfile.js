@@ -34,6 +34,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
   const [bio, setBio] = useState('');
   const [location, setLocation] = useState('');
   const [website, setWebsite] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     setBio(userProfileData.user.bio ? userProfileData.user.bio : '');
@@ -48,6 +49,8 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
   let openModal = () => setOpen(true);
 
   let saveAndClose = () => {
+    
+    setLoading(true);
 
     let extraData = {
       bio,
@@ -58,7 +61,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
     // send data to server
     UserService.addUserDetails(extraData, userData.token)
       .then((res) => {
-        console.log("ressss", res.data);
+        console.log("res", res.data);
       })
       .then(() => {
         console.log(extraData);
@@ -73,11 +76,13 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
             website: extraData.website,
           },
         });
+        setLoading(false);
       })
       .then(() => setOpen(false))
       .catch((err) => {
-        console.log("errrr", err.response.data);
+        console.log("err", err);
         setOpen(false);
+        setLoading(false);
       });
   };
 
@@ -140,13 +145,16 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
               color: "#fff",
               backgroundColor: theme.mainColor,
               borderRadius: variables.radius,
+              opacity: isLoading ? 0.6 : 1,
             }}
             onClick={() => {
-              console.log("saved");
               saveAndClose();
             }}
+            disabled={isLoading}
           >
-            {language.userProfile.modalSaveButton}
+            {isLoading
+              ? language.userProfile.modalSaveButtonLoading
+              : language.userProfile.modalSaveButton}
           </button>
         </Modal.Header>
         <Modal.Body

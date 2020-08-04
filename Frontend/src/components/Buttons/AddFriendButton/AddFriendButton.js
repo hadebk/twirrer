@@ -15,7 +15,7 @@ import { LanguageContext } from "../../../context/LanguageContext";
 
 const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
   // ******* start global state *******//
-  // theme context 
+  // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
@@ -51,8 +51,8 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
     if (userName) {
       UserService.addFriend(userName, userData.token)
         .then((res) => {
-            console.log("added", res.data);
-            return res
+          console.log("added", res.data);
+          return res;
         })
         .then((res) => {
           // update state in UserProfile to show the change immediately
@@ -133,8 +133,8 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
   return friendStatus ? (
     <button
       style={{
-        color: '#fff',
-        backgroundColor:theme.error,
+        color: "#fff",
+        backgroundColor: theme.error,
         borderRadius: variables.radius,
       }}
       onClick={unFriend}

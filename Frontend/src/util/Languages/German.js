@@ -64,6 +64,7 @@ export default {
     deleteFriendButton: "Freund löschen",
     modalTitle: "Profil bearbeiten",
     modalSaveButton: "Speichern",
+    modalSaveButtonLoading: "Wird geladen..",
     modalBioLabel: "Biografie",
     modalLocationLabel: "Standort",
     modalWebsiteLabel: "Website",
@@ -82,5 +83,8 @@ export default {
     commentHint: "kommentierte Ihren Tweet",
     addFriendHint: "Hinzugefügt Sie als Freund",
     emptyHint: "Sie haben noch keine Mitteilungen",
+  },
+  page404: {
+    hint: "Leider existiert diese Seite nicht.",
   },
 };
