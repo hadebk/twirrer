@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 
 // style
 import "./PostDetails.scss";
@@ -17,6 +17,7 @@ import PostService from "../../services/PostService";
 import CommentCard from "../../components/CommentCard/CommentCard";
 import AddComment from "../../components/AddComment/AddComment";
 import PostCardDetails from "../../components/PostCardDetails/PostCardDetails";
+import Spinner from "../../components/Spinner/Spinner";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -121,53 +122,58 @@ const PostDetails = (props) => {
           {language.postDetails.title}
         </h1>
       </div>
-      <div className='postDetails'>
-        {/*{loading ? (
-          <div className='spinner'>
-            <Spinner />
-          </div>
-        ) : (*/}
-        <PostCardDetails
-          postData={postData}
-          setPostData={setPostData}
-          likes={likes}
-          setLikes={setLikes}
-        />
-        {/* )}*/}
-      </div>
-      {userData.isAuth ? (
-        <AddComment
-          postId={postId}
-          comments={comments}
-          setComments={setComments}
-          postData={postData}
-          setPostData={setPostData}
-        />
+      {loading ? (
+        <Spinner />
       ) : (
-        ""
-      )}
-      <div className='postComments'>
-        {comments.length > 0 ? (
-          [...comments].map((comment) => (
-            <CommentCard
-              comment={comment}
-              authorName={postData.userName}
-              key={comment.createdAt}
+        <Fragment>
+          {/* post data */}
+          <div className='postDetails'>
+            <PostCardDetails
+              postData={postData}
+              setPostData={setPostData}
+              likes={likes}
+              setLikes={setLikes}
             />
-          ))
-        ) : (
-          <div className='postComments__empty'>
-            <img src={Empty} alt='empty' />
-            <p
-              style={{
-                color: `${theme.typoSecondary}`,
-              }}
-            >
-              {language.postDetails.noCommentHint}
-            </p>
           </div>
-        )}
-      </div>
+
+          {/* add comment input */}
+          {userData.isAuth ? (
+            <AddComment
+              postId={postId}
+              comments={comments}
+              setComments={setComments}
+              postData={postData}
+              setPostData={setPostData}
+            />
+          ) : (
+            ""
+          )}
+
+          {/* comments */}
+          <div className='postComments'>
+            {comments.length > 0 ? (
+              [...comments].map((comment) => (
+                <CommentCard
+                  comment={comment}
+                  authorName={postData.userName}
+                  key={comment.createdAt}
+                />
+              ))
+            ) : (
+              <div className='postComments__empty'>
+                <img src={Empty} alt='empty' />
+                <p
+                  style={{
+                    color: `${theme.typoSecondary}`,
+                  }}
+                >
+                  {language.postDetails.noCommentHint}
+                </p>
+              </div>
+            )}
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 };

@@ -155,7 +155,7 @@ const Home = () => {
             className='home-box__addNewPostWrapper'
             style={{ borderBottom: `10px solid  ${theme.addPostBorder}` }}
           >
-            <AddNewPost inputId='staticPart' />
+            <AddNewPost inputId='staticPart' setOpen={false}/>
           </div>
         ) : (
           ""

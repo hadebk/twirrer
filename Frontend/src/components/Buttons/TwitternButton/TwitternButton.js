@@ -5,7 +5,6 @@ import "./TwitternButton.scss";
 // Global vars import
 import variables from "../../../style/CssVariables.scss";
 
-
 // api service
 import PostService from "../../../services/PostService";
 
@@ -20,6 +19,7 @@ const TwitternButton = ({
   setTextarea,
   imageStatus,
   setImageStatus,
+  setOpen,
 }) => {
   // ******* start global state *******//
   // theme context
@@ -75,10 +75,18 @@ const TwitternButton = ({
             image: "",
           });
           setLoading(false);
+          // close the modal
+          if (setOpen) {
+            setOpen(false);
+          }
         })
         .catch((err) => {
           console.log(err);
           setLoading(false);
+          // close the modal
+          if (setOpen) {
+            setOpen(false);
+          }
         });
       ///////////////////////////////////////////////////////////////////
     } else if (imageStatus.select && textarea.value.trim().length === 0) {
@@ -124,15 +132,27 @@ const TwitternButton = ({
                   image: "",
                 });
                 setLoading(false);
+                // close the modal
+                if (setOpen) {
+                  setOpen(false);
+                }
               })
               .catch((err) => {
                 console.log("post-err", err);
                 setLoading(false);
+                // close the modal
+                if (setOpen) {
+                  setOpen(false);
+                }
               });
           })
           .catch((err) => {
             console.log("image-err", err);
             setLoading(false);
+            // close the modal
+            if (setOpen) {
+              setOpen(false);
+            }
           });
       }
       /////////////////////////////////////////////////////////////////
@@ -179,15 +199,27 @@ const TwitternButton = ({
                   image: "",
                 });
                 setLoading(false);
+                // close the modal
+                if (setOpen) {
+                  setOpen(false);
+                }
               })
               .catch((err) => {
                 console.log("post-err", err);
                 setLoading(false);
+                // close the modal
+                if (setOpen) {
+                  setOpen(false);
+                }
               });
           })
           .catch((err) => {
             console.log("image-err", err);
             setLoading(false);
+            // close the modal
+            if (setOpen) {
+              setOpen(false);
+            }
           });
       }
     }

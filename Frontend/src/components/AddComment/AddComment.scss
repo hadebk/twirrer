@@ -50,6 +50,10 @@
       &:focus {
         outline: 0;
       }
+
+      &::placeholder {
+          color: #8899A6
+        }
     }
   }
 

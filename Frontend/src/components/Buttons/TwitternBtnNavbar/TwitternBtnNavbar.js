@@ -84,7 +84,7 @@ const TwitternBtnNavbar = () => {
             background: theme.background,
           }}
         >
-          <AddNewPost inputId='modalPart' />
+          <AddNewPost inputId='modalPart' setOpen={setOpen}/>
         </Modal.Body>
       </Modal>
     </Fragment>

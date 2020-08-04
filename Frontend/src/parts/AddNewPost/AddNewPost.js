@@ -15,7 +15,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
-const AddNewPost = ({inputId}) => {
+const AddNewPost = ({inputId, setOpen}) => {
   // ******* start global state ******* //
 
   // theme context
@@ -184,6 +184,7 @@ const AddNewPost = ({inputId}) => {
               setTextarea={setTextarea}
               imageStatus={imageStatus}
               setImageStatus={setImageStatus}
+              setOpen={setOpen}
             />
           </div>
         </div>

@@ -87,7 +87,7 @@ function App() {
                 });
               })
               .catch((error) => {
-                console.log("Strange Token!", error.response.data.code);
+                console.log("Strange Token!", error.response.data.code ? error.response.data.code : error);
               });
           }
         }
