@@ -72,7 +72,7 @@ const UserProfile = (props) => {
         setProfileLoader(false);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
         setProfileLoader(false);
       });
   }, [props.match.params.userName]);
@@ -205,7 +205,9 @@ const UserProfile = (props) => {
           >
             <CheckVerifiedUserName userName={props.match.params.userName} />
           </h2>
-          <p>{userProfileData.posts.length} tweets</p>
+          <p style={{
+              color: `${theme.typoSecondary}`,
+            }}>{userProfileData.posts.length} tweets</p>
         </div>
       </div>
       {/* user details section */}

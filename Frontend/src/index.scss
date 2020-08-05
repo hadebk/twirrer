@@ -1,11 +1,11 @@
 //-------- css reset ---------//
 @import "./style/css_resets/normalize.scss";
 @import "./style/css_resets/reset.local.scss";
-@import "./style/css_resets/typography.scss";
 
 .App{
     display: flex;
     flex-direction: row;
-    color: #999;
     min-height: 100vh;
+    font-family: system-ui, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
