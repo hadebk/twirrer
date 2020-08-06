@@ -7,7 +7,6 @@
 }
 a {
   text-decoration: none;
-  color: inherit;
   cursor: pointer;
 }
 button {
@@ -62,4 +61,12 @@ fieldset {
 // delete default box-shadow "red" for input if it was invalid or require and have no value, in firefox browser
 input:invalid {
   box-shadow: none;
+}
+
+textarea,
+input[type="text"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance: none;
 }

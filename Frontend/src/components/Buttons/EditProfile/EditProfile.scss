@@ -29,7 +29,7 @@
     justify-content: space-between;
     padding-top: 10px;
     padding-bottom: 10px;
-    align-items: flex-end;
+    align-items: center !important;
     border-top-left-radius: 20px !important;
     border-top-right-radius: 20px !important;
 
@@ -70,10 +70,11 @@
     }
 
     &__saveButton {
-      font-size: 14px;
-      font-weight: bold;
-      height: 28px;
       padding: 0 14px;
+    height: 37px;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
 
       &:focus {
         outline: 0;
@@ -85,7 +86,7 @@
 @media only screen and (max-width: 500px) {
   // mobile screen
   .modal-dialog {
-    margin: 0 0 49px 0 !important;
+    margin: 0 !important;
 
     .modal-content {
       min-height: 100vh;

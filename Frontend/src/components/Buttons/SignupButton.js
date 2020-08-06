@@ -26,7 +26,7 @@ const SignupButton = () => {
         borderRadius: variables.radius,
         backgroundColor: theme.mainColor,
         textAlign: "center",
-        height: "30px",
+        padding: '5px 0',
         width: "45%",
       }}
     >

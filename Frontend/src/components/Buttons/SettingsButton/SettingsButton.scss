@@ -46,6 +46,7 @@
     &__title {
       font-size: 19px;
       font-weight: 800;
+      margin-bottom: 10px;
     }
   }
 
@@ -89,13 +90,15 @@
       text-align: center;
 
       button {
-        padding: 5px 20px;
         border-radius: $radius;
         color: #fff;
-        font-size: 15px;
-        height: 40px;
+        font-size: 14px;
+        padding: 0px 14px;
+        height: 37px;
+        font-weight: bold;
+        white-space: nowrap;
 
-        &:focus{
+        &:focus {
           outline: 0;
         }
       }

@@ -69,6 +69,10 @@
 }
 
 @media only screen and (max-width: 500px) {
+  .modal-dialog {
+    margin: 0 !important;
+    }
+    
   .modal-content {
     .modal-body {
       border-bottom-left-radius: 0 !important;

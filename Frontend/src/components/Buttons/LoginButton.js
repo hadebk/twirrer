@@ -20,7 +20,7 @@ const LoginButton = () => {
   var language = isEnglish ? english : german;
 
   // ******* end global state ******* //
-  
+
   return (
     <div
       className='loginButton'
@@ -28,7 +28,7 @@ const LoginButton = () => {
         borderRadius: variables.radius,
         border: `1px solid ${theme.mainColor}`,
         textAlign: "center",
-        height: "30px",
+        padding: "5px 0",
         width: "45%",
       }}
     >
@@ -40,7 +40,7 @@ const LoginButton = () => {
           textDecoration: "none",
           fontSize: "15px",
           fontWeight: "700",
-          width:'100%'
+          width: "100%",
         }}
       >
         {language.login.logInButton}
