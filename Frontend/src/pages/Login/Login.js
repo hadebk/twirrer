@@ -31,8 +31,8 @@ const Login = () => {
   // ******* end global state ******* //
 
   // local state
-  const [email, setEmail] = useState("twirrer@twirrer.com");
-  const [password, setPassword] = useState("@twirrer@");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setLoading] = useState(false);
 
