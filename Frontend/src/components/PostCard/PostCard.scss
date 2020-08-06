@@ -119,7 +119,7 @@
 
       i {
         font-size: 15px;
-        margin-right: 10px;
+        margin-right: 5px;
       }
 
       &__comment {
@@ -151,10 +151,13 @@
         &:hover > .like__box > .like__background {
           display: block;
         }
-        &:hover {
+        &:hover > .likesCount{
           color: $red !important;
           cursor: pointer;
         }
+        &:hover > .like__box > i {
+          color: $red !important;
+        } 
         .like__box {
           position: relative;
         }

@@ -37,7 +37,7 @@ export default {
   home: {
     pageTitle: "Home | Twirrer",
     title: "Home",
-    SettingsButton: "More",
+    SettingsButton: "More Tweets",
     bottomHint: "Cool, you are up to date",
     addPostPlaceholder: "What's new?",
     addPostButton: "Twittern",

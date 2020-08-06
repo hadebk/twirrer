@@ -10,7 +10,7 @@
   bottom: 0;
   z-index: 999999;
   border-radius: 15px;
-  min-width: 200px;
+  min-width: 250px;
   box-shadow: rgba(136, 153, 166, 0.2) 0px 0px 15px,
     rgba(136, 153, 166, 0.15) 0px 0px 3px 1px;
 
@@ -56,12 +56,16 @@
 
       tr td {
         padding: 10px 15px;
-        min-width: 100px;
+        min-width: 125px;
+
       }
     }
 
     .--title {
       font-size: 15px;
+      i{
+        margin-right: 10px;
+      }
     }
 
     .--choices {
@@ -95,8 +99,8 @@
         font-size: 14px;
         padding: 0px 14px;
         height: 37px;
-        font-weight: bold;
         white-space: nowrap;
+        padding-bottom: 3px;
 
         &:focus {
           outline: 0;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 
 // api service
@@ -90,7 +90,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
               userName: userData.user.credentials.userName,
             });
             setLikes(newLikes);
-            console.log('5555', newLikes)
+            console.log("5555", newLikes);
           }
         })
         .catch((err) => {
@@ -133,9 +133,11 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           }
           // update likes in PostDetails page
           if (likes) {
-            let newLikes = [...likes].filter((like)=> like.userName !== userData.user.credentials.userName)
+            let newLikes = [...likes].filter(
+              (like) => like.userName !== userData.user.credentials.userName
+            );
             setLikes(newLikes);
-            console.log('5555', newLikes)
+            console.log("5555", newLikes);
           }
         })
         .catch((err) => {
@@ -191,8 +193,9 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           ></div>
         </div>
       )}
-
-      {likes_count === 0 ? "" : likes_count}
+      <div className="likesCount" style={{ color: wasLiked ? theme.error : theme.mobileNavIcon }}>
+        {likes_count === 0 ? "" : likes_count}
+      </div>
     </div>
   );
 };

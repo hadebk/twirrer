@@ -38,7 +38,7 @@ import PostService from "./services/PostService";
 
 //      https://cors-anywhere.herokuapp.com/
 axios.defaults.baseURL =
-  "https://cors-anywhere.herokuapp.com/https://europe-west3-twirrer-app.cloudfunctions.net/api";
+  "https://europe-west3-twirrer-app.cloudfunctions.net/api";
 
 function App() {
   // start global state //

@@ -93,6 +93,7 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
+                  <i class="fal fa-palette" style={{ color: theme.mainColor }}></i>
                   {language.SettingsButton.theme}
                 </td>
                 <td className='--choices'>
@@ -127,6 +128,7 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
+                  <i class="fal fa-globe" style={{color:theme.mainColor}}></i>
                   {language.SettingsButton.language}
                 </td>
                 <td className='--choices'>
@@ -139,6 +141,7 @@ const SettingsButton = ({ className, color }) => {
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
                         opacity: isEnglish ? ".5" : "1",
+                        
                       }}
                     />
                   </div>
