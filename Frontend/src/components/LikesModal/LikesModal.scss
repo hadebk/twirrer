@@ -4,6 +4,7 @@
   &:hover {
     cursor: pointer;
     text-decoration: underline;
+    color: inherit;
   } 
 }
 
@@ -38,13 +39,29 @@
       }
 
       &__userName {
-        font-size: 15px;
-        font-weight: 700;
-        width:  calc(100% - 60px);
+        width: calc(100% - 60px);
+        overflow: hidden;
+
+        a {
+          font-size: 15px;
+          font-weight: bold;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
           margin-right: 5px;
+          display: block;
+        }
+
+        p {
+          font-size: 15px;
+          font-weight: 400;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1;
+          margin: 0;
+          margin-right: 5px;
+        }
       }
     }
   }
@@ -126,7 +143,7 @@
 }
 
 @media only screen and (max-width: 500px) {
-  // mobile screen
+  // mobile screen 
   .modal-dialog {
     margin: 0 !important;
 

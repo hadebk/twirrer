@@ -27,12 +27,11 @@ const DeletePostButton = ({ post }) => {
   const delete_post = (id, token) => {
     PostService.deletePost(id, token)
       .then((res) => {
-        console.log("delete response", res.data.message);
         let newPosts = posts.filter((pos) => pos.postId !== post.postId);
         setPostsData(newPosts);
       })
       .catch((err) => {
-        console.log("delete error", err);
+        console.log(err);
       });
   };
 

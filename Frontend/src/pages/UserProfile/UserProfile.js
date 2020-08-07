@@ -11,6 +11,7 @@ import DefaultCover from "../../assets/Images/default_cp.png";
 
 // libraries
 import dayjs from "dayjs";
+import Linkify from "react-linkify";
 
 // api service
 import UserService from "../../services/UserService";
@@ -59,22 +60,25 @@ const UserProfile = (props) => {
 
   const [profileLoader, setProfileLoader] = useState(false);
 
+  // set page title
   document.title = language.userProfile.pageTitle;
 
   // history init
   const history = useHistory();
+
   useEffect(() => {
     setProfileLoader(true);
-    UserService.getUserDetails(props.match.params.userName)
-      .then((res) => {
-        console.log("userDetails---", res.data);
-        setUserProfileData(res.data);
-        setProfileLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setProfileLoader(false);
-      });
+    if (props.match.params.userName) {
+      UserService.getUserDetails(props.match.params.userName)
+        .then((res) => {
+          setUserProfileData(res.data);
+          setProfileLoader(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setProfileLoader(false);
+        });
+    }
   }, [props.match.params.userName]);
 
   useEffect(() => {}, [userData.isAuth, setUserProfileData, posts]);
@@ -205,9 +209,13 @@ const UserProfile = (props) => {
           >
             <CheckVerifiedUserName userName={props.match.params.userName} />
           </h2>
-          <p style={{
+          <p
+            style={{
               color: `${theme.typoSecondary}`,
-            }}>{userProfileData.posts.length} tweets</p>
+            }}
+          >
+            {userProfileData.posts.length} tweets
+          </p>
         </div>
       </div>
       {/* user details section */}
@@ -284,7 +292,7 @@ const UserProfile = (props) => {
             </div>
             <div className='userProfile__main__userDetails__userData__bio'>
               <p style={{ color: theme.typoMain }}>
-                {userProfileData.user.bio}
+                <Linkify>{userProfileData.user.bio}</Linkify>
               </p>
             </div>
             <div className='userProfile__main__userDetails__userData__extraData'>

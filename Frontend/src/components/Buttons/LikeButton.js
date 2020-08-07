@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, Fragment } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // api service
@@ -43,8 +43,6 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           setLikeStatus(true);
         }
       });
-    } else {
-      console.log("likeButton-useEffect-isAuth=false");
     }
   }, [userData.isAuth, post.postId]);
 
@@ -52,7 +50,6 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
     if (isAuth) {
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
-          console.log("like", res.data);
           setLikes_count(res.data.likeCount);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
@@ -90,7 +87,6 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
               userName: userData.user.credentials.userName,
             });
             setLikes(newLikes);
-            console.log("5555", newLikes);
           }
         })
         .catch((err) => {
@@ -105,7 +101,6 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
     if (isAuth) {
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
-          console.log("unlike", res.data);
           setLikes_count(res.data.likeCount);
           // update post in posts (in global state) array
           posts.map((pos, index) => {
@@ -137,7 +132,6 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
               (like) => like.userName !== userData.user.credentials.userName
             );
             setLikes(newLikes);
-            console.log("5555", newLikes);
           }
         })
         .catch((err) => {
@@ -193,7 +187,10 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           ></div>
         </div>
       )}
-      <div className="likesCount" style={{ color: wasLiked ? theme.error : theme.mobileNavIcon }}>
+      <div
+        className='likesCount'
+        style={{ color: wasLiked ? theme.error : theme.mobileNavIcon }}
+      >
         {likes_count === 0 ? "" : likes_count}
       </div>
     </div>

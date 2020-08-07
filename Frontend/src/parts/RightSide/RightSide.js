@@ -6,6 +6,8 @@ import "./RightSide.scss";
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
+
+// libraries
 import WhoToAdd from "../WhoToAdd/WhoToAdd";
 import JoinTwirrer from "../JoinTwirrer/JoinTwirrer";
 import CurrentUser from "../CurrentUser/CurrentUser";
@@ -21,7 +23,8 @@ const RightSide = () => {
   const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
-  useEffect(() => {}, [userData.isAuth]);
+  useEffect(() => { }, [userData.isAuth]);
+  
   return (
     <div className='rightSide'>
       <div

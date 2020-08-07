@@ -27,7 +27,7 @@
 
   &__inputBox {
     width: 100%;
-    margin-right: 10px;
+    margin-right: 5px;
     ::-webkit-scrollbar {
       width: 0px; /* Remove scrollbar space */
       background: transparent; /* Optional: just make scrollbar invisible */
@@ -65,10 +65,7 @@
       }
     }
     .send {
-      background: $mainColor;
-      color: #fff;
       font-size: 20px;
-      border-radius: 50%;
       text-align: center;
       vertical-align: middle;
       padding: 7px;

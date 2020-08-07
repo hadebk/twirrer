@@ -8,12 +8,13 @@ import variables from "../../../style/CssVariables.scss";
 // api service
 import UserService from "../../../services/UserService";
 
+// libraries
+import { Modal } from "react-bootstrap";
+
 // context (global state)
 import UserContext from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
-
-import { Modal } from "react-bootstrap";
 
 const EditProfile = ({ userProfileData, setUserProfileData }) => {
   // ******* start global state *******//
@@ -42,8 +43,6 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
     setWebsite(userProfileData.user.website ? userProfileData.user.website : '');
   }, [userProfileData]);
 
-  
-  // utils
   let closeModal = () => setOpen(false);
 
   let openModal = () => setOpen(true);
@@ -60,11 +59,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
 
     // send data to server
     UserService.addUserDetails(extraData, userData.token)
-      .then((res) => {
-        console.log("res", res.data);
-      })
       .then(() => {
-        console.log(extraData);
         // update state to show new user details
         setUserProfileData({
           friends: userProfileData.friends,
@@ -80,7 +75,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
       })
       .then(() => setOpen(false))
       .catch((err) => {
-        console.log("err", err);
+        console.log(err);
         setOpen(false);
         setLoading(false);
       });

@@ -40,18 +40,14 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
           setFriendStatus(true);
         }
       });
-    } else {
-      console.log("added-notAuth");
     }
   }, [userData.isAuth, userName, setFriendStatus]);
 
   // add friend
   const addFriend = () => {
-    console.log("added");
     if (userName) {
       UserService.addFriend(userName, userData.token)
         .then((res) => {
-          console.log("added", res.data);
           return res;
         })
         .then((res) => {
@@ -85,19 +81,15 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
         })
         .then(() => setFriendStatus(true))
         .catch((err) => {
-          console.log("added", err);
+          console.log(err);
         });
     }
   };
 
   // delete friend
   const unFriend = () => {
-    console.log("delete");
     if (userName) {
       UserService.unFriend(userName, userData.token)
-        .then((res) => {
-          return console.log("deleted", res.data);
-        })
         .then(() => {
           // update state in UserProfile to show the change immediately
           if (userProfileData) {
@@ -125,7 +117,7 @@ const AddFriendButton = ({ userName, userProfileData, setUserProfileData }) => {
         })
         .then(() => setFriendStatus(false))
         .catch((err) => {
-          console.log("added", err);
+          console.log(err);
         });
     }
   };

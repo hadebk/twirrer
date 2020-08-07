@@ -51,6 +51,7 @@ const Home = () => {
   // history init
   const history = useHistory();
 
+  // set page title
   document.title = language.home.pageTitle;
 
   useEffect(() => {
@@ -61,7 +62,6 @@ const Home = () => {
       // get first batch of posts to show in home
       PostService.postsFirstFetch()
         .then((res) => {
-          console.log("home fetch----", res.data);
           setKey(res.data.lastKey);
           setPostsData(res.data.posts);
           setPostsLoading(false);
@@ -104,8 +104,6 @@ const Home = () => {
           // of course we need all posts to be shown.
           setPostsData(posts.concat(res.data.posts));
           setNextPostsLoading(false);
-          console.log(res.data);
-          console.log("key", lastKey);
         })
         .catch((err) => {
           console.log(err.response.data);

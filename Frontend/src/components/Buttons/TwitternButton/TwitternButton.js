@@ -46,7 +46,6 @@ const TwitternButton = ({
   const sharePost = () => {
     if (textarea.value.trim().length > 0 && !imageStatus.select) {
       // post with text only
-      console.log("post with text only");
       setLoading(true);
       let post = {
         postContent: textarea.value.trim(),
@@ -54,7 +53,6 @@ const TwitternButton = ({
       };
       PostService.addNewPost(post, userData.token)
         .then((res) => {
-          console.log("posted", res.data);
           return res;
         })
         .then((res) => {
@@ -91,7 +89,6 @@ const TwitternButton = ({
       ///////////////////////////////////////////////////////////////////
     } else if (imageStatus.select && textarea.value.trim().length === 0) {
       // post with image only
-      console.log("post with image only");
       setLoading(true);
       const formData = new FormData();
       if (imageStatus.image.name) {
@@ -99,7 +96,6 @@ const TwitternButton = ({
         // 1- upload image to server and get url
         PostService.uploadPostImage(formData, userData.token)
           .then((res) => {
-            console.log("image-res", res.data.postImage);
             let url = res.data.postImage;
             return url;
           })
@@ -111,7 +107,6 @@ const TwitternButton = ({
             };
             PostService.addNewPost(post, userData.token)
               .then((res) => {
-                console.log("post-res", res.data);
                 return res;
               })
               .then((res) => {
@@ -138,7 +133,7 @@ const TwitternButton = ({
                 }
               })
               .catch((err) => {
-                console.log("post-err", err);
+                console.log(err);
                 setLoading(false);
                 // close the modal
                 if (setOpen) {
@@ -147,7 +142,7 @@ const TwitternButton = ({
               });
           })
           .catch((err) => {
-            console.log("image-err", err);
+            console.log(err);
             setLoading(false);
             // close the modal
             if (setOpen) {
@@ -158,7 +153,6 @@ const TwitternButton = ({
       /////////////////////////////////////////////////////////////////
     } else if (imageStatus.select && textarea.value.trim().length > 0) {
       // post with image & text
-      console.log("post with image & text");
       setLoading(true);
       const formData = new FormData();
       if (imageStatus.image.name) {
@@ -166,7 +160,6 @@ const TwitternButton = ({
         // 1- upload image to server and get url
         PostService.uploadPostImage(formData, userData.token)
           .then((res) => {
-            console.log("image-res", res.data.postImage);
             let url = res.data.postImage;
             return url;
           })
@@ -178,7 +171,6 @@ const TwitternButton = ({
             };
             PostService.addNewPost(post, userData.token)
               .then((res) => {
-                console.log("post-res", res.data);
                 return res;
               })
               .then((res) => {
@@ -205,7 +197,7 @@ const TwitternButton = ({
                 }
               })
               .catch((err) => {
-                console.log("post-err", err);
+                console.log( err);
                 setLoading(false);
                 // close the modal
                 if (setOpen) {
@@ -214,7 +206,7 @@ const TwitternButton = ({
               });
           })
           .catch((err) => {
-            console.log("image-err", err);
+            console.log(err);
             setLoading(false);
             // close the modal
             if (setOpen) {

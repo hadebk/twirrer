@@ -18,20 +18,19 @@
     &__user {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: flex-start;
       padding: 10px;
 
       &__leftSide {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        width:  calc(100% - 155px);
+        /*width: calc(100% - 155px);*/
 
         &__userImageBox {
           width: 50px;
           height: 50px;
           min-width: 50px;
+          max-width: 50px;
           border-radius: 50%;
           margin-right: 10px;
 
@@ -42,15 +41,48 @@
             object-fit: cover;
           }
         }
+      }
 
-        &__userName {
+      &__rightSide {
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+        &__line1 {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          &__userName {
+            &:hover > p {
+              text-decoration: none;
+              text-underline-position: under;
+            }
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            font-size: 15px;
+            margin-right: 5px;
+
+            &__subName {
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              font-weight: 400;
+              line-height: 1;
+              font-size: 15px;
+              margin: 0;
+              margin-right: 5px;
+            }
+          }
+        }
+
+        &__line2 {
           font-size: 15px;
-          font-weight: 700;
-          width:  calc(100% - 60px);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          margin-right: 5px;
+          margin-top: 5px;
         }
       }
     }

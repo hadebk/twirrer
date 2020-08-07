@@ -6,10 +6,6 @@ import "./PostDetails.scss";
 // assets
 import Empty from "../../assets/Images/empty.svg";
 
-// libraries
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-
 // api service
 import PostService from "../../services/PostService";
 
@@ -23,7 +19,6 @@ import Spinner from "../../components/Spinner/Spinner";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
 
 const PostDetails = (props) => {
   // ******* start global state *******//
@@ -37,27 +32,25 @@ const PostDetails = (props) => {
 
   // user context
   const { userData } = useContext(UserContext);
-
-  // posts context
-  const { posts } = useContext(PostsContext);
   // ******* end global state *******//
 
   //local state
-  const [postId, setPostId] = useState(props.match.params.postId);
+  const [postId, setPostId] = useState(props.match.params.postId ? props.match.params.postId : '');
   const [postData, setPostData] = useState([]);
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // set page title
   document.title = language.postDetails.pageTitle;
 
   useEffect(() => {
+    setPostId(props.match.params.postId);
     setLoading(true);
-    if (postId) {
+    if (props.match.params.postId) {
       // get all details of current post
-      PostService.getPostDetails(postId)
+      PostService.getPostDetails(props.match.params.postId)
         .then((res) => {
-          console.log("postDetails----");
           let result = res.data.post;
           result.postId = res.data.postId;
           setPostData(result);
@@ -70,20 +63,11 @@ const PostDetails = (props) => {
           setLoading(false);
         });
     }
-  }, [postId]);
-
-  /*
-  useEffect(() => {
-    console.log('PostDetails comments----');
-  }, [posts, userData.user, comments, setComments, postData])
-    */
+  }, [props.match.params.postId]);
 
   const goToBack = () => {
     props.history.goBack();
   };
-
-  // init
-  dayjs.extend(relativeTime);
 
   return (
     <div

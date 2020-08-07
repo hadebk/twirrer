@@ -24,6 +24,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
   // local state
   const [loading, setLoading] = useState(false);
 
+  // when select image, upload it direct to server
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
@@ -33,7 +34,6 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
       setLoading(true);
       UserService.uploadProfileImage(formData, userData.token)
         .then((res) => {
-          console.log("image-res", res.data);
           let url = res.data.imageURL;
           // update user data in UserProfile page (in state), to show new profile image
           let newPosts = userProfileData.posts.map((post) => {
@@ -52,7 +52,7 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
           return url
         })
         .then((url) => {
-          //TODO: update user image in global state also, in(setUserData)
+          // update user data in global context with new profile image
           setUserData({
             isAuth: userData.isAuth,
             token: userData.token,
@@ -67,11 +67,13 @@ const EditProfileImageButton = ({ userProfileData, setUserProfileData }) => {
         })
         .then(() => setLoading(false))
         .catch((err) => {
-          console.log("image-err", err);
+          console.log(err);
           setLoading(false);
         });
     }
   };
+
+   // on click, fire 'click event' of input (type file)
   const handleEditPicture = () => {
     const fileInput = document.getElementById("profileImageInput");
     fileInput.click();

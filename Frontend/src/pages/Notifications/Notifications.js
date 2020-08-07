@@ -39,6 +39,7 @@ const Notifications = () => {
   // local state
   const [notifications, setNotifications] = useState([]);
 
+  // set page title
   document.title = language.notifications.pageTitle;
 
   useEffect(() => {
@@ -51,15 +52,14 @@ const Notifications = () => {
         userData.user.notifications
           .filter((not) => !not.read)
           .map((not) => not.notificationId);
-      console.log("unread", unreadNotificationsIds);
       UserService.markNotificationsAsRead(
         unreadNotificationsIds,
         userData.token
       )
         .then((res) => {
-          console.log("Not-", res.data);
+          console.log(res.data);
         })
-        .catch((err) => console.log("Not-", err));
+        .catch((err) => console.log(err));
     }
   }, [userData.isAuth]);
 
@@ -146,7 +146,7 @@ const Notifications = () => {
                   <div className='notificationsBox__Wrapper__singleNotBox__userImageBox'>
                     <div className='notificationsBox__Wrapper__singleNotBox__userImageBox__imageWrapper'>
                       <img
-                        alt='profile picture'
+                        alt='profile'
                         src={
                           Not.senderProfilePicture
                             ? Not.senderProfilePicture

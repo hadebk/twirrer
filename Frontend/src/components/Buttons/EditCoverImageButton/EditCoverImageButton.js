@@ -25,6 +25,7 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
   // local state
   const [loading, setLoading] = useState(false);
 
+  // on select new image, upload this image direct to server
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
@@ -34,7 +35,6 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
       setLoading(true);
       UserService.uploadCoverImage(formData, userData.token)
         .then((res) => {
-          console.log("image-res", res.data);
           let url = res.data.imageURL;
           // update user data in UserProfile page (in state), to show new profile image
 
@@ -49,15 +49,18 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
         })
         .then(() => setLoading(false))
         .catch((err) => {
-          console.log("image-err", err);
+          console.log(err);
           setLoading(false);
         });
     }
   };
+
+  // on click, fire 'click event' of input (type file)
   const handleEditPicture = () => {
     const fileInput = document.getElementById("coverImageInput");
     fileInput.click();
   };
+
   return loading ? (
     <div className='headerLoad'>
       <Spinner />

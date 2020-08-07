@@ -36,7 +36,10 @@ import PostService from "./services/PostService";
 
 // init axios
 
-//      https://cors-anywhere.herokuapp.com/
+/**
+ * To solve CROS origin problem:
+ *  use => https://cors-anywhere.herokuapp.com/{YOUR_API_URL}
+ */
 axios.defaults.baseURL =
   "https://europe-west3-twirrer-app.cloudfunctions.net/api";
 

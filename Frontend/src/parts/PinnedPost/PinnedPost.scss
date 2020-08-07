@@ -7,6 +7,10 @@
   padding: 10px 10px 0;
   cursor: pointer;
 
+  .loader__box{
+    margin: 0 auto;
+  }
+
   &__userImage {
     &__wrapper {
       width: 50px;

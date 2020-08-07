@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { useHistory } from "react-router-dom";
 
 // style file
@@ -23,6 +23,7 @@ import { LanguageContext } from "../../context/LanguageContext";
 import LikeButton from "../../components/Buttons/LikeButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
+import Spinner from "../../components/Spinner/Spinner";
 
 const PinnedPost = () => {
   // ******* start global state ******* //
@@ -46,12 +47,11 @@ const PinnedPost = () => {
     setPinnedPostLoad(true);
     PostService.PinnedPost()
       .then((res) => {
-        console.log("pined post: ", res.data);
         setPinnedPost(res.data);
         setPinnedPostLoad(false);
       })
       .catch((err) => {
-        console.log("pined post: ", err);
+        console.log(err);
         setPinnedPostLoad(false);
       });
   }, []);
@@ -89,89 +89,104 @@ const PinnedPost = () => {
       onMouseLeave={() => toggleHover()}
       onClick={() => toPostDetails(PinnedPost.postId)}
     >
-      <div className='PinnedPostCard__userImage'>
-        <div className='PinnedPostCard__userImage__wrapper'>
-          <img
-            className='PinnedPostCard__userImage__wrapper__image'
-            src={
-              PinnedPost.profilePicture ? PinnedPost.profilePicture : Default_pp
-            }
-            alt='profile'
-          />
-        </div>
-      </div>
-      <div className='PinnedPostCard__content'>
-        <div className='PinnedPostCard__content__line1'>
-          <div className='PinnedPostCard__content__line1__box'>
-            <span
+      {PinnedPostLoad ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <div className='PinnedPostCard__userImage'>
+            <div className='PinnedPostCard__userImage__wrapper'>
+              <img
+                className='PinnedPostCard__userImage__wrapper__image'
+                src={
+                  PinnedPost.profilePicture
+                    ? PinnedPost.profilePicture
+                    : Default_pp
+                }
+                alt='profile'
+              />
+            </div>
+          </div>
+          <div className='PinnedPostCard__content'>
+            <div className='PinnedPostCard__content__line1'>
+              <div className='PinnedPostCard__content__line1__box'>
+                <span
+                  style={{
+                    color: theme.typoMain,
+                    direction: `${
+                      arabic.test(PinnedPost.userName) ? "rtl" : "ltr"
+                    }`,
+                  }}
+                  className='PinnedPostCard__content__line1__userName'
+                >
+                  <CheckVerifiedUserName userName={PinnedPost.userName} />
+                </span>
+                <span
+                  style={{
+                    color: theme.mobileNavIcon,
+                  }}
+                  className='PinnedPostCard__content__line1__time'
+                >
+                  {/*" · " + dayjs(PinnedPost.createdAt).fromNow(true)*/}
+                  {moment(PinnedPost.createdAt).twitterShort()}
+                </span>
+              </div>
+              <div className='PinnedPostCard__content__line1__delete'>
+                <i
+                  className='fas fa-thumbtack'
+                  style={{ color: theme.mobileNavIcon }}
+                ></i>
+              </div>
+            </div>
+            <div className='PinnedPostCard__content__pinnedHint'>
+              <span style={{ color: theme.typoSecondary }}>
+                {language.home.pinnedPost}
+              </span>
+            </div>
+            <div
+              className='PinnedPostCard__content__line2'
               style={{
                 color: theme.typoMain,
+                textAlign: `${
+                  arabic.test(PinnedPost.postContent) ? "right" : "left"
+                }`,
                 direction: `${
-                  arabic.test(PinnedPost.userName) ? "rtl" : "ltr"
+                  arabic.test(PinnedPost.postContent) ? "rtl" : "ltr"
                 }`,
               }}
-              className='PinnedPostCard__content__line1__userName'
             >
-              <CheckVerifiedUserName userName={PinnedPost.userName} />
-            </span>
-            <span
+              <Linkify>{PinnedPost.postContent}</Linkify>
+            </div>
+            {PinnedPost.postImage ? (
+              <div
+                className='PinnedPostCard__content__line3'
+                style={{
+                  color: theme.mobileNavIcon,
+                }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+              >
+                <ImageModal
+                  imageUrl={PinnedPost.postImage}
+                  className='PinnedPostCard__content__line3__image'
+                />
+              </div>
+            ) : (
+              ""
+            )}
+
+            <div
+              className='PinnedPostCard__content__line4'
               style={{
                 color: theme.mobileNavIcon,
               }}
-              className='PinnedPostCard__content__line1__time'
             >
-              {/*" · " + dayjs(PinnedPost.createdAt).fromNow(true)*/}
-              {moment(PinnedPost.createdAt).twitterShort()}
-            </span>
+              <CommentButton post={PinnedPost} />
+              <LikeButton post={PinnedPost} />
+            </div>
           </div>
-          <div className='PinnedPostCard__content__line1__delete'>
-            <i className='fas fa-thumbtack' style={{ color: theme.mobileNavIcon }}></i>
-          </div>
-        </div>
-        <div className='PinnedPostCard__content__pinnedHint'>
-          <span style={{ color: theme.typoSecondary }}>{language.home.pinnedPost}</span>
-        </div>
-        <div
-          className='PinnedPostCard__content__line2'
-          style={{
-            color: theme.typoMain,
-            textAlign: `${
-              arabic.test(PinnedPost.postContent) ? "right" : "left"
-            }`,
-            direction: `${arabic.test(PinnedPost.postContent) ? "rtl" : "ltr"}`,
-          }}
-        >
-          <Linkify>{PinnedPost.postContent}</Linkify>
-        </div>
-        {PinnedPost.postImage ? (
-          <div
-            className='PinnedPostCard__content__line3'
-            style={{
-              color: theme.mobileNavIcon,
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
-          >
-            <ImageModal
-              imageUrl={PinnedPost.postImage}
-              className='PinnedPostCard__content__line3__image'
-            />
-          </div>
-        ) : (
-          ""
-        )}
-
-        <div
-          className='PinnedPostCard__content__line4'
-          style={{
-            color: theme.mobileNavIcon,
-          }}
-        >
-          <CommentButton post={PinnedPost} />
-          <LikeButton post={PinnedPost} />
-        </div>
-      </div>
+        </Fragment>
+      )}
     </div>
   );
 };

@@ -40,6 +40,7 @@ const Login = () => {
   const history = useHistory();
   let userToken = "";
 
+  // set page title
   document.title = language.login.pageTitle;
 
   // execute login operation
@@ -157,7 +158,6 @@ const Login = () => {
                 style={{
                   color: theme.typoMain,
                 }}
-                autoComplete='off'
                 aria-describedby='emailHelp'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

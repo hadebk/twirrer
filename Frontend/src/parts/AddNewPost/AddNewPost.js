@@ -48,7 +48,7 @@ const AddNewPost = ({inputId, setOpen}) => {
   // auto resize textarea box, when user type long text
   const handleChange = (event) => {
     const textareaLineHeight = 24;
-    let { value, rows, minRows, maxRows } = textarea;
+    let { minRows, maxRows } = textarea;
 
     const previousRows = event.target.rows;
     event.target.rows = minRows; // reset number of rows in textarea
@@ -78,7 +78,6 @@ const AddNewPost = ({inputId, setOpen}) => {
       imagePath: URL.createObjectURL(image),
       image,
     });
-    console.log("file selected", image);
   };
 
   const handleImageUpload = () => {

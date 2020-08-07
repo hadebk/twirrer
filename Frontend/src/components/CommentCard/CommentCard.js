@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import "./CommentCard.scss";
 
 // libraries
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import moment from "moment-twitter";
 import Linkify from "react-linkify";
 
@@ -26,9 +24,6 @@ const CommentCard = ({ comment, authorName }) => {
   var language = isEnglish ? english : german;
 
   // ******* end global state ******* //
-
-  // date lib init
-  dayjs.extend(relativeTime);
 
   var arabic = /[\u0600-\u06FF]/;
 
@@ -69,7 +64,6 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line1__time'
             >
-              {/*" · " + dayjs(comment.createdAt).fromNow(true)*/}
               {moment(comment.createdAt).twitterShort()}
             </span>
           </div>

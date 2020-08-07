@@ -35,45 +35,33 @@ const WhoToAdd = () => {
   const [users, setUsers] = useState([]);
   const [isLoad, setLoad] = useState(false);
 
+  var arabic = /[\u0600-\u06FF]/;
+
   useEffect(() => {
     if (userData.isAuth) {
       setLoad(true);
       UserService.usersToAdd(userData.token)
         .then((res) => {
           let all = userData.user.friends.concat(res.data);
-          console.log("----", all, res.data, userData.user.friends.length);
-          const filteredArr = all.reduce((acc, current) => {
-            const x = acc.find((item) => item.userName === current.userName);
-            if (!x) {
-              return acc.concat([current]);
-            } else {
-              return acc;
-            }
-          }, []).slice(userData.user.friends.length)
+          const filteredArr = all
+            .reduce((acc, current) => {
+              const x = acc.find((item) => item.userName === current.userName);
+              if (!x) {
+                return acc.concat([current]);
+              } else {
+                return acc;
+              }
+            }, [])
+            .slice(userData.user.friends.length);
           setUsers(filteredArr);
           setLoad(false);
         })
         .catch((err) => {
-          console.log("err", err);
+          console.log(err);
           setLoad(false);
         });
     }
   }, [userData.isAuth]);
-
-  function removeDuplicates(arr1, arr2) {
-    //var newArray = [];
-
-    for (let i = 0; i < arr1.length; i++) {
-      for (let j = 0; j < arr2.length; j++) {
-        if (arr1[i].userName === arr2[j].userName) {
-          arr1.splice(i);
-        }
-      }
-    }
-    return arr1;
-  }
-
-  
 
   return isLoad ? (
     <div className='whoToAdd__spinner'>
@@ -109,27 +97,43 @@ const WhoToAdd = () => {
                     <img src={user.profilePicture} alt='profile' />
                   </Link>
                 </div>
-                <div
-                  className='whoToAdd__usersBox__user__leftSide__userName'
-                  style={{ color: theme.typoMain }}
-                >
-                  <Link
-                    to={"/users/" + user.userName}
-                    style={{ color: theme.typoMain }}
-                  >
-                    <CheckVerifiedUserName userName={user.userName}/>
-                  </Link>
-                </div>
               </div>
               {/* add friend button */}
               <div
                 className='whoToAdd__usersBox__user__rightSide'
                 style={{ color: theme.typoMain }}
               >
-                <AddFriendButton
-                  userName={user.userName}
-                  /*profilePicture={user.profilePicture}*/
-                />
+                <div
+                  className='whoToAdd__usersBox__user__rightSide__line1'
+                  style={{ color: theme.typoMain }}
+                >
+                  <Link
+                    to={"/users/" + user.userName}
+                    style={{ color: theme.typoMain }}
+                    className='whoToAdd__usersBox__user__rightSide__line1__userName'
+                  >
+                    <CheckVerifiedUserName userName={user.userName} />
+                    <p
+                      className='whoToAdd__usersBox__user__rightSide__line1__userName__subName'
+                      style={{ color: theme.typoSecondary }}
+                    >
+                      @{user.userName}
+                    </p>
+                  </Link>
+                  <AddFriendButton userName={user.userName} />
+                </div>
+                <div
+                  className='whoToAdd__usersBox__user__rightSide__line2'
+                  style={{
+                    color: theme.typoMain,
+                    textAlign: `${
+                      arabic.test(user.bio) ? "right" : "left"
+                      }`,
+                    direction: `${arabic.test(user.bio) ? "rtl" : "ltr"}`,
+                  }}
+                >
+                  {user.bio ? user.bio : ""}
+                </div>
               </div>
             </div>
           );

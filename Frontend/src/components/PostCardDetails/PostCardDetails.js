@@ -16,12 +16,12 @@ import DeletePostButton from "../../components/Buttons/DeletePostButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import LikesModal from "../../components/LikesModal/LikesModal";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import ImageModal from "../../components/ImageModal/ImageModal";
-import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
   // ******* start global state *******//
@@ -52,7 +52,7 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
                 src={
                   postData.profilePicture ? postData.profilePicture : Default
                 }
-                alt='profile picture'
+                alt='profile'
               />
             </Link>
           </div>

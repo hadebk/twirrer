@@ -9,12 +9,12 @@ import default_pp from "../../assets/Images/default_pp.png";
 
 // components
 import Spinner from "../../components/Spinner/Spinner";
+import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 
 const CurrentUser = () => {
   // ******* start global state ******* //
@@ -41,7 +41,7 @@ const CurrentUser = () => {
           <div className='currentUser__userImage'>
             <Link to={"/users/" + userData.user.credentials.userName}>
               <img
-                alt='profile picture'
+                alt='profile'
                 src={
                   userData.user.credentials.profilePicture
                     ? userData.user.credentials.profilePicture

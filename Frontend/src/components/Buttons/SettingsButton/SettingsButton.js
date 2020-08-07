@@ -56,6 +56,7 @@ const SettingsButton = ({ className, color }) => {
     });
     history.push("/login");
   };
+
   return (
     <span className='settingMain'>
       <div
@@ -93,7 +94,7 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  <i class="fal fa-palette" style={{ color: theme.mainColor }}></i>
+                  <i className="fal fa-palette" style={{ color: theme.mainColor }}></i>
                   {language.SettingsButton.theme}
                 </td>
                 <td className='--choices'>
@@ -128,7 +129,7 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  <i class="fal fa-globe" style={{color:theme.mainColor}}></i>
+                  <i className="fal fa-globe" style={{color:theme.mainColor}}></i>
                   {language.SettingsButton.language}
                 </td>
                 <td className='--choices'>

@@ -7,12 +7,15 @@ import "./FriendsModal.scss";
 // libraries
 import { Modal } from "react-bootstrap";
 
+// comps
+import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
+
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
-import CheckVerifiedUserName from "../CheckVerifiedUserName";
+
 
 const FriendsModal = ({ userProfileData, setUserProfileData }) => { 
   // ******* start global state ******* //
@@ -32,7 +35,6 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
-    console.log("friends modal----");
   }, [userData, userProfileData]);
   // utils
   let closeModal = () => setOpen(false);
@@ -46,6 +48,7 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
       <div
         className='userProfile__main__userDetails__userData__friends'
         onClick={openModal}
+        style={{color: theme.typoMain}}
       >
         <span
           className='userProfile__main__userDetails__userData__friends__number'
@@ -141,6 +144,7 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
                       >
                         <CheckVerifiedUserName userName={friend.userName} />
                       </Link>
+                      <p style={{ color: theme.typoSecondary }}>@{friend.userName}</p>
                     </div>
                   </div>
                   {/* add friend button */}
@@ -152,9 +156,6 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
                       >
                         <AddFriendButton
                           userName={friend.userName}
-                          /*profilePicture={friend.profilePicture}
-                          userProfileData={userProfileData}
-                          setUserProfileData={setUserProfileData}*/
                         />
                       </div>
                     ) : (

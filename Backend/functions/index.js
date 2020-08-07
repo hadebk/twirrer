@@ -6,9 +6,8 @@ const app = express();
 
 // fix cross origin problem
 // Automatically allow cross-origin requests
-const cors = require('cors');
-app.use(cors({origin:true}));
-
+const cors = require("cors");
+app.use(cors({ origin: true }));
 
 const { db, admin } = require("./util/admin");
 
@@ -40,12 +39,10 @@ const {
   usersToAdd,
 } = require("./handlers/users");
 
-// import middleware authentication 
+// import middleware authentication
 const firebaseAuth = require("./util/firebaseAuth");
 
 const defaultStorage = admin.storage();
-
-
 
 /**
  * ****************************************************************
@@ -55,31 +52,30 @@ const defaultStorage = admin.storage();
 // posts routes
 app.get("/postsFirstFetch", postsFirstFetch);
 app.post("/postsNextFetch", postsNextFetch);
-app.get("/post/:postId/get", getOnePost); 
+app.get("/post/:postId/get", getOnePost);
 // extra route -------
 app.get("/pinedPost", pinedPost);
 //--------------------
 app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.delete("/post/:postId/delete", firebaseAuth, deletePost); 
-app.post("/post/:postId/comment", firebaseAuth, commentOnPost); 
+app.delete("/post/:postId/delete", firebaseAuth, deletePost);
+app.post("/post/:postId/comment", firebaseAuth, commentOnPost);
 app.get("/post/:postId/like", firebaseAuth, likePost);
 app.get("/post/:postId/unlike", firebaseAuth, unlikePost);
 
 // user routes
 app.post("/signup", signup);
 app.post("/login", login);
-app.get("/logout", logout); 
-app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage); 
+app.get("/logout", logout);
+app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage);
 app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
 app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
-app.post("/addUserDetails", firebaseAuth, addUserDetails); 
+app.post("/addUserDetails", firebaseAuth, addUserDetails);
 app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
-app.get("/user/:userName/getUserDetails", getUserDetails); 
+app.get("/user/:userName/getUserDetails", getUserDetails);
 app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
 app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
 app.get("/usersToAdd", firebaseAuth, usersToAdd);
 app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
-
 
 /**
  * ****************************************************************
@@ -348,7 +344,7 @@ exports.removePostImageOnPostDelete = functions
   .firestore.document("posts/{postId}")
   .onDelete((snap, context) => {
     let imageUrl = snap.data().postImage;
-    if (imageUrl ) {
+    if (imageUrl) {
       let imageName = imageUrl.substr(
         imageUrl.indexOf("/o/") + 3,
         imageUrl.indexOf("?") - (imageUrl.indexOf("/o/") + 3)

@@ -7,12 +7,14 @@ import "./LikesModal.scss";
 // libraries
 import { Modal } from "react-bootstrap";
 
+// comps
+import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton";
+import CheckVerifiedUserName from "../CheckVerifiedUserName";
+
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import AddFriendButton from "../Buttons/AddFriendButton/AddFriendButton"; 
-import CheckVerifiedUserName from "../CheckVerifiedUserName";
 
 const LikesModal = ({ postData, likes }) => {
   // ******* start global state ******* //
@@ -44,6 +46,7 @@ const LikesModal = ({ postData, likes }) => {
       <div
         className='postDetails__post__content__counters__likes'
         onClick={openModal}
+        style={{ color: theme.typoMain }}
       >
         <span
           className='postDetails__post__content__counters__numbers'
@@ -130,6 +133,9 @@ const LikesModal = ({ postData, likes }) => {
                       >
                         <CheckVerifiedUserName userName={like.userName} />
                       </Link>
+                      <p style={{ color: theme.typoSecondary }}>
+                        @{like.userName}
+                      </p>
                     </div>
                   </div>
                   {/* add friend button */}
@@ -141,7 +147,6 @@ const LikesModal = ({ postData, likes }) => {
                       >
                         <AddFriendButton
                           userName={like.userName}
-                          profilePicture={like.profilePicture}
                         />
                       </div>
                     ) : (

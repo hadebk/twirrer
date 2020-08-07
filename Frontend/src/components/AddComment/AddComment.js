@@ -73,13 +73,11 @@ const AddComment = ({
 
   // add comment
   const sendComment = () => {
-    console.log("comment...", postId);
     let comment = {
       commentContent: textarea.value.trim(),
     };
     PostService.addComment(postId, comment, userData.token)
       .then((res) => {
-        console.log("comment-res", res.data);
         // update posts state 'global'
         posts.map((pos, index) => {
           if (pos.postId === res.data.postId) {
@@ -91,7 +89,6 @@ const AddComment = ({
         // update comments state in PostDetails page
         let newComments = [...comments];
         newComments.unshift(res.data);
-        //console.log("newC", newComments);
         setComments(newComments);
         setTextarea({
           ...textarea,
@@ -104,7 +101,7 @@ const AddComment = ({
         setPostData(newPost);
       })
       .catch((err) => {
-        console.log("comment-err", err);
+        console.log(err)
         setTextarea({
           ...textarea,
           rows: 1,
@@ -131,7 +128,7 @@ const AddComment = ({
                 ? userData.user.credentials.profilePicture
                 : Default
             }
-            alt='Profile Image'
+            alt='Profile'
           ></img>
         </div>
       </div>
@@ -155,7 +152,7 @@ const AddComment = ({
           onClick={() => sendComment()}
           style={{ opacity: disabledFlag ? 0.6 : 1 }}
         >
-          <i className='fas fa-paper-plane send'></i>
+          <i className='fas fa-paper-plane send' style={{ color: disabledFlag ? '#fff' : theme.mainColor}}></i>
         </button>
       </div>
     </div>

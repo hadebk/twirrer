@@ -8,7 +8,6 @@ import variables from "../../../style/CssVariables.scss";
 // libraries
 import { Modal } from "react-bootstrap";
 
-
 // context (global state)
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
@@ -29,7 +28,6 @@ const TwitternBtnNavbar = () => {
   // local state
   const [isOpen, setOpen] = useState(false);
 
-  // utils
   let closeModal = () => setOpen(false);
 
   let openModal = () => setOpen(true);

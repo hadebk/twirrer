@@ -41,6 +41,7 @@ const Signup = () => {
   const history = useHistory();
   let userToken = "";
   
+  // set page title
   document.title = language.signup.pageTitle;
   
   // execute sign up operations
@@ -52,7 +53,6 @@ const Signup = () => {
     // sign up user
     UserService.signupUser({ userName, email, password, confirmPassword })
       .then((res) => {
-        console.log(res.data);
         userToken = res.data.userToken;
         localStorage.setItem("auth-token", userToken);
       })
@@ -142,7 +142,6 @@ const Signup = () => {
                 style={{
                   color: theme.typoMain,
                 }}
-                autoComplete='off'
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
@@ -182,7 +181,6 @@ const Signup = () => {
                 style={{
                   color: theme.typoMain,
                 }}
-                autoComplete='off'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

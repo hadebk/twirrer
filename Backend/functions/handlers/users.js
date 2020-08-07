@@ -878,6 +878,7 @@ exports.usersToAdd = (req, res) => {
           userId: doc.data().userId,
           userName: doc.data().userName,
           profilePicture: doc.data().profilePicture,
+          bio: doc.data().bio ? doc.data().bio : '',
         });
       });
     })
