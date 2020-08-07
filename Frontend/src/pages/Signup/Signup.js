@@ -83,7 +83,7 @@ const Signup = () => {
 
   return (
     <div
-      className='main-box'
+      className='signupMain-box'
       style={{
         background: theme.background,
       }}

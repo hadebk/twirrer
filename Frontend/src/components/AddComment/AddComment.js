@@ -132,7 +132,7 @@ const AddComment = ({
           ></img>
         </div>
       </div>
-      <div className='addCommentBox__inputBox'>
+      <div className='addCommentBox__inputBox'> 
         <textarea
           style={{
             backgroundColor: theme.secondaryColor,
@@ -152,7 +152,7 @@ const AddComment = ({
           onClick={() => sendComment()}
           style={{ opacity: disabledFlag ? 0.6 : 1 }}
         >
-          <i className='fas fa-paper-plane send' style={{ color: disabledFlag ? '#fff' : theme.mainColor}}></i>
+          <i className='fas fa-paper-plane send' style={{ color: disabledFlag ? theme.mobileNavIcon : theme.mainColor}}></i>
         </button>
       </div>
     </div>

@@ -3,6 +3,7 @@
 /* start add comment box */
 .addCommentBox {
   padding: 10px;
+  padding-top: 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,11 +42,10 @@
       width: 100%;
       resize: none;
       border-radius: 20px;
-      padding: 5px 10px 0;
+      padding: 6px 10px;
       font-size: 15px;
       font-weight: 400;
       overflow-x: hidden;
-      min-height: 100%;
 
       &:focus {
         outline: 0;
