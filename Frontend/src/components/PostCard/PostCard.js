@@ -12,7 +12,7 @@ import Linkify from "react-linkify";
 import { ThemeContext } from "../../context/ThemeContext";
 
 // component
-import DeletePostButton from "../Buttons/DeletePostButton";
+import DeletePostButton from "../Buttons/DeletePostButton/DeletePostButton";
 import LikeButton from "../Buttons/LikeButton";
 import CommentButton from "../Buttons/CommentButton";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";

@@ -87,4 +87,11 @@ export default {
   page404: {
     hint: "Leider existiert diese Seite nicht.",
   },
+  deletePostModal: {
+    title: "Tweet löschen?",
+    message:
+      "Das kann nicht rückgängig gemacht werden und er wird aus deinem Profil, der Timeline aller Accounts, die dir folgen, und den Twitter Suchergebnissen entfernt.",
+    deleteButton: "Löschen",
+    cancelButton: "Abbrechen",
+  },
 };

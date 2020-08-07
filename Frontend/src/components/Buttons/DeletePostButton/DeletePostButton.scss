@@ -1,0 +1,67 @@
+@import "../../../style/CssVariables.scss";
+
+
+.deletePost__main__modal__body {
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  padding: 30px 20px !important;
+
+  &__title{
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+  }
+
+  &__message{
+      font-size: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+  }
+
+  &__buttonsBox{
+      display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    button{
+        padding: 0 15px;
+        height: 39px;
+        font-weight: bold;
+        border-radius: $radius;
+        font-size: 15px;
+        width: 47%;
+
+        &:focus{
+            outline: 0;
+        }
+    }
+  }
+}
+
+
+/* modal edit */
+.deletePost__main__modal {
+    .modal-dialog{
+        width: 350px !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+  .deletePost__main__modal {
+    .modal-dialog {
+      margin-left: 20px !important;
+      margin-right: 20px !important;
+      width: auto !important;
+
+      .modal-content {
+        min-height: auto;
+
+        .modal-body {
+          border-bottom-left-radius: 15px !important;
+          border-bottom-right-radius: 15px !important;
+        }
+      }
+    }
+  }
+}

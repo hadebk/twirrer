@@ -69,6 +69,7 @@ const LikesModal = ({ postData, likes }) => {
         show={isOpen}
         onHide={closeModal}
         keyboard={false}
+        centered='true'
         className='likes__main__modal'
       >
         <Modal.Header

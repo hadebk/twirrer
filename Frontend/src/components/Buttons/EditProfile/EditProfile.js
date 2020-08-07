@@ -100,6 +100,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
         onHide={closeModal}
         backdrop='static'
         keyboard={false}
+        centered='true'
         className='editProfile__main__modal'
       >
         <Modal.Header

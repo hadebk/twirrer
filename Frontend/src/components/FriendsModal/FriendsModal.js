@@ -73,6 +73,7 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
         show={isOpen}
         onHide={closeModal}
         keyboard={false}
+        centered='true'
         className='friends__main__modal'
       >
         <Modal.Header

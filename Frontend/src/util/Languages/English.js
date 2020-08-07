@@ -42,7 +42,7 @@ export default {
     addPostPlaceholder: "What's new?",
     addPostButton: "Twittern",
     addPostButtonLoading: "Loading..",
-    pinnedPost: "Pinned Tweet"
+    pinnedPost: "Pinned Tweet",
   },
   postDetails: {
     pageTitle: "Tweet | Twirrer",
@@ -64,7 +64,7 @@ export default {
     deleteFriendButton: "Delete friend",
     modalTitle: "Edit profile",
     modalSaveButton: "Save",
-    modalSaveButtonLoading:"Loading..",
+    modalSaveButtonLoading: "Loading..",
     modalBioLabel: "Bio",
     modalLocationLabel: "Location",
     modalWebsiteLabel: "Website",
@@ -77,7 +77,7 @@ export default {
     logoutButton: "Log out",
   },
   notifications: {
-    pageTitle:"Notifications | Twirrer",
+    pageTitle: "Notifications | Twirrer",
     title: "Notifications",
     likeHint: "liked your Tweet",
     commentHint: "commented on your Tweet",
@@ -85,6 +85,13 @@ export default {
     emptyHint: "You don't have any notifications yet",
   },
   page404: {
-    hint: "Unfortunately, this page does not exist."
-  }
+    hint: "Unfortunately, this page does not exist.",
+  },
+  deletePostModal: {
+    title: "Delete Tweet?",
+    message:
+      "This can’t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from Twitter search results.",
+    deleteButton: "Delete",
+    cancelButton: "Cancel",
+  },
 };

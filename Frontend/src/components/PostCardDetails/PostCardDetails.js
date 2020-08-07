@@ -12,7 +12,7 @@ import moment from "moment-twitter";
 import Linkify from "react-linkify";
 
 // component
-import DeletePostButton from "../../components/Buttons/DeletePostButton";
+import DeletePostButton from "../../components/Buttons/DeletePostButton/DeletePostButton";
 import CommentButton from "../../components/Buttons/CommentButton";
 import LikeButton from "../../components/Buttons/LikeButton";
 import LikesModal from "../../components/LikesModal/LikesModal";
