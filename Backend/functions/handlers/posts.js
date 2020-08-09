@@ -32,7 +32,7 @@ const { db } = require("../util/admin");
  */
 exports.pinedPost = (req, res) => {
   db.collection("posts")
-    .doc("6IN4WM3Yp3XTurteOseG")
+    .doc("JXuy58xhwYWwt6JDwMI1")
     .get()
     .then((data) => {
       if (data.exists) {
