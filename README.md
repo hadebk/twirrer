@@ -6,8 +6,8 @@ I tried in this project to build an application similar to Twitter but certainly
 [twirrer-app.web.app](https://twirrer-app.web.app/)
 
 ## Project Screenshot
-![Twirrer screenshot](./twirrer-home.png)
-![Twirrer screenshot](./twirrer.png)
+![Twirrer screenshot](./twirrer-home.PNG)
+![Twirrer screenshot](./twirrer.PNG)
 
 ## Project Features:
 - Nice design as Twitter design.
