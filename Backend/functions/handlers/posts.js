@@ -67,7 +67,7 @@ exports.postsFirstFetch = (req, res) => {
 
   db.collection("posts")
     .orderBy("createdAt", "desc")
-    .limit(10)
+    .limit(20)
     .get()
     .then((data) => {
       let posts = [];
@@ -106,7 +106,7 @@ exports.postsNextFetch = (req, res) => {
     db.collection("posts")
       .orderBy("createdAt", "desc")
       .startAfter(req.body.lastKey)
-      .limit(10)
+      .limit(20)
       .get()
       .then((data) => {
         let posts = [];
