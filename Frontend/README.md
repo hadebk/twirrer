@@ -7,11 +7,14 @@ Using 'React.js' + 'React Hooks' + 'React Context api' to build the frontend of 
 
 ## How to run the app locally?
 
-### 1- Install packages
+### 1- API Base URL
+add `https://europe-west3-twirrer-app.cloudfunctions.net/api` as the 'proxy' value in package.json
+
+### 2- Install packages
 run `npm install`
 
-### 2- Run project
+### 3- Run project
 run `npm start`
 
-### 3- Open it
+### 4- Open it
 go to `http://localhost:3000`

@@ -4,7 +4,7 @@ Using 'Firebase cloud function' + 'Express.js' to build an API, to handle all op
 
 ## API Documentation:
 
-API-BASE-URL: https://europe-west3-twirrer-app.cloudfunctions.net/api
+API-BASE-URL: `https://europe-west3-twirrer-app.cloudfunctions.net/api`
 
 ### 1- Posts Endpoints:
 
