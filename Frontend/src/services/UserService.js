@@ -109,7 +109,7 @@ export default {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response;
-    } catch (error) {
+    } catch (error) { 
       throw error;
     } 
   },

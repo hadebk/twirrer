@@ -54,7 +54,7 @@ app.get("/postsFirstFetch", postsFirstFetch);
 app.post("/postsNextFetch", postsNextFetch);
 app.get("/post/:postId/get", getOnePost);
 // extra route -------
-app.get("/pinedPost", pinedPost);
+app.get("/pinedPost", pinedPost); 
 //--------------------
 app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
 app.delete("/post/:postId/delete", firebaseAuth, deletePost);

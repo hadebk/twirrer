@@ -34,7 +34,7 @@ export default {
       return response;
     } catch (error) {
       throw error;
-    }
+    } 
   },
 
   addNewPost: async function (post, token) {
