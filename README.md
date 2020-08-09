@@ -21,7 +21,7 @@ I tried in this project to build an application similar to Twitter but certainly
     - using 'Firebase cloud function' + 'Express.js' to build an API, to handle all operations with database.
     - using 'Firebase Triggers' to execute some events in app like (fire notification, listen to user avatar changes, etc..).
     - using 'Firebase Authentication' to handel login/signup users.
-    - using 'Firebase Firestore&Storage' to store data of the app (NonSQL database).
+    - using 'Firebase Firestore&Storage' to store data of the app (NoSQL database).
 
 ### 2- Frontend:
     - using 'React.js' to build the frontend of Twirrer.
