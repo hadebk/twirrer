@@ -52,6 +52,6 @@ API-BASE-URL: `https://europe-west3-twirrer-app.cloudfunctions.net/api`
   receive headers: { Authorization: 'Bearer ' + userToken }
 - `'/usersToAdd'`: retrieve random user to show them as suggestion friends,
   receive headers: { Authorization: 'Bearer ' + userToken }
-- `'/markNotificationsAsRead'`: retrieve random user to show them as suggestion friends,
+- `'/markNotificationsAsRead'`: mark notifications as read, when open notifications tap,
   receive body: {notificationsIds}
   receive headers: { Authorization: 'Bearer ' + userToken }
