@@ -28,4 +28,4 @@ I tried in this project to build an application similar to Twitter but certainly
     - using 'React Hooks' to handle local state & 'React Context api' to handle global state in the app.
     - using 'Axios' to execute all RestFull api requests in the app.
     - using 'SCSS, CSS Normalize & Css Resets'.
-    - using 'BEM' approach to naming the items in HTML.
+    - using 'BEM' methodology to naming the items in HTML.
