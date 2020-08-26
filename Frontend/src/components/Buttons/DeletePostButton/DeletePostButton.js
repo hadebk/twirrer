@@ -78,10 +78,6 @@ const DeletePostButton = ({ post }) => {
           style={{
             backgroundColor: theme.errorBackground,
           }}
-          onClick={(event) => {
-            event.stopPropagation();
-            openModal();
-          }}
         ></div>
 
         <Modal
