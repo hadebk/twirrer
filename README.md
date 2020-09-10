@@ -4,6 +4,7 @@ I tried in this project to build an application similar to Twitter but certainly
 
 ## Live Demo
 [twirrer-app.web.app](https://twirrer-app.web.app/)
+[twirrer.netlify.app](https://twirrer.netlify.app/)
 
 ## Project Screenshot
 ![Twirrer screenshot](./home.PNG)
