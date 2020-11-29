@@ -28,5 +28,6 @@ I tried in this project to build an application similar to Twitter but certainly
     - using 'React.js' to build the frontend of Twirrer.
     - using 'React Hooks' to handle local state & 'React Context api' to handle global state in the app.
     - using 'Axios' to execute all RestFull api requests in the app.
+    - implement infinite scroll (pure js) to posts in home page
     - using 'SCSS, CSS Normalize & Css Resets'.
     - using 'BEM' methodology to naming the items in HTML.
