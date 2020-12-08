@@ -3,7 +3,7 @@
 Using 'React.js' + 'React Hooks' + 'React Context api' to build the frontend of Twirrer.
 
 ## Live Demo
-[twirrer-app.web.app](https://twirrer-app.web.app/)
+[twirrer.netlify.app](https://twirrer.netlify.app/)
 
 ## How to run the app locally?
 
