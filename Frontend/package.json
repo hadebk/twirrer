@@ -4,18 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
-=======
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-<<<<<<< HEAD
->>>>>>> 5229ae6c0688dea78fe60ab1f92c0c63b9ae27fc
-=======
->>>>>>> 5229ae6c0688dea78fe60ab1f92c0c63b9ae27fc
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "dayjs": "^1.10.2",

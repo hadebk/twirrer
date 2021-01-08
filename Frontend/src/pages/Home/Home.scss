@@ -1,3 +1,5 @@
+@import "../../style/CssVariables.scss";
+
 .home-box {
   height: auto;
   width: 45%;
@@ -31,6 +33,7 @@
     padding: 0 14px;
     margin-top: 20px;
     height: 40px;
+    border-radius: $radius;
 
     &:focus {
       outline: 0;

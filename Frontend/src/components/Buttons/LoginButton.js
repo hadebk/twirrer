@@ -25,7 +25,7 @@ const LoginButton = () => {
     <div
       className='loginButton'
       style={{
-        borderRadius: variables.radius,
+        borderRadius: variables.radius || 9999,
         border: `1px solid ${theme.mainColor}`,
         textAlign: "center",
         padding: "5px 0",
