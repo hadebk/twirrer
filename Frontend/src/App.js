@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Router, Route, Switch } from "react-router-dom";
-
-// pages
-import Home from "./pages/Home/Home";
-import PostDetails from "./pages/PostDetails/PostDetails";
-import Login from "./pages/Login/Login";
-import Signup from "./pages/Signup/Signup";
-import Page404 from "./pages/Page404/Page404";
-import UserProfile from "./pages/UserProfile/UserProfile";
-import Notifications from "./pages/Notifications/Notifications";
 
 // parts
 import Navbar from "./parts/Navbar/Navbar";
@@ -33,6 +24,16 @@ import PostsContext from "./context/PostsContext";
 // api services
 import UserService from "./services/UserService";
 import PostService from "./services/PostService";
+
+// pages
+import PageLoader from "./pages/PageLoader/PageLoader";
+const Home = lazy(() => import("./pages/Home/Home"));
+const PostDetails = lazy(() => import("./pages/PostDetails/PostDetails"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const Signup = lazy(() => import("./pages/Signup/Signup"));
+const UserProfile = lazy(() => import("./pages/UserProfile/UserProfile"));
+const Notifications = lazy(() => import("./pages/Notifications/Notifications"));
+const Page404 = lazy(() => import("./pages/Page404/Page404"));
 
 // init axios
 
@@ -119,24 +120,29 @@ function App() {
                 <Navbar />
                 <MobileNavbar />
                 {!userData.isAuth && <TabletNavBarNotAuth />}
-                {/* let one Route invoked at a time */}
-                <Switch>
-                  <Route exact path='/' component={Home} />
-                  <Route exact path='/posts/:postId' component={PostDetails} />
-                  <Route
-                    exact
-                    path='/users/:userName'
-                    component={UserProfile}
-                  />
-                  <Route
-                    exact
-                    path='/notifications'
-                    component={Notifications}
-                  />
-                  <AuthRoute exact path='/login' component={Login} />
-                  <AuthRoute exact path='/signup' component={Signup} />
-                  <Route component={Page404} />
-                </Switch>
+                <Suspense fallback={<PageLoader />}>
+                  <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route
+                      exact
+                      path='/posts/:postId'
+                      component={PostDetails}
+                    />
+                    <Route
+                      exact
+                      path='/users/:userName'
+                      component={UserProfile}
+                    />
+                    <Route
+                      exact
+                      path='/notifications'
+                      component={Notifications}
+                    />
+                    <AuthRoute exact path='/login' component={Login} />
+                    <AuthRoute exact path='/signup' component={Signup} />
+                    <Route component={Page404} />
+                  </Switch>
+                </Suspense>
                 <RightSide />
               </div>
             </LanguageContextProvider>
