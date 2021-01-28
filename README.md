@@ -3,7 +3,7 @@
 I tried in this project to build an application similar to Twitter but certainly does not have all the features, but it contains the basic features such as (create an account, add a tweet, add a friend, like, comment, etc..).
 
 ## Live Demo
-[twirrer-app.web.app](https://twirrer-app.web.app/)
+[twirrer.netlify.app](https://twirrer.netlify.app/)
 
 ## Project Screenshot
 ![Twirrer screenshot](./home.PNG)
@@ -27,5 +27,6 @@ I tried in this project to build an application similar to Twitter but certainly
     - using 'React.js' to build the frontend of Twirrer.
     - using 'React Hooks' to handle local state & 'React Context api' to handle global state in the app.
     - using 'Axios' to execute all RestFull api requests in the app.
+    - implement infinite scroll (pure js) to posts in home page
     - using 'SCSS, CSS Normalize & Css Resets'.
     - using 'BEM' methodology to naming the items in HTML.

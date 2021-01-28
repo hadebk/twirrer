@@ -23,7 +23,7 @@ const SignupButton = () => {
     <div
       className='signupButton'
       style={{
-        borderRadius: variables.radius,
+        borderRadius: variables.radius || 9999,
         backgroundColor: theme.mainColor,
         textAlign: "center",
         padding: '5px 0',

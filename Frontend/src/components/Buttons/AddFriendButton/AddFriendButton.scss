@@ -6,6 +6,7 @@
     font-weight: bold;
     font-size: 14px;
     white-space: nowrap;
+    border-radius: $radius;
 
     &:focus {
       outline: 0;

@@ -1,4 +1,4 @@
-@import "../../../style//CssVariables.scss";
+@import "../../../style/CssVariables.scss";
 
 .editProfile__main {
   &__button {
@@ -6,6 +6,7 @@
     height: 37px;
     font-weight: bold;
     font-size: 14px;
+    border-radius: $radius;
 
     &:focus {
       outline: 0;
@@ -71,10 +72,11 @@
 
     &__saveButton {
       padding: 0 14px;
-    height: 37px;
-    font-weight: bold;
-    font-size: 14px;
-    white-space: nowrap;
+      height: 37px;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      border-radius: $radius;
 
       &:focus {
         outline: 0;

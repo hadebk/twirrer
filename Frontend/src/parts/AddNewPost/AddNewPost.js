@@ -15,7 +15,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 
-const AddNewPost = ({inputId, setOpen}) => {
+const AddNewPost = ({ inputId, setOpen }) => {
   // ******* start global state ******* //
 
   // theme context
@@ -163,7 +163,7 @@ const AddNewPost = ({inputId, setOpen}) => {
               accept='image/x-png,image/jpeg'
               onChange={(event) => handleImageChange(event)}
             />
-            <div className='button'>
+            <div className='button' onClick={() => handleImageUpload()}>
               <i
                 className='fal fa-image'
                 style={{ color: theme.mainColor }}
@@ -173,7 +173,6 @@ const AddNewPost = ({inputId, setOpen}) => {
                 style={{
                   backgroundColor: theme.secondaryColor,
                 }}
-                onClick={() => handleImageUpload()}
               ></div>
             </div>
           </div>

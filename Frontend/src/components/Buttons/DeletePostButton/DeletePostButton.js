@@ -67,16 +67,21 @@ const DeletePostButton = ({ post }) => {
   const deleteButton = userData.isAuth ? (
     post.userName === userData.user.credentials.userName ? (
       <Fragment>
-        <i className='far fa-trash-alt' style={{ color: theme.error }}></i>
+        <div
+          className='deleteIconBox'
+          onClick={(event) => {
+            event.stopPropagation();
+            openModal();
+          }}
+        >
+          <i className='far fa-trash-alt' style={{ color: theme.error }}></i>
+        </div>
         <div
           className='background'
           style={{
             backgroundColor: theme.errorBackground,
           }}
-          onClick={(event) => {
-            event.stopPropagation();
-            openModal();
-          }}
+          
         ></div>
 
         <Modal

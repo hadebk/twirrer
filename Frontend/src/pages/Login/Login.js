@@ -159,6 +159,7 @@ const Login = () => {
                   color: theme.typoMain,
                 }}
                 aria-describedby='emailHelp'
+                autoComplete="on"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -202,6 +203,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 aria-describedby='passHelp'
+                autoComplete="on"
               />
               {errors.password && (
                 <small

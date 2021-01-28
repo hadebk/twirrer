@@ -35,7 +35,9 @@ const PostDetails = (props) => {
   // ******* end global state *******//
 
   //local state
-  const [postId, setPostId] = useState(props.match.params.postId ? props.match.params.postId : '');
+  const [postId, setPostId] = useState(
+    props.match.params.postId ? props.match.params.postId : ""
+  );
   const [postData, setPostData] = useState([]);
   const [likes, setLikes] = useState([]);
   const [comments, setComments] = useState([]);

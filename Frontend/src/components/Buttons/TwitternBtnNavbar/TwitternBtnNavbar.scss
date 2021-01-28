@@ -10,6 +10,7 @@
     width: 100%;
     height: 50px;
     font-size: 15px;
+    border-radius: $radius;
 
     &:focus {
       outline: 0;

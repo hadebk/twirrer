@@ -1,81 +1,21 @@
 const functions = require("firebase-functions");
+const { db, admin } = require("./util/admin");
+const express = require("express");
+const cors = require("cors");
+const usersRouter = require("./routers/users");
+const postsRouter = require("./routers/posts");
 
 // init express server
-const express = require("express");
 const app = express();
 
-// fix cross origin problem
-// Automatically allow cross-origin requests
-const cors = require("cors");
+// fix cross origin problem. Automatically allow cross-origin requests
 app.use(cors({ origin: true }));
 
-const { db, admin } = require("./util/admin");
-
-// import operations of the routes
-const {
-  postsFirstFetch,
-  postsNextFetch,
-  pinedPost,
-  addNewPost,
-  deletePost,
-  getOnePost,
-  commentOnPost,
-  likePost,
-  unlikePost,
-} = require("./handlers/posts");
-const {
-  signup,
-  login,
-  logout,
-  uploadProfileImage,
-  uploadCoverImage,
-  uploadPostImage,
-  addUserDetails,
-  getAuthenticatedUser,
-  getUserDetails,
-  markNotificationsAsRead,
-  addFriend,
-  unFriend,
-  usersToAdd,
-} = require("./handlers/users");
-
-// import middleware authentication
-const firebaseAuth = require("./util/firebaseAuth");
+// Register app routers
+app.use(postsRouter);
+app.use(usersRouter);
 
 const defaultStorage = admin.storage();
-
-/**
- * ****************************************************************
- * all routes in our app
- * ****************************************************************
- */
-// posts routes
-app.get("/postsFirstFetch", postsFirstFetch);
-app.post("/postsNextFetch", postsNextFetch);
-app.get("/post/:postId/get", getOnePost);
-// extra route -------
-app.get("/pinedPost", pinedPost); 
-//--------------------
-app.post("/addNewPost", firebaseAuth, addNewPost); // cause 'FirebaseAuth' fun - if user not authorized, this route will not work.
-app.delete("/post/:postId/delete", firebaseAuth, deletePost);
-app.post("/post/:postId/comment", firebaseAuth, commentOnPost);
-app.get("/post/:postId/like", firebaseAuth, likePost);
-app.get("/post/:postId/unlike", firebaseAuth, unlikePost);
-
-// user routes
-app.post("/signup", signup);
-app.post("/login", login);
-app.get("/logout", logout);
-app.post("/uploadProfileImage", firebaseAuth, uploadProfileImage);
-app.post("/uploadCoverImage", firebaseAuth, uploadCoverImage);
-app.post("/uploadPostImage", firebaseAuth, uploadPostImage);
-app.post("/addUserDetails", firebaseAuth, addUserDetails);
-app.get("/getAuthenticatedUser", firebaseAuth, getAuthenticatedUser);
-app.get("/user/:userName/getUserDetails", getUserDetails);
-app.get("/user/:userName/addFriend", firebaseAuth, addFriend);
-app.get("/user/:userName/unFriend", firebaseAuth, unFriend);
-app.get("/usersToAdd", firebaseAuth, usersToAdd);
-app.post("/markNotificationsAsRead", firebaseAuth, markNotificationsAsRead);
 
 /**
  * ****************************************************************

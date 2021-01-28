@@ -1,0 +1,32 @@
+.pageLoader {
+  height: auto;
+  width: 45%;
+  margin-left: 25%;
+  overflow: auto;
+  padding-bottom: 80px;
+}
+
+@media only screen and (max-width: 500px) {
+  /* For mobile phones: */
+  .pageLoader {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 49px;
+  }
+}
+
+@media (min-width: 501px) and (max-width: 991px) {
+  /* For tablet: */
+  .pageLoader {
+    width: 75%;
+    margin-left: 15%;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1280px) {
+  /* For small lab: */
+  .pageLoader {
+    width: 50%;
+    margin-left: 10%;
+  }
+}
