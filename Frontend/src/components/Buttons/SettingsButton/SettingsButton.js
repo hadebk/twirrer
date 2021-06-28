@@ -22,9 +22,8 @@ const SettingsButton = ({ className, color }) => {
   const theme = isLightTheme ? light : dark;
 
   // language context
-  const { isEnglish, english, german, toggleLanguage } = useContext(
-    LanguageContext
-  );
+  const { isEnglish, english, german, toggleLanguage } =
+    useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
@@ -48,7 +47,8 @@ const SettingsButton = ({ className, color }) => {
   };
 
   const logout = () => {
-    localStorage.setItem("auth-token", "");
+    localStorage.removeItem("auth-token");
+    sessionStorage.clear();
     setUserData({
       token: undefined,
       user: undefined,
@@ -94,7 +94,10 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  <i className="fal fa-palette" style={{ color: theme.mainColor }}></i>
+                  <i
+                    className='fal fa-palette'
+                    style={{ color: theme.mainColor }}
+                  ></i>
                   {language.SettingsButton.theme}
                 </td>
                 <td className='--choices'>
@@ -129,7 +132,10 @@ const SettingsButton = ({ className, color }) => {
                 style={{ borderBottom: `1px solid ${theme.border}` }}
               >
                 <td className='--title' style={{ color: theme.typoMain }}>
-                  <i className="fal fa-globe" style={{color:theme.mainColor}}></i>
+                  <i
+                    className='fal fa-globe'
+                    style={{ color: theme.mainColor }}
+                  ></i>
                   {language.SettingsButton.language}
                 </td>
                 <td className='--choices'>
@@ -142,7 +148,6 @@ const SettingsButton = ({ className, color }) => {
                           ? "0"
                           : `2px solid ${theme.mainColor}`,
                         opacity: isEnglish ? ".5" : "1",
-                        
                       }}
                     />
                   </div>

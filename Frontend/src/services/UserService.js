@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+const UserService = {
   loginUser: async function (userData) {
     try {
       const response = await axios.post("/login", userData);
@@ -109,19 +109,25 @@ export default {
         headers: { Authorization: `Bearer ${token}` },
       });
       return response;
-    } catch (error) { 
+    } catch (error) {
       throw error;
-    } 
+    }
   },
 
   markNotificationsAsRead: async function (notificationsIds, token) {
     try {
-      const response = await axios.post(`/markNotificationsAsRead`, notificationsIds, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.post(
+        `/markNotificationsAsRead`,
+        notificationsIds,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
     }
   },
 };
+
+export default UserService;

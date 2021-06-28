@@ -10,6 +10,7 @@ import TabletNavBarNotAuth from "./parts/TabletNavBarNotAuth/TabletNavBarNotAuth
 // util
 import History from "./util/History";
 import AuthRoute from "./util/AuthRoute";
+import ScrollToTop from "./util/ScrollToTop";
 
 // libraries
 import jwtDecode from "jwt-decode";
@@ -20,10 +21,10 @@ import ThemeContextProvider from "./context/ThemeContext";
 import LanguageContextProvider from "./context/LanguageContext";
 import UserContext from "./context/UserContext";
 import PostsContext from "./context/PostsContext";
+import UserProfileContext from "./context/UserProfileContext";
 
 // api services
 import UserService from "./services/UserService";
-import PostService from "./services/PostService";
 
 // pages
 import PageLoader from "./pages/PageLoader/PageLoader";
@@ -34,8 +35,6 @@ const Signup = lazy(() => import("./pages/Signup/Signup"));
 const UserProfile = lazy(() => import("./pages/UserProfile/UserProfile"));
 const Notifications = lazy(() => import("./pages/Notifications/Notifications"));
 const Page404 = lazy(() => import("./pages/Page404/Page404"));
-
-// init axios
 
 /**
  * To solve CROS origin problem:
@@ -51,9 +50,12 @@ function App() {
     user: undefined,
     isAuth: false,
   });
-
   const [posts, setPostsData] = useState([]);
-  // start global state //
+  const [userProfileData, setUserProfileData] = useState({
+    friends: [],
+    posts: [],
+    user: {},
+  });
 
   useEffect(() => {
     const checkLoggedIn = async () => {
@@ -78,33 +80,54 @@ function App() {
               user: undefined,
               isAuth: false,
             });
-            console.log("Token is expired!");
+            console.log(
+              decodedToken.exp * 1000,
+              "<",
+              Date.now(),
+              "Token is expired!"
+            );
             History.push("/login");
           } else {
             // token not yet expire
-            UserService.getAuthenticatedUser(token)
-              .then((res) => {
-                setUserData({
-                  token,
-                  user: res.data,
-                  isAuth: true,
-                });
-              })
-              .catch((error) => {
-                console.log("Strange Token!", error);
+            let cacheUserData = JSON.parse(
+              sessionStorage.getItem("CacheUserData")
+            );
+            // check if user data was cached or not
+            if (cacheUserData) {
+              // user data is cached
+              setUserData({
+                token: cacheUserData.token,
+                user: cacheUserData.user,
+                isAuth: cacheUserData.isAuth,
               });
+            } else {
+              // user data is not cached, so execute an api request to fetch data.
+              UserService.getAuthenticatedUser(token)
+                .then((res) => {
+                  setUserData({
+                    token,
+                    user: res.data,
+                    isAuth: true,
+                  });
+                  // add data to the cache
+                  sessionStorage.setItem(
+                    "CacheUserData",
+                    JSON.stringify({
+                      token,
+                      isAuth: true,
+                      user: res.data,
+                    })
+                  );
+                })
+                .catch((error) => {
+                  console.log("Unknown Token!", error);
+                });
+            }
           }
         }
       } catch (err) {
         console.log(err);
       }
-
-      // get first batch of posts to show them on page loaded
-      PostService.postsFirstFetch()
-        .then((res) => {
-          setPostsData(res.data.posts);
-        })
-        .catch((err) => console.log(err));
     };
 
     checkLoggedIn();
@@ -114,39 +137,44 @@ function App() {
     <Router history={History}>
       <UserContext.Provider value={{ userData, setUserData }}>
         <PostsContext.Provider value={{ posts, setPostsData }}>
-          <ThemeContextProvider>
-            <LanguageContextProvider>
-              <div className='App'>
-                <Navbar />
-                <MobileNavbar />
-                {!userData.isAuth && <TabletNavBarNotAuth />}
-                <Suspense fallback={<PageLoader />}>
-                  <Switch>
-                    <Route exact path='/' component={Home} />
-                    <Route
-                      exact
-                      path='/posts/:postId'
-                      component={PostDetails}
-                    />
-                    <Route
-                      exact
-                      path='/users/:userName'
-                      component={UserProfile}
-                    />
-                    <Route
-                      exact
-                      path='/notifications'
-                      component={Notifications}
-                    />
-                    <AuthRoute exact path='/login' component={Login} />
-                    <AuthRoute exact path='/signup' component={Signup} />
-                    <Route component={Page404} />
-                  </Switch>
-                </Suspense>
-                <RightSide />
-              </div>
-            </LanguageContextProvider>
-          </ThemeContextProvider>
+          <UserProfileContext.Provider
+            value={{ userProfileData, setUserProfileData }}
+          >
+            <ThemeContextProvider>
+              <LanguageContextProvider>
+                <div className='App'>
+                  <Navbar />
+                  <MobileNavbar />
+                  {!userData.isAuth && <TabletNavBarNotAuth />}
+                  <Suspense fallback={<PageLoader />}>
+                    <ScrollToTop />
+                    <Switch>
+                      <Route exact path='/' component={Home} />
+                      <Route
+                        exact
+                        path='/posts/:postId'
+                        component={PostDetails}
+                      />
+                      <Route
+                        exact
+                        path='/users/:userName'
+                        component={UserProfile}
+                      />
+                      <Route
+                        exact
+                        path='/notifications'
+                        component={Notifications}
+                      />
+                      <AuthRoute exact path='/login' component={Login} />
+                      <AuthRoute exact path='/signup' component={Signup} />
+                      <Route component={Page404} />
+                    </Switch>
+                  </Suspense>
+                  <RightSide />
+                </div>
+              </LanguageContextProvider>
+            </ThemeContextProvider>
+          </UserProfileContext.Provider>
         </PostsContext.Provider>
       </UserContext.Provider>
     </Router>

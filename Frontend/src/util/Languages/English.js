@@ -1,4 +1,4 @@
-export default {
+const English = {
   login: {
     pageTitle: "Login | Twirrer",
     header: "Log in to Twirrer",
@@ -95,3 +95,5 @@ export default {
     cancelButton: "Cancel",
   },
 };
+
+export default English;

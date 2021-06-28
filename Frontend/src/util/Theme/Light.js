@@ -1,4 +1,4 @@
-export default {
+const Light = {
   mainColor: "#1DA1F2",
   secondaryColor: "rgba(29, 161, 242, 0.1)",
   background: "#ffffff",
@@ -13,3 +13,5 @@ export default {
   addPostBorder: "#e6ecf0",
   PinnedPostBorder: "#e6ecf0",
 };
+
+export default Light;

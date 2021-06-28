@@ -1,4 +1,4 @@
-export default {
+const German = {
   login: {
     pageTitle: "Anmeldung | Twirrer",
     header: "Melden Sie sich bei Twirrer an",
@@ -95,3 +95,5 @@ export default {
     cancelButton: "Abbrechen",
   },
 };
+
+export default German;

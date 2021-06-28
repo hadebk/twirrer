@@ -33,6 +33,7 @@ const MobileNavbar = () => {
     profile: false,
   });
 
+  // notification number
   const [notsCount, setNotsCount] = useState(0);
 
   useEffect(() => {

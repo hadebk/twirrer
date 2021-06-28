@@ -83,6 +83,23 @@
       }
     }
   }
+
+  .form .form__inputBox {
+    padding: 3px 10px 0;
+    border-radius: 2px;
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+
+    input {
+      padding-left: 0;
+      padding-right: 0;
+
+      &:focus {
+        outline: 0;
+        border: 0;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 500px) {

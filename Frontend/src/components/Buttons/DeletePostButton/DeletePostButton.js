@@ -14,10 +14,10 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
 import UserContext from "../../../context/UserContext";
 import PostsContext from "../../../context/PostsContext";
+import UserProfileContext from "../../../context/UserProfileContext";
 
 const DeletePostButton = ({ post }) => {
   // ******* start global state ******* //
-
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
@@ -32,6 +32,9 @@ const DeletePostButton = ({ post }) => {
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
 
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
   // ******* end global state ******* //
 
   // local state
@@ -54,7 +57,49 @@ const DeletePostButton = ({ post }) => {
         let newPosts = posts.filter(
           (current) => current.postId !== post.postId
         );
+        // 1- update posts state in global state
         setPostsData(newPosts);
+
+        // 2- update posts in session storage (cache)
+        window.sessionStorage.setItem("posts", JSON.stringify(newPosts));
+
+        // 3- delete this post from cache
+        window.sessionStorage.removeItem(post.postId);
+
+        // 4- delete this post from user profile data (global state)
+        /**
+         * check if current profile page belongs to the logged in user or not,
+         * bcz if not, should no update be applied to the userProfileData state.
+         */
+        if (
+          userProfileData.user.userName === userData.user.credentials.userName
+        ) {
+          let userNewPosts = userProfileData.posts.filter(
+            (current) => current.postId !== post.postId
+          );
+          setUserProfileData({
+            ...userProfileData,
+            posts: userNewPosts,
+          });
+        }
+
+        // 5- update user profile data in session storage (cache)
+        // get user profile data from cache
+        let cachedUserProfileData = JSON.parse(
+          window.sessionStorage.getItem(userData.user.credentials.userName)
+        );
+        if (cachedUserProfileData) {
+          let userNewPostsCache = cachedUserProfileData.posts.filter(
+            (current) => current.postId !== post.postId
+          );
+          window.sessionStorage.setItem(
+            userData.user.credentials.userName,
+            JSON.stringify({
+              ...cachedUserProfileData,
+              posts: userNewPostsCache,
+            })
+          );
+        }
         closeModal();
       })
       .catch((err) => {
@@ -81,7 +126,6 @@ const DeletePostButton = ({ post }) => {
           style={{
             backgroundColor: theme.errorBackground,
           }}
-          
         ></div>
 
         <Modal

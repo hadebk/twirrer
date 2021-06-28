@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+const PostService = {
   PinnedPost: async function () {
     try {
       const response = await axios.get("/pinedPost");
@@ -34,7 +34,7 @@ export default {
       return response;
     } catch (error) {
       throw error;
-    } 
+    }
   },
 
   addNewPost: async function (post, token) {
@@ -103,3 +103,5 @@ export default {
     }
   },
 };
+
+export default PostService;

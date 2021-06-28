@@ -12,9 +12,9 @@ import Spinner from "../../Spinner/Spinner";
 // context (global state)
 import UserContext from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
+import UserProfileContext from "../../../context/UserProfileContext";
 
-const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
-
+const EditCoverImageButton = () => {
   // userData context
   const { userData } = useContext(UserContext);
 
@@ -22,10 +22,14 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
 
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
+
   // local state
   const [loading, setLoading] = useState(false);
 
-  // on select new image, upload this image direct to server
+  // On selecting new image, upload this image directly to the server
   const handleImageChange = (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
@@ -36,8 +40,8 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
       UserService.uploadCoverImage(formData, userData.token)
         .then((res) => {
           let url = res.data.imageURL;
-          // update user data in UserProfile page (in state), to show new profile image
 
+          // 1- update user data in UserProfile page (state), to show new profile image
           setUserProfileData({
             friends: userProfileData.friends,
             posts: userProfileData.posts,
@@ -46,6 +50,24 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
               coverPicture: url,
             },
           });
+
+          // update user profile data in cache also with new cover image
+          let cachedCurrentUser = JSON.parse(
+            window.sessionStorage.getItem(userData.user.credentials.userName)
+          );
+          if (cachedCurrentUser) {
+            window.sessionStorage.setItem(
+              userData.user.credentials.userName,
+              JSON.stringify({
+                friends: cachedCurrentUser.friends,
+                posts: cachedCurrentUser.posts,
+                user: {
+                  ...cachedCurrentUser.user,
+                  coverPicture: url,
+                },
+              })
+            );
+          }
         })
         .then(() => setLoading(false))
         .catch((err) => {
@@ -75,8 +97,8 @@ const EditCoverImageButton = ({ userProfileData, setUserProfileData }) => {
       />
       <i
         className='fal fa-pen pen'
-          onClick={() => handleEditPicture()}
-          style={{border: `2px solid ${theme.background}`}}
+        onClick={() => handleEditPicture()}
+        style={{ border: `2px solid ${theme.background}` }}
       ></i>
     </div>
   );

@@ -66,7 +66,8 @@ const CurrentUser = () => {
               </h2>
             </Link>
             <p style={{ color: theme.typoSecondary }}>
-              {userData.user.friends.length} {language.userProfile.friends}
+              {userData.user.credentials.friendsCount}{" "}
+              {language.userProfile.friends}
             </p>
           </div>
         </>

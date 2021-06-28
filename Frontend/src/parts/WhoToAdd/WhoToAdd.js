@@ -16,6 +16,7 @@ import CheckVerifiedUserName from "../../components/CheckVerifiedUserName";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import UserProfileContext from "../../context/UserProfileContext";
 
 const WhoToAdd = () => {
   // ******* start global state ******* //
@@ -31,6 +32,9 @@ const WhoToAdd = () => {
   // user context
   const { userData } = useContext(UserContext);
 
+  // user profile data context
+  const { userProfileData } = useContext(UserProfileContext);
+
   // ******* end global state ******* //
   const [users, setUsers] = useState([]);
   const [isLoad, setLoad] = useState(false);
@@ -39,29 +43,69 @@ const WhoToAdd = () => {
 
   useEffect(() => {
     if (userData.isAuth) {
-      setLoad(true);
-      UserService.usersToAdd(userData.token)
-        .then((res) => {
-          let all = userData.user.friends.concat(res.data);
-          const filteredArr = all
-            .reduce((acc, current) => {
-              const x = acc.find((item) => item.userName === current.userName);
-              if (!x) {
-                return acc.concat([current]);
-              } else {
-                return acc;
-              }
-            }, [])
-            .slice(userData.user.friends.length);
-          setUsers(filteredArr);
-          setLoad(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoad(false);
-        });
+      // get cached data (users to add as friends)
+      let cachedUsersToAdd = JSON.parse(
+        window.sessionStorage.getItem("CachedUsersToAdd")
+      );
+
+      if (cachedUsersToAdd && cachedUsersToAdd.length > 0) {
+        // data is cached
+        setLoad(false);
+        setUsers(cachedUsersToAdd);
+      } else {
+        // data is not cached
+        setLoad(true);
+        // this request will retrieve 3 or 4 suggested users
+        UserService.usersToAdd(userData.token)
+          .then((res) => {
+            // merge current user's friends with suggested users (api response)
+            let allUsers = userData.user.friends.concat(res.data);
+
+            // filter already added users, to show just the users, that not yet were added by current user,
+            // actually, delete duplication in allUsers array.
+            const filteredUsersList = allUsers.reduce(
+              (filteredList, currentItem) => {
+                const isCurrentItemAlreadyExist = filteredList.find(
+                  (item) => item.userName === currentItem.userName
+                );
+                if (isCurrentItemAlreadyExist) {
+                  // the user is already exist in 'filteredList', so skip it.
+                  return filteredList;
+                } else {
+                  // the user is dose not exist in 'filteredList', so add it to 'filteredList'.
+                  return filteredList.concat([currentItem]);
+                }
+              },
+              []
+            );
+
+            // now we have just the user, that were not added by current user,
+            // and they located at the end of 'filteredUsersList' array, so if we slice user's friend
+            // form the beginning of the array, we will get suggested users to add.
+            // ex. of filteredUsersList => [addedUser1, addedUser2, addedUser3, suggestedUser1, suggestedUser2]
+            let suggestedUsersToAdd = filteredUsersList.slice(
+              userData.user.friends.length
+            );
+            setUsers(suggestedUsersToAdd);
+            setLoad(false);
+            // add 'suggested user to add' to session storage (cache)
+            window.sessionStorage.setItem(
+              "CachedUsersToAdd",
+              JSON.stringify(suggestedUsersToAdd)
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+            setLoad(false);
+          });
+      }
     }
-  }, [userData.isAuth]);
+  }, [
+    userData.isAuth,
+    userData.token,
+    userData.user.friends,
+    userProfileData.friends,
+  ]);
 
   return isLoad ? (
     <div className='whoToAdd__spinner'>
@@ -126,9 +170,7 @@ const WhoToAdd = () => {
                   className='whoToAdd__usersBox__user__rightSide__line2'
                   style={{
                     color: theme.typoMain,
-                    textAlign: `${
-                      arabic.test(user.bio) ? "right" : "left"
-                      }`,
+                    textAlign: `${arabic.test(user.bio) ? "right" : "left"}`,
                     direction: `${arabic.test(user.bio) ? "rtl" : "ltr"}`,
                   }}
                 >

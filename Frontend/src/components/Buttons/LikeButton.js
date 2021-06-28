@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -8,6 +9,7 @@ import PostService from "../../services/PostService";
 import { ThemeContext } from "../../context/ThemeContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import UserProfileContext from "../../context/UserProfileContext";
 
 const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
   // ******* start global state ******* //
@@ -20,6 +22,10 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
 
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
+
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
   // ******* end global state ******* //
 
   // local state
@@ -30,6 +36,8 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
 
   // history init
   const history = useHistory();
+
+  const likesDependency = userData.isAuth ? userData.user.likes : "";
 
   useEffect(() => {
     setLikes_count(post.likeCount);
@@ -44,25 +52,29 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
         }
       });
     }
-  }, [userData.isAuth, post.postId]);
+  }, [post.likeCount, post.postId, userData.isAuth, likesDependency]);
 
   const likePost = (isAuth) => {
     if (isAuth) {
       PostService.LikePost(post.postId, userData.token)
         .then((res) => {
           setLikes_count(res.data.likeCount);
-          // update post in posts (in global state) array
+          setLikeStatus(true);
+
+          // 1- update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
               let newPosts = [...posts];
               newPosts[index] = res.data;
               setPostsData(newPosts);
+              // 2- update posts cache in session storage (cache)
+              window.sessionStorage.setItem("posts", JSON.stringify(newPosts));
             }
           });
-          setLikeStatus(true);
-          // update user likes (in global state) array
-          let newLikes = userData.user.likes;
-          newLikes.push({
+
+          // 3- update user likes (in global state) array
+          let user_newLikes = userData.user.likes;
+          user_newLikes.push({
             postId: post.postId,
             profilePicture: userData.user.credentials.profilePicture,
             userName: userData.user.credentials.userName,
@@ -71,22 +83,93 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
             ...userData,
             user: {
               ...userData.user,
-              likes: newLikes,
+              likes: user_newLikes,
             },
           });
-          // update postData in PostDetails Page
+
+          // 4- update user data cache in session storage (cache)
+          sessionStorage.setItem(
+            "CacheUserData",
+            JSON.stringify({
+              ...userData,
+              user: {
+                ...userData.user,
+                likes: user_newLikes,
+              },
+            })
+          );
+
+          // 5- update current post in session storage (cache)
+          let cachedCurrentPost = JSON.parse(
+            window.sessionStorage.getItem(res.data.postId)
+          );
+          if (cachedCurrentPost) {
+            window.sessionStorage.setItem(
+              res.data.postId,
+              JSON.stringify({
+                postContent: res.data,
+                postComments: cachedCurrentPost.postComments,
+                postLikes: cachedCurrentPost.postLikes.concat({
+                  postId: post.postId,
+                  profilePicture: userData.user.credentials.profilePicture,
+                  userName: userData.user.credentials.userName,
+                }),
+              })
+            );
+          }
+
+          // 6- update post in userProfileData (global state)
+          // check if likedPost belongs to current user in userProfileData state(global)
+          if (userProfileData.user.userName === res.data.userName) {
+            userProfileData.posts.map((pos, index) => {
+              if (pos.postId === res.data.postId) {
+                let userNewPosts = [...userProfileData.posts];
+                userNewPosts[index] = res.data;
+                setUserProfileData({
+                  ...userProfileData,
+                  posts: userNewPosts,
+                });
+              }
+            });
+          }
+
+          // 7- update user profile cache with new like count in session storage (cache)
+          let cachedUserProfileData = JSON.parse(
+            window.sessionStorage.getItem(post.userName)
+          );
+          if (cachedUserProfileData) {
+            cachedUserProfileData.posts.map((pos, index) => {
+              if (pos.postId === res.data.postId) {
+                let userNewPostsCache = [...userProfileData.posts];
+                userNewPostsCache[index] = res.data;
+                window.sessionStorage.setItem(
+                  post.userName,
+                  JSON.stringify({
+                    ...cachedUserProfileData,
+                    posts: userNewPostsCache,
+                  })
+                );
+              }
+            });
+          }
+
+          /** those 2 changes will be executed only when user click like button
+           *  from postDetailsPage
+           * */
+          // 1- update postData in PostDetails Page
           if (postData) {
             setPostData(res.data);
           }
-          // update likes in PostDetails page
+
+          // 2- update likes in PostDetails page
           if (likes) {
-            let newLikes = [...likes];
-            newLikes.unshift({
+            let post_newLikes = [...likes];
+            post_newLikes.unshift({
               postId: post.postId,
               profilePicture: userData.user.credentials.profilePicture,
               userName: userData.user.credentials.userName,
             });
-            setLikes(newLikes);
+            setLikes(post_newLikes);
           }
         })
         .catch((err) => {
@@ -102,40 +185,114 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
       PostService.unlikePost(post.postId, userData.token)
         .then((res) => {
           setLikes_count(res.data.likeCount);
-          // update post in posts (in global state) array
+          setLikeStatus(false);
+
+          // 1- update post in posts (in global state) array
           posts.map((pos, index) => {
             if (pos.postId === res.data.postId) {
               let newPosts = [...posts];
               newPosts[index] = res.data;
               setPostsData(newPosts);
+              // 2- update posts cache in session storage (cache)
+              window.sessionStorage.setItem("posts", JSON.stringify(newPosts));
             }
           });
-          setLikeStatus(false);
-          // update user likes (in global state) array
-          let newLikes = userData.user.likes.filter(
+
+          // =3- update user likes (in global state) array
+          let user_newLikes = userData.user.likes.filter(
             (like) => like.postId !== post.postId
           );
           setUserData({
             ...userData,
             user: {
               ...userData.user,
-              likes: newLikes,
+              likes: user_newLikes,
             },
           });
-          // update postData in PostDetails Page
+
+          // 4- update user data cache in session storage (cache)
+          sessionStorage.setItem(
+            "CacheUserData",
+            JSON.stringify({
+              ...userData,
+              user: {
+                ...userData.user,
+                likes: user_newLikes,
+              },
+            })
+          );
+
+          // 5- update current post's in session storage (cache)
+          let cachedCurrentPost = JSON.parse(
+            window.sessionStorage.getItem(res.data.postId)
+          );
+          if (cachedCurrentPost) {
+            let filteredPostLikes = cachedCurrentPost.postLikes.filter(
+              (like) => like.userName !== userData.user.credentials.userName
+            );
+            window.sessionStorage.setItem(
+              res.data.postId,
+              JSON.stringify({
+                postContent: res.data,
+                postComments: cachedCurrentPost.postComments,
+                postLikes: filteredPostLikes,
+              })
+            );
+          }
+
+          // 6- update post in userProfileData (global state)
+          // check if likedPost belongs to current user in userProfileData state(global)
+          if (userProfileData.user.userName === res.data.userName) {
+            userProfileData.posts.map((pos, index) => {
+              if (pos.postId === res.data.postId) {
+                let userNewPosts = [...userProfileData.posts];
+                userNewPosts[index] = res.data;
+                setUserProfileData({
+                  ...userProfileData,
+                  posts: userNewPosts,
+                });
+              }
+            });
+          }
+
+          // 7- update user profile cache with new like number in session storage (cache)
+          let cachedUserProfileData = JSON.parse(
+            window.sessionStorage.getItem(post.userName)
+          );
+          if (cachedUserProfileData) {
+            cachedUserProfileData.posts.map((pos, index) => {
+              if (pos.postId === res.data.postId) {
+                let userNewPostsCache = [...userProfileData.posts];
+                userNewPostsCache[index] = res.data;
+                window.sessionStorage.setItem(
+                  post.userName,
+                  JSON.stringify({
+                    ...cachedUserProfileData,
+                    posts: userNewPostsCache,
+                  })
+                );
+              }
+            });
+          }
+
+          /** those 2 changes will be executed only when user click like button
+           *  from postDetailsPage
+           * */
+          // 1- update postData in PostDetails Page
           if (postData) {
             setPostData(res.data);
           }
-          // update likes in PostDetails page
+          // 2- update likes in PostDetails page
+          let post_newLikes_inDetailsPage;
           if (likes) {
-            let newLikes = [...likes].filter(
+            post_newLikes_inDetailsPage = [...likes].filter(
               (like) => like.userName !== userData.user.credentials.userName
             );
-            setLikes(newLikes);
+            setLikes(post_newLikes_inDetailsPage);
           }
         })
         .catch((err) => {
-          console.log(err.response.data);
+          console.log(err);
         });
     } else {
       history.push("/login");

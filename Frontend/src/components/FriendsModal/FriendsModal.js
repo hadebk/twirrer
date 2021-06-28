@@ -15,9 +15,9 @@ import CheckVerifiedUserName from "../CheckVerifiedUserName";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
+import UserProfileContext from "../../context/UserProfileContext";
 
-
-const FriendsModal = ({ userProfileData, setUserProfileData }) => { 
+const FriendsModal = () => {
   // ******* start global state ******* //
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -30,12 +30,13 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
   // user context
   const { userData } = useContext(UserContext);
 
+  // user profile data context
+  const { userProfileData } = useContext(UserProfileContext);
   // ******* end global state ******* //
   // local state
   const [isOpen, setOpen] = useState(false);
 
-  useEffect(() => {
-  }, [userData, userProfileData]);
+  useEffect(() => {}, [userData, userProfileData]);
   // utils
   let closeModal = () => setOpen(false);
 
@@ -48,7 +49,7 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
       <div
         className='userProfile__main__userDetails__userData__friends'
         onClick={openModal}
-        style={{color: theme.typoMain}}
+        style={{ color: theme.typoMain }}
       >
         <span
           className='userProfile__main__userDetails__userData__friends__number'
@@ -145,7 +146,9 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
                       >
                         <CheckVerifiedUserName userName={friend.userName} />
                       </Link>
-                      <p style={{ color: theme.typoSecondary }}>@{friend.userName}</p>
+                      <p style={{ color: theme.typoSecondary }}>
+                        @{friend.userName}
+                      </p>
                     </div>
                   </div>
                   {/* add friend button */}
@@ -155,9 +158,7 @@ const FriendsModal = ({ userProfileData, setUserProfileData }) => {
                         className='friendsBox__friend__rightSide'
                         style={{ color: theme.typoMain }}
                       >
-                        <AddFriendButton
-                          userName={friend.userName}
-                        />
+                        <AddFriendButton userName={friend.userName} />
                       </div>
                     ) : (
                       ""

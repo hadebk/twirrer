@@ -46,7 +46,7 @@ const Notifications = () => {
     // get all nots and show them
     if (userData.isAuth) {
       setNotifications(userData.user.notifications);
-      // when open Notifications page, mark all Nots as read
+      // when open Notifications page, mark all Nots as 'reading'
       let unreadNotificationsIds =
         userData.user.notifications.length > 0 &&
         userData.user.notifications
@@ -57,11 +57,11 @@ const Notifications = () => {
         userData.token
       )
         .then((res) => {
-          console.log(res.data);
+          return res;
         })
         .catch((err) => console.log(err));
     }
-  }, [userData.isAuth]);
+  }, [userData.isAuth, userData.token, userData.user.notifications]);
 
   return (
     <div
@@ -160,7 +160,9 @@ const Notifications = () => {
                   </div>
                   <div className='notificationsBox__Wrapper__singleNotBox__content'>
                     <div className='notificationsBox__Wrapper__singleNotBox__content__header'>
-                      <p style={{ color: theme.typoMain }}><CheckVerifiedUserName userName={Not.sender}/></p>
+                      <p style={{ color: theme.typoMain }}>
+                        <CheckVerifiedUserName userName={Not.sender} />
+                      </p>
                       <span style={{ color: theme.typoMain }}>{text}</span>
                     </div>
                     <div

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-// style file 
+// style file
 import "./Login.scss";
 
 // context (global state)
@@ -20,9 +20,7 @@ const Login = () => {
   const theme = isLightTheme ? light : dark;
 
   // language context
-  const { isEnglish, english, german } = useContext(
-    LanguageContext
-  );
+  const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context
@@ -65,6 +63,14 @@ const Login = () => {
                 user: res.data,
                 isAuth: true,
               });
+              sessionStorage.setItem(
+                "CacheUserData",
+                JSON.stringify({
+                  token: userToken,
+                  isAuth: true,
+                  user: res.data,
+                })
+              );
             })
             .then(() => {
               history.push("/");
@@ -159,7 +165,7 @@ const Login = () => {
                   color: theme.typoMain,
                 }}
                 aria-describedby='emailHelp'
-                autoComplete="on"
+                autoComplete='on'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -203,7 +209,7 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 aria-describedby='passHelp'
-                autoComplete="on"
+                autoComplete='on'
               />
               {errors.password && (
                 <small

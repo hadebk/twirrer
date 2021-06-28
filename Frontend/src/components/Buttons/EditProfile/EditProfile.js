@@ -8,15 +8,16 @@ import variables from "../../../style/CssVariables.scss";
 // api service
 import UserService from "../../../services/UserService";
 
-// libraries
+// bootstrap components
 import { Modal } from "react-bootstrap";
 
 // context (global state)
 import UserContext from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LanguageContext } from "../../../context/LanguageContext";
+import UserProfileContext from "../../../context/UserProfileContext";
 
-const EditProfile = ({ userProfileData, setUserProfileData }) => {
+const EditProfile = () => {
   // ******* start global state *******//
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
@@ -28,19 +29,27 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
 
   // user context
   const { userData } = useContext(UserContext);
+
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
   // ******* end global state *******//
 
   // local state
   const [isOpen, setOpen] = useState(false);
-  const [bio, setBio] = useState('');
-  const [location, setLocation] = useState('');
-  const [website, setWebsite] = useState('');
+  const [bio, setBio] = useState("");
+  const [location, setLocation] = useState("");
+  const [website, setWebsite] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    setBio(userProfileData.user.bio ? userProfileData.user.bio : '');
-    setLocation(userProfileData.user.location ? userProfileData.user.location : '');
-    setWebsite(userProfileData.user.website ? userProfileData.user.website : '');
+    setBio(userProfileData.user.bio ? userProfileData.user.bio : "");
+    setLocation(
+      userProfileData.user.location ? userProfileData.user.location : ""
+    );
+    setWebsite(
+      userProfileData.user.website ? userProfileData.user.website : ""
+    );
   }, [userProfileData]);
 
   let closeModal = () => setOpen(false);
@@ -48,7 +57,6 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
   let openModal = () => setOpen(true);
 
   let saveAndClose = () => {
-    
     setLoading(true);
 
     let extraData = {
@@ -60,7 +68,7 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
     // send data to server
     UserService.addUserDetails(extraData, userData.token)
       .then(() => {
-        // update state to show new user details
+        // 1- update user profile state to show new user details
         setUserProfileData({
           friends: userProfileData.friends,
           posts: userProfileData.posts,
@@ -71,6 +79,26 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
             website: extraData.website,
           },
         });
+
+        // 2- update user profile in cache
+        let cachedCurrentUser = JSON.parse(
+          window.sessionStorage.getItem(userData.user.credentials.userName)
+        );
+        if (cachedCurrentUser) {
+          window.sessionStorage.setItem(
+            userData.user.credentials.userName,
+            JSON.stringify({
+              friends: cachedCurrentUser.friends,
+              posts: cachedCurrentUser.posts,
+              user: {
+                ...cachedCurrentUser.user,
+                bio: extraData.bio,
+                location: extraData.location,
+                website: extraData.website,
+              },
+            })
+          );
+        }
         setLoading(false);
       })
       .then(() => setOpen(false))
@@ -182,6 +210,8 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                   id='bio'
                   style={{
                     color: theme.typoMain,
+                    background: theme.foreground,
+                    border: 0,
                   }}
                   value={bio}
                   autoComplete='off'
@@ -211,6 +241,8 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                   id='location'
                   style={{
                     color: theme.typoMain,
+                    background: theme.foreground,
+                    border: 0,
                   }}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
@@ -239,6 +271,8 @@ const EditProfile = ({ userProfileData, setUserProfileData }) => {
                   id='website'
                   style={{
                     color: theme.typoMain,
+                    background: theme.foreground,
+                    border: 0,
                   }}
                   value={website}
                   autoComplete='off'

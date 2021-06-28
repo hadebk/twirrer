@@ -31,7 +31,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
-import PostsContext from "../../context/PostsContext";
+import UserProfileContext from "../../context/UserProfileContext";
 
 const UserProfile = (props) => {
   // ******* start global state *******//
@@ -46,18 +46,11 @@ const UserProfile = (props) => {
   // user context
   const { userData } = useContext(UserContext);
 
-  // posts context
-  const { posts } = useContext(PostsContext);
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
 
-  // ******* end global state *******//
-
-  // local state
-  const [userProfileData, setUserProfileData] = useState({
-    friends: [],
-    posts: [],
-    user: {},
-  });
-
+  // ******* start local state *******//
   const [profileLoader, setProfileLoader] = useState(false);
 
   // set page title
@@ -67,21 +60,39 @@ const UserProfile = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    setProfileLoader(true);
-    if (props.match.params.userName) {
-      UserService.getUserDetails(props.match.params.userName)
-        .then((res) => {
-          setUserProfileData(res.data);
-          setProfileLoader(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setProfileLoader(false);
-        });
+    let mounted = true;
+    if (mounted) {
+      // get user profile data from cache
+      let cachedUserProfileData = JSON.parse(
+        window.sessionStorage.getItem(props.match.params.userName)
+      );
+      if (cachedUserProfileData) {
+        // user profile data was cached, so fetch it from cache
+        setUserProfileData(cachedUserProfileData);
+        setProfileLoader(false);
+      } else {
+        // user profile data is not cached, so execute an api request to fetch it.
+        setProfileLoader(true);
+        if (props.match.params.userName) {
+          UserService.getUserDetails(props.match.params.userName)
+            .then((res) => {
+              setUserProfileData(res.data);
+              setProfileLoader(false);
+              // add user profile data to session storage (cache)
+              window.sessionStorage.setItem(
+                props.match.params.userName,
+                JSON.stringify(res.data)
+              );
+            })
+            .catch((err) => {
+              console.log(err);
+              setProfileLoader(false);
+            });
+        }
+      }
     }
-  }, [props.match.params.userName]);
-
-  useEffect(() => {}, [userData.isAuth, setUserProfileData, posts]);
+    return (mounted = false);
+  }, [props.match.params.userName, setUserProfileData]);
 
   const goToBack = () => {
     props.history.goBack();
@@ -150,10 +161,7 @@ const UserProfile = (props) => {
 
   const editAvatar = userData.isAuth ? (
     props.match.params.userName === userData.user.credentials.userName ? (
-      <EditProfileImageButton
-        userProfileData={userProfileData}
-        setUserProfileData={setUserProfileData}
-      />
+      <EditProfileImageButton />
     ) : (
       ""
     )
@@ -163,10 +171,7 @@ const UserProfile = (props) => {
 
   const editCover = userData.isAuth ? (
     props.match.params.userName === userData.user.credentials.userName ? (
-      <EditCoverImageButton
-        userProfileData={userProfileData}
-        setUserProfileData={setUserProfileData}
-      />
+      <EditCoverImageButton />
     ) : (
       ""
     )
@@ -262,16 +267,9 @@ const UserProfile = (props) => {
               {userData.isAuth ? (
                 props.match.params.userName ===
                 userData.user.credentials.userName ? (
-                  <EditProfile
-                    userProfileData={userProfileData}
-                    setUserProfileData={setUserProfileData}
-                  />
+                  <EditProfile />
                 ) : (
-                  <AddFriendButton
-                    userName={props.match.params.userName}
-                    userProfileData={userProfileData}
-                    setUserProfileData={setUserProfileData}
-                  />
+                  <AddFriendButton userName={props.match.params.userName} />
                 )
               ) : (
                 <Link to='/login'>
@@ -308,10 +306,7 @@ const UserProfile = (props) => {
                 {dayjs(userProfileData.user.createdAt).format("MMMM YYYY")}
               </div>
             </div>
-            <FriendsModal
-              userProfileData={userProfileData}
-              setUserProfileData={setUserProfileData}
-            />
+            <FriendsModal />
           </div>
           {/* user post section */}
           <div className='userProfile__main__userDetails__posts'>

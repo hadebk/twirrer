@@ -23,8 +23,8 @@ const RightSide = () => {
   const { userData } = useContext(UserContext);
 
   // ******* end global state ******* //
-  useEffect(() => { }, [userData.isAuth]);
-  
+  useEffect(() => {}, [userData.isAuth]);
+
   return (
     <div className='rightSide'>
       <div
@@ -34,9 +34,9 @@ const RightSide = () => {
           borderLeft: `1px solid ${theme.border}`,
         }}
       >
-        {userData.isAuth ? (
+        {userData.isAuth && window.screen.width > 991 ? (
           <Fragment>
-            <CurrentUser/>
+            <CurrentUser />
             <div
               className='rightSide__box__whoToAddBox'
               style={{
@@ -47,7 +47,7 @@ const RightSide = () => {
             </div>
           </Fragment>
         ) : (
-            <JoinTwirrer />
+          <JoinTwirrer />
         )}
       </div>
     </div>

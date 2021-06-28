@@ -6,10 +6,11 @@ import "./PostCard.scss";
 // libraries
 import ImageModal from "../ImageModal/ImageModal";
 import moment from "moment-twitter";
-import Linkify from "react-linkify"; 
+import Linkify from "react-linkify";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
+import UserContext from "../../context/UserContext";
 
 // component
 import DeletePostButton from "../Buttons/DeletePostButton/DeletePostButton";
@@ -22,6 +23,9 @@ const PostCard = ({ post }) => {
   // theme context
   const { isLightTheme, light, dark } = useContext(ThemeContext);
   const theme = isLightTheme ? light : dark;
+
+  // user context
+  const { userData } = useContext(UserContext);
   // ******* end global state ******* //
 
   // local state
@@ -44,6 +48,12 @@ const PostCard = ({ post }) => {
     }
   }
 
+  const ProfilePicture = userData.isAuth
+    ? post.userName === userData.user.credentials.userName
+      ? userData.user.credentials.profilePicture
+      : post.profilePicture
+    : post.profilePicture;
+
   return (
     <div
       className='postCard'
@@ -55,7 +65,7 @@ const PostCard = ({ post }) => {
         <div className='postCard__userImage__wrapper'>
           <img
             className='postCard__userImage__wrapper__image'
-            src={post.profilePicture}
+            src={ProfilePicture}
             alt='profile'
           />
         </div>
@@ -100,7 +110,7 @@ const PostCard = ({ post }) => {
             className='postCard__content__line3'
             style={{
               color: theme.mobileNavIcon,
-              border: `1px solid ${theme.border}`
+              border: `1px solid ${theme.border}`,
             }}
             onClick={(event) => {
               event.stopPropagation();

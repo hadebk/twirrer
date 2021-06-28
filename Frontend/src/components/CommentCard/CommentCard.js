@@ -12,6 +12,7 @@ import Linkify from "react-linkify";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import CheckVerifiedUserName from "../CheckVerifiedUserName";
+import UserContext from "../../context/UserContext";
 
 const CommentCard = ({ comment, authorName }) => {
   // ******* start global state ******* //
@@ -23,9 +24,18 @@ const CommentCard = ({ comment, authorName }) => {
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
+  // user context
+  const { userData } = useContext(UserContext);
+
   // ******* end global state ******* //
 
   var arabic = /[\u0600-\u06FF]/;
+
+  const ProfilePicture = userData.isAuth
+    ? comment.userName === userData.user.credentials.userName
+      ? userData.user.credentials.profilePicture
+      : comment.profilePicture
+    : comment.profilePicture;
 
   return (
     <div
@@ -39,7 +49,7 @@ const CommentCard = ({ comment, authorName }) => {
           <Link to={"/users/" + comment.userName}>
             <img
               className='commentCard__userImage__wrapper__image'
-              src={comment.profilePicture}
+              src={ProfilePicture}
               alt='profile'
             />
           </Link>
@@ -85,7 +95,8 @@ const CommentCard = ({ comment, authorName }) => {
               }}
               className='commentCard__content__line2__authorName'
             >
-              {'@'}<CheckVerifiedUserName userName={authorName} />
+              {"@"}
+              <CheckVerifiedUserName userName={authorName} />
             </Link>
           </div>
         </div>

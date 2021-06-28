@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 // style
 import "./PostCardDetails.scss";
 
-// assets
-import Default from "../../assets/Images/default_pp.png";
-
 // libraries
 import moment from "moment-twitter";
 import Linkify from "react-linkify";
@@ -22,6 +19,7 @@ import CheckVerifiedUserName from "../CheckVerifiedUserName";
 import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import ImageModal from "../../components/ImageModal/ImageModal";
+import UserContext from "../../context/UserContext";
 
 const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
   // ******* start global state *******//
@@ -32,9 +30,18 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
   // language context
   const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
+
+  // user context
+  const { userData } = useContext(UserContext);
   // ******* end global state *******//
 
   var arabic = /[\u0600-\u06FF]/;
+
+  const ProfilePicture = userData.isAuth
+    ? postData.userName === userData.user.credentials.userName
+      ? userData.user.credentials.profilePicture
+      : postData.profilePicture
+    : postData.profilePicture;
 
   return (
     <div
@@ -49,9 +56,7 @@ const PostCardDetails = ({ postData, likes, setLikes, setPostData }) => {
             <Link to={"/users/" + postData.userName}>
               <img
                 className='postDetails__post__header__userImage__wrapper__image'
-                src={
-                  postData.profilePicture ? postData.profilePicture : Default
-                }
+                src={ProfilePicture}
                 alt='profile'
               />
             </Link>

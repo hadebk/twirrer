@@ -16,8 +16,7 @@ const CommentButton = ({ post }) => {
 
   // ******* end global state ******* //
 
-    useEffect(() => {
-  }, [posts]);
+  useEffect(() => {}, [posts]);
 
   return (
     <div className='postCard__content__line4__comment'>

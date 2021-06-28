@@ -1,15 +1,13 @@
 import React, { useState, useContext, useEffect, Fragment } from "react";
-import {useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // style
 import "./Home.scss";
 // Global vars import
 import variables from "../../style/CssVariables.scss";
 
-
 // api service
 import PostService from "../../services/PostService";
-import UserService from "../../services/UserService";
 
 // context (global state)
 import { ThemeContext } from "../../context/ThemeContext";
@@ -36,7 +34,7 @@ const Home = () => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
@@ -47,6 +45,8 @@ const Home = () => {
   const [lastKey, setKey] = useState("");
   const [posts_loading, setPostsLoading] = useState(false);
   const [nextPosts_loading, setNextPostsLoading] = useState(false);
+  const [pinnedPost, setPinnedPost] = useState({});
+  const [PinnedPostLoad, setPinnedPostLoad] = useState(false);
 
   // history init
   const history = useHistory();
@@ -54,44 +54,69 @@ const Home = () => {
   // set page title
   document.title = language.home.pageTitle;
 
+  // fetch posts
   useEffect(() => {
     let mounted = true;
 
-    if (mounted) {
-      setPostsLoading(true);
-      // get first batch of posts to show in home
-      PostService.postsFirstFetch()
-        .then((res) => {
-          setKey(res.data.lastKey);
-          setPostsData(res.data.posts);
-          setPostsLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setPostsLoading(false);
-        });
+    // get cache (posts)
+    let cachedPosts = JSON.parse(window.sessionStorage.getItem("posts"));
+    let cachedLastPostKey = window.sessionStorage.getItem("lastKey");
 
-      // get data of logged in user, and pass it to global state
-      let userToken = localStorage.getItem("auth-token");
-      if (userToken) {
-        UserService.getAuthenticatedUser(userToken)
-          .then((res) => {
-            setUserData({
-              token: userToken,
-              user: res.data,
-              isAuth: true,
+    if (mounted) {
+      let fun = async () => {
+        if (cachedPosts && cachedPosts.length !== 0 && cachedLastPostKey) {
+          // the posts were cached
+          // first, get pinned post from cache and set it to local state
+          setPinnedPost(cachedPosts[0]);
+          setPinnedPostLoad(false);
+          // then get posts from cache and set them to local state
+          setPostsData(cachedPosts);
+          setKey(cachedLastPostKey);
+          setPostsLoading(false);
+        } else {
+          // the posts are not cached, so execute an api request to fetch them
+          let pinedPostContent = [];
+          // fetch pinned post from DB
+          setPinnedPostLoad(true);
+          await PostService.PinnedPost()
+            .then((res) => {
+              pinedPostContent.push(res.data);
+              setPinnedPost(res.data);
+              setPinnedPostLoad(false);
+            })
+            .catch((err) => {
+              console.log(err);
+              setPinnedPostLoad(false);
             });
-          })
-          .catch((err) => console.error("Error while get user data", err));
-      }
+          // then get first batch of posts from DB to display them in home page
+          setPostsLoading(true);
+          await PostService.postsFirstFetch()
+            .then((res) => {
+              setKey(res.data.lastKey);
+              setPostsData(pinedPostContent.concat(res.data.posts));
+              setPostsLoading(false);
+              // add posts and last post's key to session storage (cache)
+              window.sessionStorage.setItem(
+                "posts",
+                JSON.stringify(pinedPostContent.concat(res.data.posts))
+              );
+              window.sessionStorage.setItem("lastKey", res.data.lastKey);
+            })
+            .catch((err) => {
+              console.log(err);
+              setPostsLoading(false);
+            });
+        }
+      };
+      fun();
     }
-    return () => mounted = false;
-  }, []);
+    return () => (mounted = false);
+  }, [setPostsData]);
 
   /**
    * used to apply pagination on posts
-   * @param {String} key
-   * @return next batch of posts
+   * @param {String} key key of last fetched post
+   * @functionality fetch next batch of posts
    * will fire on user click on load more posts button in the end of home.
    */
   const fetchMorePosts = (key) => {
@@ -100,10 +125,16 @@ const Home = () => {
       PostService.postsNextFetch({ lastKey: key })
         .then((res) => {
           setKey(res.data.lastKey);
-          // add new posts to old posts, rather than delete old posts and show new posts,
-          // of course we need all posts to be shown.
+          // add new fetched posts to already fetched posts.
           setPostsData(posts.concat(res.data.posts));
           setNextPostsLoading(false);
+          // add new fetched posts to cached posts in session storage (cache),
+          // and last post's key to session storage (cache).
+          window.sessionStorage.setItem(
+            "posts",
+            JSON.stringify(posts.concat(res.data.posts))
+          );
+          window.sessionStorage.setItem("lastKey", res.data.lastKey);
         })
         .catch((err) => {
           console.log(err.response.data);
@@ -117,13 +148,18 @@ const Home = () => {
     history.push("/posts/" + postID);
   };
 
-  // store first batch of posts, on page load first
-  const firstPosts = !posts_loading ? (
+  // store first batch of posts in a var
+  const feedPosts = !posts_loading ? (
     <Fragment>
       {posts.map((post) => {
         return (
           <div key={post.postId} onClick={() => toPostDetails(post.postId)}>
-            <PostCard post={post} />
+            {/* detect if this post is pinned post, so escape it, هn order not to show twice*/}
+            {post.postId !== "JXuy58xhwYWwt6JDwMI1" ? (
+              <PostCard post={post} />
+            ) : (
+              ""
+            )}
           </div>
         );
       })}
@@ -158,20 +194,21 @@ const Home = () => {
             className='home-box__addNewPostWrapper'
             style={{ borderBottom: `10px solid  ${theme.addPostBorder}` }}
           >
-            <AddNewPost inputId='staticPart' setOpen={false}/>
+            <AddNewPost inputId='staticPart' setOpen={false} />
           </div>
         ) : (
           ""
         )}
 
         {/* 'pinned post' section */}
-        <PinnedPost />
+        <PinnedPost pinnedPost={pinnedPost} PinnedPostLoad={PinnedPostLoad} />
 
         {/* 'posts first fetch' section */}
-        <div className='home-box__posts'>{firstPosts}</div>
+        <div className='home-box__posts'>{feedPosts}</div>
 
-        {/* 'who to add' section */}
-        {userData.isAuth ? <WhoToAdd /> : ""}
+        {/* 'who to add' section, for mobile view */}
+
+        {userData.isAuth && window.screen.width <= 991 ? <WhoToAdd /> : ""}
 
         {/* 'button to fetch more posts' section */}
         <div className='home-box__spinner' style={{ textAlign: "center" }}>

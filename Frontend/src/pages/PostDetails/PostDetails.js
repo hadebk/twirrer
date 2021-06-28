@@ -48,22 +48,45 @@ const PostDetails = (props) => {
 
   useEffect(() => {
     setPostId(props.match.params.postId);
-    setLoading(true);
-    if (props.match.params.postId) {
-      // get all details of current post
-      PostService.getPostDetails(props.match.params.postId)
-        .then((res) => {
-          let result = res.data.post;
-          result.postId = res.data.postId;
-          setPostData(result);
-          setComments(res.data.comments);
-          setLikes(res.data.likes);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoading(false);
-        });
+    let postID = props.match.params.postId;
+
+    // get cache (current post), each post will be cached with key (postID)
+    let cachedCurrentPost = JSON.parse(window.sessionStorage.getItem(postID));
+
+    if (cachedCurrentPost) {
+      // current post's data are cached
+      setPostData(cachedCurrentPost.postContent);
+      setComments(cachedCurrentPost.postComments);
+      setLikes(cachedCurrentPost.postLikes);
+      setLoading(false);
+    } else {
+      // get current post from DB
+      setLoading(true);
+      if (postID) {
+        // get all details of current post
+        PostService.getPostDetails(postID)
+          .then((res) => {
+            let postContent = res.data.post;
+            postContent.postId = res.data.postId;
+            setPostData(postContent);
+            setComments(res.data.comments);
+            setLikes(res.data.likes);
+            // add current post's data to session storage (cache)
+            window.sessionStorage.setItem(
+              postID,
+              JSON.stringify({
+                postContent,
+                postComments: res.data.comments,
+                postLikes: res.data.likes,
+              })
+            );
+            setLoading(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            setLoading(false);
+          });
+      }
     }
   }, [props.match.params.postId]);
 

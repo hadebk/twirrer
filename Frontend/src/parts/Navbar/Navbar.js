@@ -21,9 +21,7 @@ const Navbar = () => {
   const theme = isLightTheme ? light : dark;
 
   // language context
-  const { isEnglish, english, german } = useContext(
-    LanguageContext
-  );
+  const { isEnglish, english, german } = useContext(LanguageContext);
   var language = isEnglish ? english : german;
 
   // user context

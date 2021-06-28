@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useState, useContext } from "react";
 
 // style
@@ -14,6 +15,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { LanguageContext } from "../../context/LanguageContext";
 import UserContext from "../../context/UserContext";
 import PostsContext from "../../context/PostsContext";
+import UserProfileContext from "../../context/UserProfileContext";
 
 const AddComment = ({
   postId,
@@ -36,6 +38,10 @@ const AddComment = ({
 
   // posts context
   const { posts, setPostsData } = useContext(PostsContext);
+
+  // user profile data context
+  const { userProfileData, setUserProfileData } =
+    useContext(UserProfileContext);
   // ******* end global state *******//
 
   const [textarea, setTextarea] = useState({
@@ -45,7 +51,7 @@ const AddComment = ({
     maxRows: 5,
   });
 
-  // auto resize textarea box, when user type long text
+  // Textarea box auto resizing, when user type long text
   const handleChange = (event) => {
     const textareaLineHeight = 24;
     let { minRows, maxRows } = textarea;
@@ -78,15 +84,7 @@ const AddComment = ({
     };
     PostService.addComment(postId, comment, userData.token)
       .then((res) => {
-        // update posts state 'global'
-        posts.map((pos, index) => {
-          if (pos.postId === res.data.postId) {
-            let newPosts = [...posts];
-            newPosts[index] = res.data;
-            setPostsData(newPosts);
-          }
-        });
-        // update comments state in PostDetails page
+        // 1- update comments state in PostDetails page with the new comment
         let newComments = [...comments];
         newComments.unshift(res.data);
         setComments(newComments);
@@ -95,13 +93,74 @@ const AddComment = ({
           rows: 1,
           value: "",
         });
-        // update commentsCount in postData in PostDetails Page
-        let newPost = {...postData};
+
+        // 2- update commentsCount in postData in PostDetails Page
+        let newPost = { ...postData };
         newPost.commentCount = newPost.commentCount + 1;
         setPostData(newPost);
+
+        // 3- update current post in session storage (cache)
+        let cachedCurrentPost = JSON.parse(
+          window.sessionStorage.getItem(res.data.postId)
+        );
+        window.sessionStorage.setItem(
+          res.data.postId,
+          JSON.stringify({
+            postContent: newPost,
+            postComments: newComments,
+            postLikes: cachedCurrentPost.postLikes,
+          })
+        );
+
+        // 4- update posts state 'global'
+        // eslint-disable-next-line array-callback-return
+        posts.map((pos, index) => {
+          if (pos.postId === res.data.postId) {
+            let newPosts = [...posts];
+            newPosts[index] = newPost;
+            setPostsData(newPosts);
+            // 5- update posts cache in session storage (cache)
+            window.sessionStorage.setItem("posts", JSON.stringify(newPosts));
+          }
+        });
+
+        // check if commentedPost belongs to current user in userProfileData state(global)
+        if (userProfileData.user.userName === res.data.userName) {
+          // 6- update post in userProfileData (global state)
+          userProfileData.posts.map((pos, index) => {
+            if (pos.postId === res.data.postId) {
+              let newPosts = [...userProfileData.posts];
+              newPosts[index] = newPost;
+              setUserProfileData({
+                ...userProfileData,
+                posts: newPosts,
+              });
+            }
+          });
+        }
+
+        let cachedUserProfileData = JSON.parse(
+          window.sessionStorage.getItem(userData.user.credentials.userName)
+        );
+        if (cachedUserProfileData) {
+          // 7- update user profile cache with new comments number in session storage (cache)
+          cachedUserProfileData.posts.map((pos, index) => {
+            if (pos.postId === res.data.postId) {
+              let newPosts = [...userProfileData.posts];
+              newPosts[index] = newPost;
+              window.sessionStorage.setItem(
+                userData.user.credentials.userName,
+                JSON.stringify({
+                  ...cachedUserProfileData,
+                  posts: newPosts,
+                })
+              );
+            }
+          });
+        }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         setTextarea({
           ...textarea,
           rows: 1,
@@ -132,7 +191,7 @@ const AddComment = ({
           ></img>
         </div>
       </div>
-      <div className='addCommentBox__inputBox'> 
+      <div className='addCommentBox__inputBox'>
         <textarea
           style={{
             backgroundColor: theme.secondaryColor,
@@ -152,7 +211,12 @@ const AddComment = ({
           onClick={() => sendComment()}
           style={{ opacity: disabledFlag ? 0.6 : 1 }}
         >
-          <i className='fas fa-paper-plane send' style={{ color: disabledFlag ? theme.mobileNavIcon : theme.mainColor}}></i>
+          <i
+            className='fas fa-paper-plane send'
+            style={{
+              color: disabledFlag ? theme.mobileNavIcon : theme.mainColor,
+            }}
+          ></i>
         </button>
       </div>
     </div>
