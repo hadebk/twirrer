@@ -10,7 +10,7 @@ import TabletNavBarNotAuth from "./parts/TabletNavBarNotAuth/TabletNavBarNotAuth
 // util
 import History from "./util/History";
 import AuthRoute from "./util/AuthRoute";
-import ScrollToTop from "./util/ScrollToTop";
+//import ScrollToTop from "./util/ScrollToTop";
 
 // libraries
 import jwtDecode from "jwt-decode";
@@ -90,7 +90,7 @@ function App() {
           } else {
             // token not yet expire
             let cacheUserData = JSON.parse(
-              sessionStorage.getItem("CacheUserData")
+              window.sessionStorage.getItem("CacheUserData")
             );
             // check if user data was cached or not
             if (cacheUserData) {
@@ -110,7 +110,7 @@ function App() {
                     isAuth: true,
                   });
                   // add data to the cache
-                  sessionStorage.setItem(
+                  window.sessionStorage.setItem(
                     "CacheUserData",
                     JSON.stringify({
                       token,
@@ -147,7 +147,7 @@ function App() {
                   <MobileNavbar />
                   {!userData.isAuth && <TabletNavBarNotAuth />}
                   <Suspense fallback={<PageLoader />}>
-                    <ScrollToTop />
+                    {/* <ScrollToTop /> */}
                     <Switch>
                       <Route exact path='/' component={Home} />
                       <Route

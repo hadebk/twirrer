@@ -41,6 +41,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
 
   useEffect(() => {
     setLikes_count(post.likeCount);
+    setLikeStatus(false); // like status is false by default
     if (userData.isAuth) {
       /**
        * when user logged in and open the app,
@@ -88,7 +89,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           });
 
           // 4- update user data cache in session storage (cache)
-          sessionStorage.setItem(
+          window.sessionStorage.setItem(
             "CacheUserData",
             JSON.stringify({
               ...userData,
@@ -140,7 +141,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           if (cachedUserProfileData) {
             cachedUserProfileData.posts.map((pos, index) => {
               if (pos.postId === res.data.postId) {
-                let userNewPostsCache = [...userProfileData.posts];
+                let userNewPostsCache = [...cachedUserProfileData.posts];
                 userNewPostsCache[index] = res.data;
                 window.sessionStorage.setItem(
                   post.userName,
@@ -211,7 +212,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           });
 
           // 4- update user data cache in session storage (cache)
-          sessionStorage.setItem(
+          window.sessionStorage.setItem(
             "CacheUserData",
             JSON.stringify({
               ...userData,
@@ -262,7 +263,7 @@ const LikeButton = ({ post, postData, likes, setLikes, setPostData }) => {
           if (cachedUserProfileData) {
             cachedUserProfileData.posts.map((pos, index) => {
               if (pos.postId === res.data.postId) {
-                let userNewPostsCache = [...userProfileData.posts];
+                let userNewPostsCache = [...cachedUserProfileData.posts];
                 userNewPostsCache[index] = res.data;
                 window.sessionStorage.setItem(
                   post.userName,

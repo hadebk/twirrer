@@ -48,7 +48,7 @@ const SettingsButton = ({ className, color }) => {
 
   const logout = () => {
     localStorage.removeItem("auth-token");
-    sessionStorage.clear();
+    window.sessionStorage.clear();
     setUserData({
       token: undefined,
       user: undefined,

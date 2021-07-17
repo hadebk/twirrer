@@ -73,6 +73,7 @@ const FriendsModal = () => {
       <Modal
         show={isOpen}
         onHide={closeModal}
+        //animation={false} // to solve the warning 'findDOMNode is deprecated in StrictMode'
         keyboard={false}
         centered='true'
         className='friends__main__modal'

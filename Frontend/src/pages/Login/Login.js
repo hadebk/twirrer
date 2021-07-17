@@ -63,7 +63,7 @@ const Login = () => {
                 user: res.data,
                 isAuth: true,
               });
-              sessionStorage.setItem(
+              window.sessionStorage.setItem(
                 "CacheUserData",
                 JSON.stringify({
                   token: userToken,

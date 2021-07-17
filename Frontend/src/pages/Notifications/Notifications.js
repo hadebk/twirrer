@@ -33,7 +33,7 @@ const Notifications = () => {
   var language = isEnglish ? english : german;
 
   // user context
-  const { userData } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   // ******* end global state *******//
 
   // local state
@@ -50,18 +50,56 @@ const Notifications = () => {
       let unreadNotificationsIds =
         userData.user.notifications.length > 0 &&
         userData.user.notifications
-          .filter((not) => !not.read)
-          .map((not) => not.notificationId);
-      UserService.markNotificationsAsRead(
-        unreadNotificationsIds,
-        userData.token
-      )
-        .then((res) => {
-          return res;
-        })
-        .catch((err) => console.log(err));
+          .filter((notification) => !notification.read)
+          .map((notification) => notification.notificationId);
+      if (unreadNotificationsIds.length > 0) {
+        UserService.markNotificationsAsRead(
+          unreadNotificationsIds,
+          userData.token
+        )
+          .then((res) => {
+            // update user's Notifications in global state
+            let newNots = userData.user.notifications.map((notification) => {
+              return (notification = {
+                ...notification,
+                read: true,
+              });
+            });
+            setUserData({
+              ...userData,
+              user: {
+                ...userData.user,
+                notifications: newNots,
+              },
+            });
+            // update user's Notifications in cache
+            let cachedUserData = JSON.parse(
+              window.sessionStorage.getItem("CacheUserData")
+            );
+            if (cachedUserData) {
+              window.sessionStorage.setItem(
+                "CacheUserData",
+                JSON.stringify({
+                  ...cachedUserData,
+                  user: {
+                    ...cachedUserData.user,
+                    notifications: newNots,
+                  },
+                })
+              );
+            }
+            return res;
+          })
+          .catch((err) => console.log(err));
+      }
     }
-  }, [userData.isAuth, userData.token, userData.user.notifications]);
+  }, [
+    setUserData,
+    userData,
+    userData.isAuth,
+    userData.token,
+    userData.user.notifications,
+  ]);
 
   return (
     <div
