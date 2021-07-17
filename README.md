@@ -10,6 +10,7 @@ I tried in this project to build an application similar to Twitter but certainly
 ![Twirrer screenshot](./twirrer.PNG)
 
 ## Project Features:
+- Cache 📂
 - Nice design as Twitter design.
 - Fully responsive design (100%).
 - Dark/Light theme.
