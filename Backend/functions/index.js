@@ -22,7 +22,7 @@ const defaultStorage = admin.storage();
  * to tell firebase that app is the container of all routes
  * ****************************************************************
  */
-exports.api = functions.region("europe-west3").https.onRequest(app);
+//exports.api = functions.region("europe-west3").https.onRequest(app);
 
 /***********************************************************************************************************************
  ***********************************************************************************************************************
@@ -44,7 +44,7 @@ exports.api = functions.region("europe-west3").https.onRequest(app);
     }
 ***********************************************************************************************************************
 ***********************************************************************************************************************/
-
+/*
 // 1- create notification when someone like any post
 exports.createNotificationOnLike = functions
   .region("europe-west3")
@@ -295,3 +295,4 @@ exports.removePostImageOnPostDelete = functions
       return file.delete();
     }
   });
+*/
