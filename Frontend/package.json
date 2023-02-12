@@ -15,7 +15,7 @@
     "lodash.debounce": "^4.0.8",
     "moment": "^2.29.1",
     "moment-twitter": "^0.2.0",
-    "npm-check-updates": "^10.2.5",
+    "npm-check-updates": "^16.7.4",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.1",
     "react-bootstrap-modal": "^4.2.0",
